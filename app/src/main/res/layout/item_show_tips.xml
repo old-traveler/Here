@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="80dp"
+    android:id="@+id/rl_show_tips"
+    android:layout_height="40dp">
+
+    <android.support.v7.widget.CardView
+        android:layout_centerInParent="true"
+        android:id="@+id/cv_tips"
+        android:elevation="4dp"
+        android:layout_marginLeft="20dp"
+        app:cardCornerRadius="2dp"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_tips_name"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:layout_gravity="center"
+            android:text="美女"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

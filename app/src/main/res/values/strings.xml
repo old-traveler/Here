@@ -1,0 +1,159 @@
+<resources>
+    <string name="app_name">here</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="close">关灯</string>
+    <string name="open">开灯</string>
+    <string name="not_scan">无法识别</string>
+    <string name="toolbar_title_main">附近</string>
+    <string name="toolbar_title_community">社区</string>
+    <string name="toolbar_title_follow">关注</string>
+    <string name="item_qrcode">扫一扫</string>
+    <string name="item_my_activity">活动</string>
+    <string name="item_my_follow">关注</string>
+    <string name="item_my_grade">成就</string>
+    <string name="item_feedback">反馈</string>
+    <string name="scan_info_text">扫一扫二维码，加我关注</string>
+    <string name="login_text">登录</string>
+    <string name="register">注册</string>
+    <string name="login_account_tip">请输入账号</string>
+    <string name="login_password_tip">请输入密码</string>
+    <string name="account">账号</string>
+    <string name="password">密码</string>
+    <string name="err_login_empty">账号密码都不能为空</string>
+    <string name="err_register_exist">账号已经存在</string>
+    <string name="err_no_net">网络不给力</string>
+    <string name="err_login_fail">账号不存在或密码错误</string>
+    <string name="setting">设置</string>
+    <string name="account_manage">账号管理</string>
+    <string name="phone_number">手机号码</string>
+    <string name="message_notice">消息通知</string>
+    <string name="black_list">黑名单</string>
+    <string name="current_version">当前版本</string>
+    <string name="version_update">版本更新</string>
+    <string name="exit_login">退出登录</string>
+    <string name="version_tip">已是最新版本</string>
+    <string name="version_update_tips">有新版本，点击更新</string>
+    <string name="update_phone">更换手机号</string>
+    <string name="update_phone_tip">一个手机号只能绑定一个账号。</string>
+    <string name="voice">声音</string>
+    <string name="shock">震动</string>
+    <string name="exit_progress">退出程序后，接收消息提醒</string>
+    <string name="notice_show_content">消息通知栏显示</string>
+    <string name="notice_show_lamp">指示灯闪烁</string>
+    <string name="feedback">反馈</string>
+    <string name="feedback_type_tip">选择反馈类型：</string>
+    <string name="feedback_advice">产品建议</string>
+    <string name="feedback_error">程序错误</string>
+    <string name="feedback_hint">请输入反馈，我们将为您不断改进。</string>
+    <string name="feedback_contract_hint">请填写您的手机或邮箱，方便我们及时联系您。</string>
+    <string name="privacy_sex">展示性别</string>
+    <string name="privacy_age">展示年龄</string>
+    <string name="privacy_phone">展示电话</string>
+    <string name="privacy">隐私设置</string>
+    <string name="no_bind">未绑定</string>
+    <string name="no_introduction">快来介绍一下自己吧~</string>
+    <string name="no_birthday">点击修改出生日期</string>
+    <string name="china">中国</string>
+    <string name="nickname_empty">昵称不能为空</string>
+    <string name="email_empty">邮箱不能为空</string>
+    <string name="email_verify">请求发送成功，请登录邮箱验证</string>
+    <string name="email_error">邮箱格式错误</string>
+    <string name="number_error">请填写正确的手机号码</string>
+    <string name="number_exist">此手机号码已经存在</string>
+    <string name="verify_code_error">短信验证码错误</string>
+    <string name="verify_format">验证码格式错误</string>
+    <string name="update_password">修改密码</string>
+    <string name="old_password_tips">在这里输入您的原密码</string>
+    <string name="new_password_tips">请输入新密码</string>
+    <string name="update_password_success">修改密码成功</string>
+    <string name="update_password_fail">原密码不正确</string>
+    <string name="password_no_fill">密码都不能为空</string>
+    <string name="all_account">所有账号</string>
+    <string name="my_code">我的二维码</string>
+    <string name="publish_new_activity">发布即时活动</string>
+    <string name="add_picture">添加图片</string>
+    <string name="over_time">结束时间</string>
+    <string name="join_people_number">参加人数</string>
+    <string name="kind_of_activity">活动分类</string>
+    <string name="apply_need">活动申请</string>
+    <string name="publish">发布</string>
+    <string name="activity_title">活动名称</string>
+    <string name="activity_describe">活动描述</string>
+    <string name="shopping">逛街</string>
+    <string name="sport">运动</string>
+    <string name="movie">电影</string>
+    <string name="game">游戏</string>
+    <string name="delicious_food">美食</string>
+    <string name="role_game">桌游</string>
+    <string name="sing">唱歌</string>
+    <string name="cosmetology">美容</string>
+    <string name="outside">户外</string>
+    <string name="walk">散步</string>
+    <string name="bar">酒吧</string>
+    <string name="chess">棋牌</string>
+    <string name="other">其他</string>
+    <string name="get_location_fail">获取定位失败，点击重试</string>
+    <string name="tips">标签</string>
+    <string name="going">活动正在进行</string>
+    <string name="activity_detail">活动详情</string>
+    <string name="message">消息</string>
+    <string name="voice_up_tips">手指上滑,取消发送</string>
+    <string name="voice_cancel_tips">松开手指，取消发送</string>
+    <string name="search_user">查询用户</string>
+
+    <array name="tip_name">
+        <item>美女</item>
+        <item>帅哥</item>
+        <item>萝莉</item>
+        <item>迷糊鬼</item>
+        <item>小清新</item>
+        <item>守承诺</item>
+        <item>大叔</item>
+        <item>老实人</item>
+        <item>幽默</item>
+        <item>热情</item>
+        <item>有原则</item>
+        <item>责任心</item>
+        <item>文静</item>
+        <item>狼人杀</item>
+        <item>三国杀</item>
+        <item>影迷</item>
+        <item>麦霸</item>
+        <item>剁手党</item>
+        <item>吃货</item>
+        <item>运动狂</item>
+        <item>动漫</item>
+        <item>美食家</item>
+        <item>爱舞蹈</item>
+        <item>宠物</item>
+    </array>
+
+    <array name="tip_slogan">
+        <item>一个有故事的女同学</item>
+        <item>小哥哥有点迷人</item>
+        <item>爱穿格子裙的少女</item>
+        <item>有点小迷糊却仍然有趣</item>
+        <item>乌云乌云快走开</item>
+        <item>从不乱承诺自己做不到的事</item>
+        <item>就像一棵安全可靠的大树</item>
+        <item>明亮到可以看见自己</item>
+        <item>要和像我这样幽默的人在一起</item>
+        <item>我的心装在保温瓶里</item>
+        <item>我的真理就是我的原则</item>
+        <item>我的肩膀承担得起我的责任</item>
+        <item>像午后的宁静</item>
+        <item>我想和你玩狼人杀</item>
+        <item>以吾魂魄，保佑吾儿之基业</item>
+        <item>一个影迷发烧友</item>
+        <item>我想说的话都在我的歌声里</item>
+        <item>见好就买机会不再</item>
+        <item>唯有爱与美食不可辜负</item>
+        <item>一天不运动就觉得不舒服</item>
+        <item>动漫里有我的浪漫</item>
+        <item>我是个高大上的吃货</item>
+        <item>热爱生活热爱舞蹈</item>
+        <item>对小动物真的是没有抵抗力</item>
+    </array>
+
+</resources>

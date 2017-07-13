@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_color"
+    tools:context="com.here.account.AccountActivity"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_account"
+        android:background="@color/theme_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+        <TextView
+            android:layout_gravity="center"
+            android:text="@string/account_manage"
+            android:textSize="@dimen/tool_bar_title"
+            android:layout_marginLeft="@dimen/setting_margin_left"
+            android:textColor="@color/share_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/part_linear_color"/>
+    
+    <TextView
+        android:text="@string/all_account"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/account_padding_left"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_account_height"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/part_linear_color"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+</LinearLayout>

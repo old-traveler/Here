@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.here.privacy.PrivacyActivity"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_privacy"
+        android:background="@color/theme_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+        <TextView
+            android:textColor="@color/share_text"
+            android:layout_gravity="center"
+            android:textSize="@dimen/tool_bar_title"
+            android:text="@string/privacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/part_linear_color"/>
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height">
+        <TextView
+            android:textColor="@color/share_text"
+            android:text="@string/privacy_age"
+            android:layout_marginLeft="@dimen/setting_margin_left"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ch.ielse.view.SwitchView
+            android:id="@+id/sv_age"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_margin_left"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/part_linear_color"/>
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height">
+        <TextView
+            android:textColor="@color/share_text"
+            android:text="@string/privacy_sex"
+            android:layout_marginLeft="@dimen/setting_margin_left"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ch.ielse.view.SwitchView
+            android:id="@+id/sv_sex"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_margin_left"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/part_linear_color"/>
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height">
+        <TextView
+            android:textColor="@color/share_text"
+            android:text="@string/privacy_phone"
+            android:layout_marginLeft="@dimen/setting_margin_left"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ch.ielse.view.SwitchView
+            android:id="@+id/sv_phone"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_margin_left"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/part_linear_color"/>
+
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="111dp"
+    android:layout_height="111dp">
+
+    <ImageView
+        android:id="@+id/item_details_image"
+        android:padding="2px"
+        android:src="@drawable/text_background"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

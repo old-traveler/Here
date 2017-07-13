@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.here.feedback.FeedBackActivity"
+    android:background="#efefef"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:background="@color/white"
+        android:id="@+id/tb_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+        <TextView
+            android:textColor="@color/share_text"
+            android:layout_gravity="center"
+            android:textSize="@dimen/tool_bar_title"
+            android:text="@string/feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/setting_margin_left"
+        android:text="@string/feedback_type_tip"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+    <LinearLayout
+        android:background="@color/theme_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height">
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/rb_advice"
+                android:layout_marginLeft="35dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="75dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/share_text"
+                android:text="@string/feedback_advice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <CheckBox
+                android:layout_marginLeft="35dp"
+                android:id="@+id/rb_feedback_err"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="75dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/share_text"
+                android:text="@string/feedback_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:background="@drawable/feedback_input_bg"
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+        <EditText
+            android:textColor="@color/share_text"
+            android:gravity="left"
+            android:textSize="14sp"
+            android:hint="@string/feedback_hint"
+            android:background="@color/theme_color"
+            android:layout_margin="@dimen/setting_margin_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/theme_color"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <EditText
+            android:textColor="@color/share_text"
+            android:textSize="14sp"
+            android:layout_centerVertical="true"
+            android:hint="@string/feedback_contract_hint"
+            android:layout_marginRight="@dimen/setting_margin_left"
+            android:layout_marginLeft="@dimen/setting_margin_left"
+            android:background="@color/theme_color"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+
+</LinearLayout>

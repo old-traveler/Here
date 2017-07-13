@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.here">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:name=".HereApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="194e1dfd3b867a79253534c39f11fb87" />
+        <meta-data
+            android:name="Bmob_APP_KEY"
+            android:value="e8c7f8ed34bb48dd4c5ab6b54d8cf11d" />
+
+        <activity android:name=".splash.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".zxing.CaptureActivity" />
+        <activity android:name=".scan.ScanActivity" />
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".phone.PhoneActivity" />
+        <activity android:name=".notice.NoticeActivity" />
+        <activity android:name=".setting.SettingActivity" />
+        <activity android:name=".feedback.FeedBackActivity" />
+        <activity android:name=".introduction.IntroductionActivity" />
+        <activity android:name=".personal.PersonalActivity" />
+        <activity android:name=".nickname.NicknameActivity" />
+        <activity android:name=".email.EmailActivity" />
+        <activity android:name=".privacy.PrivacyActivity" />
+        <activity android:name=".main.MainActivity" />
+        <activity android:name=".password.PasswordActivity" />
+        <activity android:name=".account.AccountActivity" />
+        <activity android:name=".photo.PhotoActivity" />
+        <activity
+            android:name=".immediate.NewImmediateActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".tips.TipsActivity" />
+        <activity android:name=".going.GoingActivity" />
+        <activity android:name=".imdetails.ImDetailsActivity" />
+
+        <receiver android:name="cn.bmob.newim.core.ConnectChangeReceiver">
+            <intent-filter>
+                <action android:name="cn.bmob.action.RECONNECT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="cn.bmob.newim.core.service.BmobIMService"
+            android:process=":bmobcore" />
+        <service
+            android:name="cn.bmob.newim.core.service.NotifyService"
+            android:process=":bmobcore" />
+        <service android:name="cn.bmob.newim.core.service.ReConnectService" />
+        <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
+
+        <activity android:name=".chat.ChatActivity" />
+        <activity android:name=".message.MessageActivity" />
+        <activity android:name=".search.SearchActivity" />
+        <activity android:name=".apply.ApplyActivity"/>
+    </application>
+
+</manifest>

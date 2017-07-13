@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout android:id="@+id/dl_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".main.MainActivity"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tb_main"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tv_tool_main"
+                android:textSize="18sp"
+                android:textColor="@color/share_text"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </android.support.v7.widget.Toolbar>
+        <View
+            android:background="@color/part_linear_color"
+            android:layout_width="match_parent"
+            android:layout_height="2px"/>
+        <com.here.view.MyViewPage
+            android:id="@+id/vp_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.here.view.MyViewPage>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_side"
+        android:orientation="vertical"
+        android:background="@color/theme_color"
+        android:layout_gravity="start"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/side_pull_height">
+            <ImageView
+                android:scaleType="centerCrop"
+                android:src="@drawable/text_background"
+                android:id="@+id/iv_side_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/cv_side_head"
+                app:civ_border_width="2dp"
+                app:civ_border_color="@color/white"
+                android:src="@drawable/grils"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <TextView
+                android:layout_marginLeft="80dp"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="43dp"
+                android:id="@+id/tv_side_nickname"
+                android:text="木头人"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_side_introduction"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="13sp"
+                android:text="土地是以它的肥沃和收获而被估价的；才能也是土地，不过它生产的不是粮食，而是真理。如果只能滋生瞑想和幻想的话，即使再大的才能也只是砂地或盐池，那上面连小草也长不出来的。 —— 别林斯基"
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rv_enter_scan"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/side_item_height">
+            <ImageView
+
+                android:layout_centerVertical="true"
+                android:src="@drawable/qrcode"
+                android:layout_width="@dimen/item_image_height"
+                android:layout_height="@dimen/item_image_height" />
+            <TextView
+
+                android:layout_marginLeft="@dimen/text_margin_left"
+                android:layout_centerVertical="true"
+                android:text="@string/item_qrcode"
+                android:textSize="16sp"
+                android:textColor="@color/share_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rv_my_activity"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/side_item_height">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:src="@drawable/activity"
+                android:layout_width="@dimen/item_image_height"
+                android:layout_height="@dimen/item_image_height" />
+            <TextView
+                android:layout_marginLeft="@dimen/text_margin_left"
+                android:layout_centerVertical="true"
+                android:text="@string/item_my_activity"
+                android:textSize="16sp"
+                android:textColor="@color/share_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rv_my_follow"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/side_item_height">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:src="@drawable/follow"
+                android:layout_width="@dimen/item_image_height"
+                android:layout_height="@dimen/item_image_height" />
+            <TextView
+                android:layout_marginLeft="@dimen/text_margin_left"
+                android:layout_centerVertical="true"
+                android:text="@string/item_my_follow"
+                android:textSize="16sp"
+                android:textColor="@color/share_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rv_my_grade"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/side_item_height">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:src="@drawable/achievement"
+                android:layout_width="@dimen/item_image_height"
+                android:layout_height="@dimen/item_image_height" />
+            <TextView
+                android:layout_marginLeft="@dimen/text_margin_left"
+                android:layout_centerVertical="true"
+                android:text="@string/item_my_grade"
+                android:textSize="16sp"
+                android:textColor="@color/share_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rv_feedback"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/side_item_height">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:src="@drawable/feedback"
+                android:layout_width="@dimen/item_image_height"
+                android:layout_height="@dimen/item_image_height" />
+            <TextView
+                android:layout_marginLeft="@dimen/text_margin_left"
+                android:layout_centerVertical="true"
+                android:text="@string/item_feedback"
+                android:textSize="16sp"
+                android:textColor="@color/share_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rv_setting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_setting"
+                android:src="@drawable/setting"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v4.widget.DrawerLayout>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    tools:context="com.here.going.GoingActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_going"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+        <TextView
+            android:layout_gravity="center"
+            android:text="@string/going"
+            android:textSize="@dimen/tool_bar_title"
+            android:layout_marginLeft="@dimen/setting_margin_left"
+            android:textColor="@color/share_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/part_linear_color"/>
+    <com.github.lzyzsd.circleprogress.ArcProgress
+        android:id="@+id/arc_progress"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        custom:arc_unfinished_color="@color/going_unfinsh_color"
+        custom:arc_finished_color="@color/color_accent"
+        custom:arc_progress="100"/>
+    <TextView
+        android:id="@+id/tv_over_time"
+        android:textSize="10sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:background="@color/going_unfinsh_color"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rl_join_bg"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_publisher_phone"
+                android:layout_width="match_parent"
+                android:layout_height="35dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="电话：" />
+
+                <TextView
+                    android:id="@+id/tv_publisher_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="70dp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/part_linear_color" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="标题：" />
+
+                <TextView
+                    android:id="@+id/tv_going_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="70dp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/part_linear_color" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="类别：" />
+
+                <TextView
+                    android:id="@+id/tv_going_kind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="70dp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/part_linear_color" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="描述：" />
+
+                <TextView
+                    android:id="@+id/tv_going_describe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="70dp"
+                    android:layout_marginRight="20dp"
+                    android:ellipsize="end"
+                    android:maxLines="1" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/part_linear_color" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="参 加"
+                        android:textColor="#1f83cb"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_join_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="10dp"
+                        android:text="8/10"
+                        android:textColor="#1f83cb"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_join_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="70dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"></android.support.v7.widget.RecyclerView>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_delete_going"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_marginRight="@dimen/item_margin_left"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/btn_delete"
+            android:text="删除"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btn_contract_going"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_marginRight="@dimen/item_margin_left"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/button_bg"
+            android:text="联系发布人"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+</LinearLayout>

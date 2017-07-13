@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.here.immediate.NewImmediateActivity"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:id="@+id/tb_immediate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+        <TextView
+            android:textColor="@color/share_text"
+            android:layout_gravity="center"
+            android:textSize="@dimen/tool_bar_title"
+            android:text="@string/publish_new_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:id="@+id/ll_im_activity"
+        android:layout_marginTop="@dimen/toolbar_height"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <EditText
+            android:id="@+id/et_activity_name"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/share_text"
+            android:textSize="15sp"
+            android:hint="@string/activity_title"
+            android:paddingRight="@dimen/item_margin_left"
+            android:paddingLeft="@dimen/item_margin_left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/publish_title_et" />
+        <View
+            android:background="@color/part_linear_color"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_marginRight="@dimen/item_margin_left"/>
+        <EditText
+            android:id="@+id/et_activity_describe"
+            android:paddingTop="5dp"
+            android:textColor="@color/share_text"
+            android:gravity="fill_horizontal"
+            android:hint="@string/activity_describe"
+            android:paddingRight="@dimen/item_margin_left"
+            android:paddingLeft="@dimen/item_margin_left"
+            android:textSize="15sp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/publish_content_height" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_publish_image"
+            android:paddingLeft="@dimen/item_margin_left"
+            android:paddingRight="@dimen/item_margin_left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+        <RelativeLayout
+            android:id="@+id/rl_activity_location"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <ImageView
+                android:layout_marginLeft="@dimen/item_margin_left"
+                android:layout_centerVertical="true"
+                android:src="@drawable/location"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+            <TextView
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:id="@+id/tv_location"
+                android:layout_marginLeft="60dp"
+                android:layout_centerVertical="true"
+                android:textSize="14sp"
+                android:textColor="@color/share_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+        <RelativeLayout
+            android:id="@+id/rl_over_time"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/item_margin_left"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/publish_item_height">
+            <TextView
+                android:text="@string/over_time"
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
+                android:textColor="@color/share_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_over_time"
+                android:hint="活动预期结束时间"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="80dp"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <View
+            android:background="@color/part_linear_color"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_marginRight="@dimen/item_margin_left"/>
+        <RelativeLayout
+
+            android:background="@color/white"
+            android:paddingLeft="@dimen/item_margin_left"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/publish_item_height">
+            <TextView
+                android:text="@string/join_people_number"
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
+                android:textColor="@color/share_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:inputType="number"
+                android:id="@+id/et_join_number"
+                android:background="@color/white"
+                android:hint="请输入您期望的活动人数"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="80dp"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <View
+            android:background="@color/part_linear_color"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_marginRight="@dimen/item_margin_left"/>
+        <RelativeLayout
+            android:id="@+id/rl_activity_kind"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/item_margin_left"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/publish_item_height">
+            <TextView
+                android:text="@string/kind_of_activity"
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
+                android:textColor="@color/share_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_kind"
+                android:hint="选择活动分类"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="80dp"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <View
+            android:background="@color/part_linear_color"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_marginRight="@dimen/item_margin_left"/>
+        <RelativeLayout
+            android:background="@color/white"
+            android:paddingLeft="@dimen/item_margin_left"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/publish_item_height">
+            <TextView
+                android:text="@string/apply_need"
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
+                android:textColor="@color/share_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/cb_is_apply"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="73dp"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <Button
+            android:id="@+id/btn_publish_immediate"
+            android:textColor="@color/white"
+            android:text="@string/publish"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_marginRight="@dimen/item_margin_left"
+            android:background="@drawable/button_bg"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rl_complete"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/toolbar_height"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_centerInParent="true"
+            android:src="@drawable/complete"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.here.apply.ApplyActivity"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_apply"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+        <TextView
+            android:textColor="@color/share_text"
+            android:layout_gravity="center"
+            android:textSize="@dimen/tool_bar_title"
+            android:text="活动申请"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/toolbar_height"
+        android:id="@+id/rl_apply_info"
+
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cv_apply_head"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+        <TextView
+            android:id="@+id/tv_apply_nickname"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="70dp"
+            android:textColor="@color/share_text"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_apply_username"
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="70dp"
+            android:textColor="@color/share_text"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <View
+        android:layout_marginTop="105dp"
+        android:background="@color/part_linear_color"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <View
+        android:layout_marginTop="@dimen/toolbar_height"
+        android:background="@color/part_linear_color"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <RelativeLayout
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_agree"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/white"
+            android:background="@drawable/button_bg"
+            android:text="同意"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_refuse"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_delete"
+            android:text="拒绝"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</RelativeLayout>

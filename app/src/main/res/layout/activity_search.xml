@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.here.search.SearchActivity"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:background="@color/white"
+        android:id="@+id/tb_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+        <TextView
+            android:layout_gravity="center"
+            android:text="@string/search_user"
+            android:textSize="@dimen/tool_bar_title"
+            android:layout_marginLeft="@dimen/setting_margin_left"
+            android:textColor="@color/share_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </android.support.v7.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/part_linear_color"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <EditText
+            android:paddingLeft="5dp"
+            android:id="@+id/et_search"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/feedback_input_bg"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_search"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+        <View
+            android:layout_marginRight="40dp"
+            android:layout_alignParentRight="true"
+            android:background="@color/part_linear_color"
+            android:layout_width="1px"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:visibility="gone"
+        android:clickable="true"
+        android:id="@+id/rl_search_info"
+        android:background="@drawable/item_message_selector"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cv_search_head"
+            android:layout_centerVertical="true"
+            android:src="@drawable/grils"
+            android:layout_marginLeft="10dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
+        <TextView
+            android:id="@+id/tv_search_username"
+            android:textColor="@color/share_text"
+            android:textSize="15sp"
+            android:layout_marginLeft="60dp"
+            android:layout_centerVertical="true"
+            android:text="木头人"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</LinearLayout>

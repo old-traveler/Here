@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="@dimen/item_account_height">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginLeft="@dimen/item_margin_left"
+        android:id="@+id/cv_account_head"
+        android:layout_centerVertical="true"
+        android:layout_width="35dp"
+        android:layout_height="35dp" />
+
+    <TextView
+        android:textColor="@color/share_text"
+        android:textSize="15sp"
+        android:id="@+id/tv_account_username"
+        android:layout_marginLeft="@dimen/item_margin_left"
+        android:layout_toRightOf="@id/cv_account_head"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/iv_is_selected"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/item_margin_left"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/selected"
+        android:layout_width="@dimen/item_selected_tips"
+        android:layout_height="@dimen/item_selected_tips" />
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/part_linear_color"/>
+
+    
+</RelativeLayout>

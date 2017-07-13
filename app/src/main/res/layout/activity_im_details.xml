@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.here.imdetails.ImDetailsActivity"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:background="@color/theme_color"
+        android:id="@+id/tb_im_details"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+        <TextView
+            android:textColor="@color/share_text"
+            android:layout_gravity="center"
+            android:textSize="@dimen/tool_bar_title"
+            android:text="@string/activity_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/part_linear_color"/>
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_details_name"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="20dp"
+                    android:textColor="@color/share_text"
+                    android:text="一起逛街吧~"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_publisher_time"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="12dp"
+                    android:layout_alignParentRight="true"
+                    android:text="15:20"
+                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cv_details_head"
+                    android:layout_marginLeft="12dp"
+                    android:layout_width="45dp"
+                    android:src="@drawable/text_head"
+                    android:layout_height="45dp" />
+                <TextView
+                    android:id="@+id/tv_details_nickname"
+                    android:text="木头人"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="65dp"
+                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_details_follow"
+                    android:textColor="@color/color_accent"
+                    android:layout_marginRight="12dp"
+                    android:layout_alignParentRight="true"
+                    android:text="+关注"
+                    android:layout_marginTop="4dp"
+                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_details_address"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_marginRight="12dp"
+                    android:text="天元区 崇德路 湖南工业大学电气与信息工程学院附近"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginLeft="65dp"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_details_kind"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="12dp"
+                android:text="活动类型：逛街"
+                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
+            <TextView
+                android:id="@+id/tv_details_over"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="12dp"
+                android:text="结束时间：16:00"
+                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
+            <TextView
+                android:id="@+id/tv_details_count"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="12dp"
+                android:text="参与人数：2/4"
+                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
+            <TextView
+                android:id="@+id/tv_details_describe"
+                android:textColor="@color/share_text"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="12sp"
+                android:layout_marginLeft="12dp"
+                android:text="时间总是不等人，转眼间马上半学期就快结束了，课文也上得十分地快，都上到第三单元了。可我最不喜欢的就是第三单元了。第三单元都是剧本，老师需要一个一个组上去演你，今天演的是“晏子使楚”对于我来说，是灭顶之灾！
+
+　　前一天，我特意写了剧本，就为了这天。今天终于到了，第一组上去了，有时候他们还会忘词，这让我更加的紧张。谁知，平常不大积极的周同学，在第一组结束之后，一溜烟儿地跑上了讲台，我就只能趴在桌子上，可周同学呢，下来把我晃来晃去，无奈之下，我只能上去了。
+ "
+                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <android.support.v7.widget.RecyclerView
+                android:layout_marginTop="6dp"
+                android:id="@+id/rv_im_details"
+                android:layout_marginRight="12sp"
+                android:layout_marginLeft="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <Button
+                android:id="@+id/btn_details_apply"
+                android:textColor="@color/white"
+                android:text="申请"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/button_bg"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+</LinearLayout>

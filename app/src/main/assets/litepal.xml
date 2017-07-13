@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="here" ></dbname>
+
+    <version value="1" ></version>
+
+    <list>
+        <mapping class="com.here.bean.Account"></mapping>
+    </list>
+</litepal>
