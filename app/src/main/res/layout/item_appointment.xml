@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/activity_tips" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="13dp"
+            android:src="@drawable/text_head" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="15dp"
+            android:text="木头人"
+            android:textColor="@color/share_text"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="38dp"
+            android:text="7-13:9:20" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_tips"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="13dp"
+            android:elevation="6dp"
+            app:cardBackgroundColor="#f95f6e"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="3dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="美食"
+                android:textColor="@color/white" />
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="68dp">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/location" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="湖南工业大学新校区31栋324"
+                android:textColor="@color/share_text" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="95dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="时间：08-9:10~09-10:30"
+            android:textColor="@color/share_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="120dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="一起尬舞啊"
+            android:textColor="@color/share_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="120dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="参与人数：7"
+            android:textColor="@color/share_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="145dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:lineSpacingExtra="10dp"
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:text="　一旦有了这个想法，所有的选择都变得非常简单。比如我上高中的时候在全国物理竞赛上获过奖，很多大学都愿意录取我，各种专业五花八门。其中一所比较著名的大学，想录取我上食品工程专业。我父母听说以后十分高兴，他们经历过吃不饱饭的年代，觉得上了这个专业，以后就不愁吃饭了。但我坚决不同意，因为我对食品不感兴趣，我就是想编软件。当时西安交大也来录取我，我当时也不知道西安交大是干什么的，以为是修铁路的大学。但西安交大让我上计算机系，那我就去了，因为符合我的目标。相反，我很多同学根据当时热门不热门来选专业，很多人选了国际贸易。这种选择看起来很聪明，但现在看来，这未必是他们真正想要的，也未必是自己能够施展才华的地方。"
+                android:textColor="@color/share_text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/text_head" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/text_head" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/text_head" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#a8414141"
+                        android:gravity="center"
+                        android:text="+3"
+                        android:textColor="@color/white"
+                        android:textSize="30sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/item_message_selector"
+                        android:clickable="true">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/share_publish" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/part_linear_color" />
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/item_message_selector"
+                        android:clickable="true">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/comment" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/part_linear_color" />
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/item_message_selector"
+                        android:clickable="true">
+
+                        <com.sackcentury.shinebuttonlib.ShineButton
+                            android:id="@+id/po_image2"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerInParent="true"
+                            android:src="@android:color/darker_gray"
+                            app:allow_random_color="false"
+                            app:btn_color="@android:color/darker_gray"
+                            app:btn_fill_color="@android:color/holo_blue_dark"
+                            app:siShape="@raw/heart" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/going_unfinsh_color" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -36,6 +36,15 @@ public class User  extends BmobUser{
 
     private String backgroundUrl;
 
+    private String kind;
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
 
     public String getNickname() {
         return nickname;

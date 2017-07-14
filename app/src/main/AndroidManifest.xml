@@ -9,7 +9,8 @@
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -35,7 +36,7 @@
             android:name="Bmob_APP_KEY"
             android:value="e8c7f8ed34bb48dd4c5ab6b54d8cf11d" />
 
-        <activity android:name=".splash.SplashActivity">
+        <activity android:name=".community.details.CommunityDetailsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -86,7 +87,8 @@
         <activity android:name=".chat.ChatActivity" />
         <activity android:name=".message.MessageActivity" />
         <activity android:name=".search.SearchActivity" />
-        <activity android:name=".apply.ApplyActivity"/>
+        <activity android:name=".apply.ApplyActivity" />
+        <!--<activity android:name=".community.details.CommunityDetailsActivity"/>-->
     </application>
 
 </manifest>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+            <RelativeLayout
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="parallax"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@drawable/yd"
+                    app:layout_collapseMode="parallax"
+                    android:scaleType="fitXY"
+                    android:id="@+id/iv_movie_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height"
+                app:layout_collapseMode="pin" />
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:background="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/rv_community_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+
+    <com.sackcentury.shinebuttonlib.ShineButton
+        android:src="@android:color/darker_gray"
+        app:btn_color="@android:color/darker_gray"
+        app:btn_fill_color="@android:color/holo_blue_dark"
+        app:allow_random_color="true"
+        app:siShape="@raw/star"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/appBar"
+        android:id="@+id/fab_movie"
+        app:layout_anchorGravity="bottom|end" />
+</android.support.design.widget.CoordinatorLayout>
