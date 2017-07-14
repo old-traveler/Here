@@ -11,6 +11,7 @@ import com.here.adapter.CommunityDetailsAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.Community;
 import com.sackcentury.shinebuttonlib.ShineButton;
+import com.yalantis.phoenix.PullToRefreshView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,8 @@ public class CommunityDetailsActivity extends MvpActivity<CommunityDetailsPresen
     RecyclerView rvCommunityDetails;
     @Bind(R.id.fab_movie)
     ShineButton fabMovie;
+    @Bind(R.id.pull_to_refresh)
+    PullToRefreshView pullToRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +41,28 @@ public class CommunityDetailsActivity extends MvpActivity<CommunityDetailsPresen
         ButterKnife.bind(this);
         setToolBar(R.id.toolbar);
         rvCommunityDetails.setLayoutManager(new LinearLayoutManager(this));
-        List<Community> communities= new ArrayList<>();
+        List<Community> communities = new ArrayList<>();
         communities.add(new Community(CommunityDetailsAdapter.DESCRIBE));
         for (int i = 0; i < 10; i++) {
-            if (i%2 == 0){
+            if (i % 2 == 0) {
                 communities.add(new Community(CommunityDetailsAdapter.SHARE));
-            }else {
+            } else {
                 communities.add(new Community(CommunityDetailsAdapter.APPOINTMENT));
             }
         }
         communityDetailsAdapter = new CommunityDetailsAdapter(communities);
         rvCommunityDetails.setAdapter(communityDetailsAdapter);
+        pullToRefresh.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullToRefresh.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        pullToRefresh.setRefreshing(false);
+                    }
+                }, 3000);
+            }
+        });
     }
 
     @Override

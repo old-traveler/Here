@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.here.publish.share.ShareActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_share"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+        <TextView
+            android:textColor="@color/share_text"
+            android:layout_gravity="center"
+            android:textSize="@dimen/tool_bar_title"
+            android:text="发布心情"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/ll_share_title"
+        android:layout_marginTop="@dimen/toolbar_height"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <EditText
+            android:id="@+id/et_share_title"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/share_text"
+            android:textSize="15sp"
+            android:hint="标题"
+            android:paddingRight="@dimen/item_margin_left"
+            android:paddingLeft="@dimen/item_margin_left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/publish_title_et" />
+        <View
+            android:background="@color/part_linear_color"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_marginRight="@dimen/item_margin_left"/>
+        <EditText
+            android:id="@+id/et_share_describe"
+            android:paddingTop="5dp"
+            android:textColor="@color/share_text"
+            android:gravity="fill_horizontal"
+            android:hint="内容"
+            android:paddingRight="@dimen/item_margin_left"
+            android:paddingLeft="@dimen/item_margin_left"
+            android:textSize="15sp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/publish_content_height" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_share_image"
+            android:paddingLeft="@dimen/item_margin_left"
+            android:paddingRight="@dimen/item_margin_left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <RelativeLayout
+            android:layout_marginTop="5dp"
+            android:id="@+id/rl_share_kind"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/item_margin_left"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/publish_item_height">
+            <TextView
+                android:text="心情分类："
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
+                android:textColor="@color/share_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_share_kind"
+                android:hint="选择活动分类"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="80dp"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <Button
+            android:id="@+id/btn_publish_share"
+            android:textColor="@color/white"
+            android:text="@string/publish"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_marginRight="@dimen/item_margin_left"
+            android:background="@drawable/button_bg"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+    </LinearLayout>
+</RelativeLayout>

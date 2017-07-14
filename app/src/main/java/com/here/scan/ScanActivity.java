@@ -45,6 +45,7 @@ public class ScanActivity extends MvpActivity<ScanPresenter> implements ScanCont
         setToolBar(R.id.tb_scan);
         initHome();
 
+
     }
 
     private void initView() {

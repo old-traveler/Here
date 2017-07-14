@@ -42,12 +42,20 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:background="@color/white"
+    <com.yalantis.phoenix.PullToRefreshView
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/rv_community_details"
+        android:id="@+id/pull_to_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:background="@color/white"
+            android:id="@+id/rv_community_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.yalantis.phoenix.PullToRefreshView>
+
 
 
 

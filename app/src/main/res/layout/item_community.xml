@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
         <RelativeLayout
+            android:id="@+id/rl_item_sport"
             android:clickable="true"
             android:background="@drawable/item_message_selector"
             android:layout_weight="1"
@@ -29,6 +30,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_item_shopping"
             android:clickable="true"
             android:background="@drawable/item_message_selector"
             android:layout_weight="1"
@@ -49,6 +51,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_item_sing"
             android:clickable="true"
             android:background="@drawable/item_message_selector"
             android:layout_weight="1"
@@ -69,6 +72,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_item_movie"
             android:clickable="true"
             android:background="@drawable/item_message_selector"
             android:layout_weight="1"
@@ -95,6 +99,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
         <RelativeLayout
+            android:id="@+id/rl_item_camping"
             android:clickable="true"
             android:background="@drawable/item_message_selector"
             android:layout_weight="1"
@@ -115,6 +120,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_item_bar"
             android:clickable="true"
             android:background="@drawable/item_message_selector"
             android:layout_weight="1"
@@ -135,6 +141,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_item_beauty"
             android:clickable="true"
             android:background="@drawable/item_message_selector"
             android:layout_weight="1"
@@ -155,6 +162,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_item_delicious"
             android:clickable="true"
             android:background="@drawable/item_message_selector"
             android:layout_weight="1"
@@ -181,6 +189,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
         <RelativeLayout
+            android:id="@+id/rl_item_chess"
             android:clickable="true"
             android:background="@drawable/item_message_selector"
             android:layout_weight="1"
@@ -201,6 +210,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_item_game"
             android:clickable="true"
             android:background="@drawable/item_message_selector"
             android:layout_weight="1"
@@ -221,6 +231,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_item_role"
             android:clickable="true"
             android:background="@drawable/item_message_selector"
             android:layout_weight="1"
@@ -241,6 +252,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_item_other"
             android:clickable="true"
             android:background="@drawable/item_message_selector"
             android:layout_weight="1"

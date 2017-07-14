@@ -36,7 +36,7 @@
             android:name="Bmob_APP_KEY"
             android:value="e8c7f8ed34bb48dd4c5ab6b54d8cf11d" />
 
-        <activity android:name=".community.details.CommunityDetailsActivity">
+        <activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -88,7 +88,9 @@
         <activity android:name=".message.MessageActivity" />
         <activity android:name=".search.SearchActivity" />
         <activity android:name=".apply.ApplyActivity" />
-        <!--<activity android:name=".community.details.CommunityDetailsActivity"/>-->
+        <activity android:name=".community.details.CommunityDetailsActivity" />
+        <activity android:name=".publish.share.ShareActivity" />
+        <activity android:name=".publish.appointment.AppointmentActivity"></activity>
     </application>
 
 </manifest>

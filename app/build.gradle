@@ -70,6 +70,7 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.1'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.yalantis:phoenix:1.2.3'
     compile 'com.daimajia.slider:library:1.1.5@aar'
     testCompile 'junit:junit:4.12'
 }

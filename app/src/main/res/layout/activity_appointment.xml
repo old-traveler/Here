@@ -3,31 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.here.immediate.NewImmediateActivity"
+    tools:context=".publish.appointment.AppointmentActivity"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:layout_alignParentTop="true"
         android:background="@color/white"
-        android:id="@+id/tb_immediate"
+        android:id="@+id/tb_appointment"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height">
         <TextView
             android:textColor="@color/share_text"
             android:layout_gravity="center"
             android:textSize="@dimen/tool_bar_title"
-            android:text="@string/publish_new_activity"
+            android:text="发布预约活动"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
     <LinearLayout
-        android:id="@+id/ll_im_activity"
         android:layout_marginTop="@dimen/toolbar_height"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <EditText
-            android:id="@+id/et_activity_name"
+            android:id="@+id/et_appointment_title"
             android:layout_marginTop="10dp"
             android:textColor="@color/share_text"
             android:textSize="15sp"
@@ -44,7 +43,7 @@
             android:layout_marginLeft="@dimen/item_margin_left"
             android:layout_marginRight="@dimen/item_margin_left"/>
         <EditText
-            android:id="@+id/et_activity_describe"
+            android:id="@+id/et_appointment_content"
             android:paddingTop="5dp"
             android:textColor="@color/share_text"
             android:gravity="fill_horizontal"
@@ -56,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/publish_content_height" />
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_publish_image"
+            android:id="@+id/rv_appointment_image"
             android:paddingLeft="@dimen/item_margin_left"
             android:paddingRight="@dimen/item_margin_left"
             android:background="@color/white"
@@ -65,7 +64,7 @@
 
         </android.support.v7.widget.RecyclerView>
         <RelativeLayout
-            android:id="@+id/rl_activity_location"
+            android:id="@+id/rl_appointment_location"
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="40dp">
@@ -78,7 +77,7 @@
             <TextView
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:id="@+id/tv_location"
+                android:id="@+id/tv_appointment_location"
                 android:layout_marginLeft="60dp"
                 android:layout_centerVertical="true"
                 android:textSize="14sp"
@@ -92,6 +91,35 @@
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
         <RelativeLayout
+            android:id="@+id/rl_start_time"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/item_margin_left"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/publish_item_height">
+            <TextView
+                android:text="开始时间"
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
+                android:textColor="@color/share_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:background="@color/white"
+                android:id="@+id/et_start_time"
+                android:hint="活动预期开始时间"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="80dp"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <View
+            android:background="@color/part_linear_color"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/item_margin_left"
+            android:layout_marginRight="@dimen/item_margin_left"/>
+        <RelativeLayout
             android:id="@+id/rl_over_time"
             android:background="@color/white"
             android:paddingLeft="@dimen/item_margin_left"
@@ -104,8 +132,9 @@
                 android:textColor="@color/share_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/tv_over_time"
+            <EditText
+                android:background="@color/white"
+                android:id="@+id/et_over_time"
                 android:hint="活动预期结束时间"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="80dp"
@@ -120,7 +149,6 @@
             android:layout_marginLeft="@dimen/item_margin_left"
             android:layout_marginRight="@dimen/item_margin_left"/>
         <RelativeLayout
-
             android:background="@color/white"
             android:paddingLeft="@dimen/item_margin_left"
             android:layout_width="match_parent"
@@ -150,7 +178,7 @@
             android:layout_marginLeft="@dimen/item_margin_left"
             android:layout_marginRight="@dimen/item_margin_left"/>
         <RelativeLayout
-            android:id="@+id/rl_activity_kind"
+            android:id="@+id/rl_appointment_kind"
             android:background="@color/white"
             android:paddingLeft="@dimen/item_margin_left"
             android:layout_width="match_parent"
@@ -163,7 +191,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/tv_kind"
+                android:id="@+id/tv_appointment_kind"
                 android:hint="选择活动分类"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="80dp"
@@ -198,7 +226,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <Button
-            android:id="@+id/btn_publish_immediate"
+            android:id="@+id/btn_publish_appointment"
             android:textColor="@color/white"
             android:text="@string/publish"
             android:layout_marginTop="50dp"
@@ -208,17 +236,5 @@
             android:layout_width="match_parent"
             android:layout_height="40dp" />
     </LinearLayout>
-    <RelativeLayout
-        android:id="@+id/rl_complete"
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/toolbar_height"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:layout_centerInParent="true"
-            android:src="@drawable/complete"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
-    </RelativeLayout>
 
 </RelativeLayout>
