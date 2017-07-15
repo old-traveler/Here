@@ -26,10 +26,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
-                    android:src="@drawable/yd"
                     app:layout_collapseMode="parallax"
-                    android:scaleType="fitXY"
-                    android:id="@+id/iv_movie_background"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/iv_community_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </RelativeLayout>

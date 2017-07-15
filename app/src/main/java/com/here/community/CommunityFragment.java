@@ -36,6 +36,7 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
     @Bind(R.id.sl_community)
     SmartRefreshLayout slCommunity;
     CommunityAdapter communityAdapter;
+    private boolean isLoad = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,7 +44,20 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         View view = inflater.inflate(R.layout.fragment_community, container, false);
         ButterKnife.bind(this, view);
         mvpPresenter.attachView(this);
-        initView();
+        return view;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser && !isLoad){
+            isLoad = true;
+            initView();
+            mvpPresenter.loadCommunityData();
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    private void initView() {
         List<Community> list =new ArrayList<>();
         Community c= new Community();
         c.setType(Community.TYPE_VIEW_PAGE);
@@ -74,22 +88,9 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         Community tip = new Community();
         tip.setType(Community.TYPE_TIPS);
         list.add(tip);
-        for (int i = 0; i < 10; i++) {
-            Community tis = new Community();
-            if (i%2 == 0){
-                tis.setType(Community.TYPE_SHARE);
-            }else {
-                tis.setType(Community.TYPE_APPOINTMENT);
-            }
-            list.add(tis);
-        }
-        communityAdapter = new CommunityAdapter(list);
+        communityAdapter = new CommunityAdapter(list,getActivity());
         rvCommunity.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvCommunity.setAdapter(communityAdapter);
-        return view;
-    }
-
-    private void initView() {
         slCommunity.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -100,7 +101,7 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         slCommunity.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000);
+                refreshlayout.finishLoadmore(2000);
             }
         });
 
@@ -116,5 +117,25 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void showLoading() {
+        showProgressDialog();
+    }
+
+    @Override
+    public void stopLoading() {
+        dissmiss();
+    }
+
+    @Override
+    public void setRecommend(List<Community> communities) {
+        communityAdapter.addData(communities);
+    }
+
+    @Override
+    public void fail(String error) {
+        toastShow(error);
     }
 }

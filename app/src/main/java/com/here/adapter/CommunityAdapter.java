@@ -1,26 +1,35 @@
 package com.here.adapter;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.here.HereApplication;
 import com.here.R;
+import com.here.bean.Appointment;
 import com.here.bean.Community;
+import com.here.bean.Mood;
 import com.here.bean.Propaganda;
 import com.here.community.details.CommunityDetailsActivity;
+import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.util.List;
+import java.util.Random;
 
-import butterknife.Bind;
-import butterknife.OnClick;
-
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by hyc on 2017/7/13 10:21
@@ -28,38 +37,29 @@ import butterknife.OnClick;
 
 public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    @Bind(R.id.rl_item_sport)
-    RelativeLayout rlItemSport;
-    @Bind(R.id.rl_item_shopping)
-    RelativeLayout rlItemShopping;
-    @Bind(R.id.rl_item_sing)
-    RelativeLayout rlItemSing;
-    @Bind(R.id.rl_item_movie)
-    RelativeLayout rlItemMovie;
-    @Bind(R.id.rl_item_camping)
-    RelativeLayout rlItemCamping;
-    @Bind(R.id.rl_item_bar)
-    RelativeLayout rlItemBar;
-    @Bind(R.id.rl_item_beauty)
-    RelativeLayout rlItemBeauty;
-    @Bind(R.id.rl_item_delicious)
-    RelativeLayout rlItemDelicious;
-    @Bind(R.id.rl_item_chess)
-    RelativeLayout rlItemChess;
-    @Bind(R.id.rl_item_game)
-    RelativeLayout rlItemGame;
-    @Bind(R.id.rl_item_role)
-    RelativeLayout rlItemRole;
-    @Bind(R.id.rl_item_other)
-    RelativeLayout rlItemOther;
+    private Context context;
 
-    public CommunityAdapter(List<Community> communities) {
+    private int[] colors;
+
+    public CommunityAdapter(List<Community> communities,Context context) {
         this.communities = communities;
+        this.context = context;
+        colors = HereApplication.getContext().getResources().getIntArray(R.array.tips_bg);
     }
 
     private List<Community> communities;
 
     private boolean isLoading = false;
+
+    public void addData(List<Community> communityList){
+
+        communityList.add(0,communities.get(0));
+        communityList.add(1,communities.get(1));
+        communityList.add(2,communities.get(2));
+        communities = null;
+        communities = communityList;
+        notifyDataSetChanged();
+    }
 
 
     @Override
@@ -101,6 +101,15 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             isLoading = true;
             ViewPageHolder vHolder = (ViewPageHolder) holder;
             vHolder.load(Community.getPropagandas());
+        }else if (holder instanceof CommunityHolder){
+            CommunityHolder cHolder = (CommunityHolder) holder;
+            cHolder.load();
+        }else if (holder instanceof ShareHolder){
+            ShareHolder shareHolder = (ShareHolder) holder;
+            shareHolder.load(communities.get(position).getMood());
+        }else if (holder instanceof AppointmentHolder){
+            AppointmentHolder appointmentHolder = (AppointmentHolder) holder;
+            appointmentHolder.load(communities.get(position).getAppointment());
         }
     }
 
@@ -109,37 +118,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return communities.size();
     }
 
-    @OnClick({R.id.rl_item_sport, R.id.rl_item_shopping, R.id.rl_item_sing, R.id.rl_item_movie, R.id.rl_item_camping, R.id.rl_item_bar, R.id.rl_item_beauty, R.id.rl_item_delicious, R.id.rl_item_chess, R.id.rl_item_game, R.id.rl_item_role, R.id.rl_item_other})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.rl_item_sport:
 
-                break;
-            case R.id.rl_item_shopping:
-                break;
-            case R.id.rl_item_sing:
-                break;
-            case R.id.rl_item_movie:
-                break;
-            case R.id.rl_item_camping:
-                break;
-            case R.id.rl_item_bar:
-                break;
-            case R.id.rl_item_beauty:
-                break;
-            case R.id.rl_item_delicious:
-                break;
-            case R.id.rl_item_chess:
-                break;
-            case R.id.rl_item_game:
-                break;
-            case R.id.rl_item_role:
-                break;
-            case R.id.rl_item_other:
-                break;
-        }
-        HereApplication.getContext().startActivity(new Intent(HereApplication.getContext(), CommunityDetailsActivity.class));
-    }
 
     class ViewPageHolder extends RecyclerView.ViewHolder {
         protected SliderLayout sliderLayout;
@@ -162,32 +141,316 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    class CommunityHolder extends RecyclerView.ViewHolder {
-
+    class CommunityHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        RelativeLayout rlItemSport;
+        RelativeLayout rlItemShopping;
+        RelativeLayout rlItemSing;
+        RelativeLayout rlItemMovie;
+        RelativeLayout rlItemCamping;
+        RelativeLayout rlItemBar;
+        RelativeLayout rlItemBeauty;
+        RelativeLayout rlItemDelicious;
+        RelativeLayout rlItemChess;
+        RelativeLayout rlItemGame;
+        RelativeLayout rlItemRole;
+        RelativeLayout rlItemOther;
         public CommunityHolder(View itemView) {
             super(itemView);
+            rlItemSport = (RelativeLayout) itemView.findViewById(R.id.rl_item_sport);
+            rlItemShopping = (RelativeLayout) itemView.findViewById(R.id.rl_item_shopping);
+            rlItemSing = (RelativeLayout) itemView.findViewById(R.id.rl_item_sing);
+            rlItemMovie = (RelativeLayout) itemView.findViewById(R.id.rl_item_movie);
+            rlItemCamping = (RelativeLayout) itemView.findViewById(R.id.rl_item_camping);
+            rlItemBar = (RelativeLayout) itemView.findViewById(R.id.rl_item_bar);
+            rlItemBeauty = (RelativeLayout) itemView.findViewById(R.id.rl_item_beauty);
+            rlItemDelicious = (RelativeLayout) itemView.findViewById(R.id.rl_item_delicious);
+            rlItemChess = (RelativeLayout) itemView.findViewById(R.id.rl_item_chess);
+            rlItemGame = (RelativeLayout) itemView.findViewById(R.id.rl_item_game);
+            rlItemRole = (RelativeLayout) itemView.findViewById(R.id.rl_item_role);
+            rlItemOther = (RelativeLayout) itemView.findViewById(R.id.rl_item_other);
         }
 
+        public void load(){
+            rlItemSport.setOnClickListener(this);
+            rlItemShopping.setOnClickListener(this);
+            rlItemSing.setOnClickListener(this);
+            rlItemMovie.setOnClickListener(this);
+            rlItemCamping.setOnClickListener(this);
+            rlItemBar.setOnClickListener(this);
+            rlItemBeauty.setOnClickListener(this);
+            rlItemDelicious.setOnClickListener(this);
+            rlItemChess.setOnClickListener(this);
+            rlItemGame.setOnClickListener(this);
+            rlItemRole.setOnClickListener(this);
+            rlItemOther.setOnClickListener(this);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context , CommunityDetailsActivity.class);
+            switch (v.getId()){
+                case R.id.rl_item_sport:
+                    intent.putExtra("kind","运动");
+                    break;
+                case R.id.rl_item_shopping:
+                    intent.putExtra("kind","逛街");
+                    break;
+                case R.id.rl_item_sing:
+                    intent.putExtra("kind","唱歌");
+                    break;
+                case R.id.rl_item_movie:
+                    intent.putExtra("kind","电影");
+                    break;
+                case R.id.rl_item_camping:
+                    intent.putExtra("kind","户外");
+                    break;
+                case R.id.rl_item_bar:
+                    intent.putExtra("kind","酒吧");
+                    break;
+                case R.id.rl_item_beauty:
+                    intent.putExtra("kind","美容");
+                    break;
+                case R.id.rl_item_delicious:
+                    intent.putExtra("kind","美食");
+                    break;
+                case R.id.rl_item_chess:
+                    intent.putExtra("kind","棋牌");
+                    break;
+                case R.id.rl_item_game:
+                    intent.putExtra("kind","游戏");
+                    break;
+                case R.id.rl_item_role:
+                    intent.putExtra("kind","桌游");
+                    break;
+                case R.id.rl_item_other:
+                    intent.putExtra("kind","其他");
+                    break;
+            }
+            context.startActivity(intent);
+        }
     }
 
     class AppointmentHolder extends RecyclerView.ViewHolder {
-
+        CircleImageView cvAppointmentHead;
+        TextView tvAppointmentNickname;
+        TextView tvAppointmentTime;
+        TextView tvAppointmentKind;
+        CardView cvAppointmentTips;
+        TextView tvAppointmentAddress;
+        TextView tvAppointmentInterval;
+        TextView tvAppointmentTitle;
+        TextView tvAppointmentNumber;
+        TextView tvAppointmentContent;
+        ImageView ivAppointmentImage1;
+        ImageView ivAppointmentImage2;
+        ImageView ivAppointmentImage3;
+        TextView tvAppointmentPicCount;
+        ShineButton sbAppointmentLike;
+        LinearLayout ll_appointment_images;
         public AppointmentHolder(View itemView) {
             super(itemView);
+            cvAppointmentHead = (CircleImageView) itemView.findViewById(R.id.cv_appointment_head);
+            tvAppointmentNickname = (TextView) itemView.findViewById(R.id.tv_appointment_nickname);
+            tvAppointmentTime = (TextView) itemView.findViewById(R.id.tv_appointment_time);
+            tvAppointmentKind = (TextView) itemView.findViewById(R.id.tv_appointment_kind);
+            cvAppointmentTips = (CardView) itemView.findViewById(R.id.cv_appointment_tips);
+            tvAppointmentAddress = (TextView) itemView.findViewById(R.id.tv_appointment_address);
+            tvAppointmentInterval = (TextView) itemView.findViewById(R.id.tv_appointment_interval);
+            tvAppointmentTitle = (TextView) itemView.findViewById(R.id.tv_appointment_title);
+            tvAppointmentNumber = (TextView) itemView.findViewById(R.id.tv_appointment_number );
+            tvAppointmentContent = (TextView) itemView.findViewById(R.id.tv_appointment_content);
+            ivAppointmentImage1 = (ImageView) itemView.findViewById(R.id.iv_appointment_image1);
+            ivAppointmentImage2 = (ImageView) itemView.findViewById(R.id.iv_appointment_image2);
+            ivAppointmentImage3 = (ImageView) itemView.findViewById(R.id.iv_appointment_image3);
+            tvAppointmentPicCount = (TextView) itemView.findViewById(R.id.tv_appointment_pic_count);
+            sbAppointmentLike = (ShineButton) itemView.findViewById(R.id.sb_appointment_like);
+            ll_appointment_images = (LinearLayout) itemView.findViewById(R.id.ll_appointment_images);
         }
 
-        public void load() {
+        public void load(Appointment appointment) {
+            Glide.with(HereApplication.getContext())
+                    .load(appointment.getPublisher().getHeadImageUrl())
+                    .into(cvAppointmentHead);
+            tvAppointmentNickname.setText(appointment.getPublisher().getNickname());
+            tvAppointmentTime.setText(appointment.getPublishDate());
+            tvAppointmentKind.setText(appointment.getKind());
+            tvAppointmentAddress.setText(appointment.getAddress());
+            tvAppointmentInterval.setText(appointment.getStartDate()+"~"+appointment.getOverDate());
+            tvAppointmentTitle.setText(appointment.getTitle());
+            tvAppointmentNumber.setText("参与人数："+appointment.getJoinNumber());
+            tvAppointmentContent.setText(appointment.getDescribe());
+            cvAppointmentTips.setCardBackgroundColor(colors[new Random().nextInt(23)]);
+            if (appointment.getImages() != null && appointment.getImages().length > 0) {
+                ll_appointment_images.setVisibility(View.VISIBLE);
+                if (appointment.getImages().length == 1) {
+                    ivAppointmentImage1.setVisibility(View.VISIBLE);
+                    Glide.with(HereApplication.getContext())
+                            .load(appointment.getImages()[0])
+                            .into(ivAppointmentImage1);
+                    ivAppointmentImage2.setVisibility(View.GONE);
+                    ivAppointmentImage3.setVisibility(View.GONE);
+                    tvAppointmentPicCount.setVisibility(View.GONE);
+                } else if (appointment.getImages().length == 2) {
+                    ivAppointmentImage1.setVisibility(View.VISIBLE);
+                    ivAppointmentImage2.setVisibility(View.VISIBLE);
+                    Glide.with(HereApplication.getContext())
+                            .load(appointment.getImages()[0])
+                            .into(ivAppointmentImage1);
+                    Glide.with(HereApplication.getContext())
+                            .load(appointment.getImages()[1])
+                            .into(ivAppointmentImage2);
+                    ivAppointmentImage3.setVisibility(View.GONE);
+                    tvAppointmentPicCount.setVisibility(View.GONE);
+                } else if (appointment.getImages().length == 3) {
+                    ivAppointmentImage1.setVisibility(View.VISIBLE);
+                    ivAppointmentImage2.setVisibility(View.VISIBLE);
+                    ivAppointmentImage3.setVisibility(View.VISIBLE);
+                    Glide.with(HereApplication.getContext())
+                            .load(appointment.getImages()[0])
+                            .into(ivAppointmentImage1);
+                    Glide.with(HereApplication.getContext())
+                            .load(appointment.getImages()[1])
+                            .into(ivAppointmentImage2);
+                    Glide.with(HereApplication.getContext())
+                            .load(appointment.getImages()[2])
+                            .into(ivAppointmentImage3);
+                    tvAppointmentPicCount.setVisibility(View.GONE);
+                } else {
+                    ivAppointmentImage1.setVisibility(View.VISIBLE);
+                    ivAppointmentImage2.setVisibility(View.VISIBLE);
+                    ivAppointmentImage3.setVisibility(View.VISIBLE);
+                    tvAppointmentPicCount.setVisibility(View.VISIBLE);
+                    Glide.with(HereApplication.getContext())
+                            .load(appointment.getImages()[0])
+                            .into(ivAppointmentImage1);
+                    Glide.with(HereApplication.getContext())
+                            .load(appointment.getImages()[1])
+                            .into(ivAppointmentImage2);
+                    Glide.with(HereApplication.getContext())
+                            .load(appointment.getImages()[2])
+                            .into(ivAppointmentImage3);
+                    tvAppointmentPicCount.setText("+" + (appointment.getImages().length - 3));
+                }
 
+            } else {
+                ivAppointmentImage1.setVisibility(View.GONE);
+                ivAppointmentImage2.setVisibility(View.GONE);
+                ivAppointmentImage3.setVisibility(View.GONE);
+                tvAppointmentPicCount.setVisibility(View.GONE);
+                ll_appointment_images.setVisibility(View.GONE);
+            }
         }
     }
 
     class ShareHolder extends RecyclerView.ViewHolder {
+        LinearLayout ll_share_images;
+        CircleImageView cvMoodHead;
+        TextView tvMoodNickname;
+        TextView tvMoodTime;
+        TextView tvMoodTips;
+        CardView cvMoodTips;
+        TextView tvMoodTitle;
+        TextView tvMoodContent;
+        ImageView ivMoodImage1;
+        ImageView ivMoodImage2;
+        ImageView ivMoodImage3;
+        TextView ivMoodPicCount;
+        RelativeLayout rlMoodShare;
+        RelativeLayout rlMoodComment;
+        ShineButton sbLike;
+        RelativeLayout rlMoodLike;
 
         public ShareHolder(View itemView) {
             super(itemView);
+            cvMoodHead = (CircleImageView) itemView.findViewById(R.id.cv_mood_head);
+            tvMoodNickname = (TextView) itemView.findViewById(R.id.tv_mood_nickname);
+            tvMoodTime = (TextView) itemView.findViewById(R.id.tv_mood_time);
+            tvMoodTips = (TextView) itemView.findViewById(R.id.tv_mood_tips);
+            cvMoodTips = (CardView) itemView.findViewById(R.id.cv_mood_tips);
+            tvMoodTitle = (TextView) itemView.findViewById(R.id.tv_mood_title);
+            tvMoodContent = (TextView) itemView.findViewById(R.id.tv_mood_content);
+            ivMoodImage1 = (ImageView) itemView.findViewById(R.id.iv_mood_image1);
+            ivMoodImage2 = (ImageView) itemView.findViewById(R.id.iv_mood_image2);
+            ivMoodImage3 = (ImageView) itemView.findViewById(R.id.iv_mood_image3);
+            ivMoodPicCount = (TextView) itemView.findViewById(R.id.iv_mood_pic_count);
+            rlMoodShare = (RelativeLayout) itemView.findViewById(R.id.rl_mood_share);
+            rlMoodComment = (RelativeLayout) itemView.findViewById(R.id.rl_mood_comment);
+            sbLike = (ShineButton) itemView.findViewById(R.id.sb_like);
+            rlMoodLike = (RelativeLayout) itemView.findViewById(R.id.rl_mood_like);
+            ll_share_images = (LinearLayout) itemView.findViewById(R.id.ll_mood_images);
         }
 
-        public void load() {
+        public void load(Mood mood) {
+            Glide.with(HereApplication.getContext())
+                    .load(mood.getPublisher().getHeadImageUrl())
+                    .into(cvMoodHead);
+            tvMoodNickname.setText(mood.getPublisher().getNickname());
+            tvMoodTime.setText(mood.getPublisherDate());
+            tvMoodTips.setText(mood.getKind());
+            tvMoodTitle.setText(mood.getTitle());
+            tvMoodContent.setText(mood.getContent());
+            cvMoodTips.setCardBackgroundColor(colors[new Random().nextInt(23)]);
+            if (mood.getImages() != null && mood.getImages().length > 0) {
+                ll_share_images.setVisibility(View.VISIBLE);
+                if (mood.getImages().length == 1) {
+                    ivMoodImage1.setVisibility(View.VISIBLE);
+                    Glide.with(HereApplication.getContext())
+                            .load(mood.getImages()[0])
+                            .into(ivMoodImage1);
+                    ivMoodImage2.setVisibility(View.GONE);
+                    ivMoodImage3.setVisibility(View.GONE);
+                    ivMoodPicCount.setVisibility(View.GONE);
+                } else if (mood.getImages().length == 2) {
+                    ivMoodImage1.setVisibility(View.VISIBLE);
+                    ivMoodImage2.setVisibility(View.VISIBLE);
+                    Glide.with(HereApplication.getContext())
+                            .load(mood.getImages()[0])
+                            .into(ivMoodImage1);
+                    Glide.with(HereApplication.getContext())
+                            .load(mood.getImages()[1])
+                            .into(ivMoodImage2);
+                    ivMoodImage3.setVisibility(View.GONE);
+                    ivMoodPicCount.setVisibility(View.GONE);
+                } else if (mood.getImages().length == 3) {
+                    ivMoodImage1.setVisibility(View.VISIBLE);
+                    ivMoodImage2.setVisibility(View.VISIBLE);
+                    ivMoodImage3.setVisibility(View.VISIBLE);
+                    Glide.with(HereApplication.getContext())
+                            .load(mood.getImages()[0])
+                            .into(ivMoodImage1);
+                    Glide.with(HereApplication.getContext())
+                            .load(mood.getImages()[1])
+                            .into(ivMoodImage2);
+                    Glide.with(HereApplication.getContext())
+                            .load(mood.getImages()[2])
+                            .into(ivMoodImage3);
+                    ivMoodPicCount.setVisibility(View.GONE);
+                } else {
+                    ivMoodImage1.setVisibility(View.VISIBLE);
+                    ivMoodImage2.setVisibility(View.VISIBLE);
+                    ivMoodImage3.setVisibility(View.VISIBLE);
+                    ivMoodPicCount.setVisibility(View.VISIBLE);
+                    Glide.with(HereApplication.getContext())
+                            .load(mood.getImages()[0])
+                            .into(ivMoodImage1);
+                    Glide.with(HereApplication.getContext())
+                            .load(mood.getImages()[1])
+                            .into(ivMoodImage2);
+                    Glide.with(HereApplication.getContext())
+                            .load(mood.getImages()[2])
+                            .into(ivMoodImage3);
+                    ivMoodPicCount.setText("+" + (mood.getImages().length - 3));
+                }
+
+            } else {
+                ivMoodImage1.setVisibility(View.GONE);
+                ivMoodImage2.setVisibility(View.GONE);
+                ivMoodImage3.setVisibility(View.GONE);
+                ivMoodPicCount.setVisibility(View.GONE);
+                ll_share_images.setVisibility(View.GONE);
+            }
+
 
         }
     }

@@ -164,15 +164,19 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mapNearby.onSaveInstanceState(outState);
+        if (mapNearby != null){
+            mapNearby.onSaveInstanceState(outState);
+        }
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mapNearby != null) {
+        if (mapNearby != null){
             mapNearby.onDestroy();
         }
+
     }
 
     @Override

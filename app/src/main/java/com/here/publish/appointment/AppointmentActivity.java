@@ -76,6 +76,8 @@ public class AppointmentActivity extends MvpActivity<AppointmentPresenter> imple
         setContentView(R.layout.activity_appointment);
         ButterKnife.bind(this);
         mvpPresenter.attachView(this);
+        setToolBar(R.id.tb_appointment);
+        initHome();
         mvpPresenter.location();
         rvAppointmentImage.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         List<String> images = new ArrayList<>();
@@ -107,7 +109,6 @@ public class AppointmentActivity extends MvpActivity<AppointmentPresenter> imple
                 break;
             case R.id.btn_publish_appointment:
                 mvpPresenter.publish();
-                btnPublishAppointment.setClickable(false);
                 break;
         }
     }
@@ -144,7 +145,7 @@ public class AppointmentActivity extends MvpActivity<AppointmentPresenter> imple
             final ArrayList<String> pathList =
                     data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT_SELECTION);
             for (String s : pathList) {
-                adapter.getData().add(adapter.getItemCount()-2,s);
+                adapter.getData().add(adapter.getItemCount()-1,s);
                 adapter.notifyDataSetChanged();
             }
 
@@ -211,6 +212,7 @@ public class AppointmentActivity extends MvpActivity<AppointmentPresenter> imple
 
     @Override
     public void fail(String error) {
+
         toastShow(error);
     }
 
@@ -247,7 +249,7 @@ public class AppointmentActivity extends MvpActivity<AppointmentPresenter> imple
 
     @Override
     public void publishFail(String error) {
-        btnPublishAppointment.setClickable(true);
+
         adapter.getData().add("add image");
         adapter.notifyDataSetChanged();
         toastShow(error);

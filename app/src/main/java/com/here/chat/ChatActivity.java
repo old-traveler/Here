@@ -91,8 +91,6 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
     Button btnChatKeyboard;
     @Bind(R.id.btn_chat_send)
     Button btnChatSend;
-
-
     BmobIMConversation c;
     private ChatAdapter chatAdapter;
     private Drawable[] drawable_Anims;

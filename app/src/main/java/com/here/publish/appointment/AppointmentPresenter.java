@@ -70,7 +70,7 @@ public class AppointmentPresenter extends BasePresenter<AppointmentContract>  im
                 }
             });
         }else {
-
+            uploadAppointment(mvpView.getAppointment());
         }
     }
 
@@ -97,7 +97,7 @@ public class AppointmentPresenter extends BasePresenter<AppointmentContract>  im
     public void uploadAppointment(Appointment appointment){
         appointment.setPublisher(BmobUser.getCurrentUser(User.class));
         appointment.setPublishTime(System.currentTimeMillis());
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-DD-hh:mm");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm");
         appointment.setPublishDate(format.format(new Date(System.currentTimeMillis())));
         appointment.save(new SaveListener<String>() {
             @Override

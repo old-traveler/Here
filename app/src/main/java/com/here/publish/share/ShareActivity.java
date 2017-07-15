@@ -88,7 +88,6 @@ public class ShareActivity extends MvpActivity<SharePresenter> implements ShareC
                 break;
             case R.id.btn_publish_share:
                 mvpPresenter.publish();
-                btnPublishShare.setClickable(false);
                 break;
         }
     }
@@ -125,7 +124,7 @@ public class ShareActivity extends MvpActivity<SharePresenter> implements ShareC
             final ArrayList<String> pathList =
                     data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT_SELECTION);
             for (String s : pathList) {
-                adapter.getData().add(adapter.getItemCount()-2,s);
+                adapter.getData().add(adapter.getItemCount()-1,s);
                 adapter.notifyDataSetChanged();
             }
 
@@ -191,7 +190,6 @@ public class ShareActivity extends MvpActivity<SharePresenter> implements ShareC
 
     @Override
     public void publishFail(String error) {
-        btnPublishShare.setClickable(true);
         adapter.getData().add("add image");
         adapter.notifyDataSetChanged();
         toastShow(error);

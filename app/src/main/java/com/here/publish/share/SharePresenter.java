@@ -82,7 +82,7 @@ public class SharePresenter extends BasePresenter<ShareContract> {
     public void uploadMood(Mood mood){
         mood.setPublishTime(System.currentTimeMillis());
         mood.setPublisher(BmobUser.getCurrentUser(User.class));
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-DD-hh:mm");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm");
         mood.setPublisherDate(format.format(new Date(System.currentTimeMillis())));
         mood.save(new SaveListener<String>() {
             @Override

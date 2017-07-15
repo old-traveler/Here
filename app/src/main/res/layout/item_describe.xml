@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp">
         <TextView
+            android:id="@+id/item_details_describe"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
             android:textSize="13sp"

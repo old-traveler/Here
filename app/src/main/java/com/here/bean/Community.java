@@ -20,6 +20,12 @@ public class Community {
 
     private int type;
 
+    private String describe;
+
+    private Mood mood;
+
+    private Appointment appointment;
+
     public static Propaganda[] getPropagandas() {
         return propagandas;
     }
@@ -42,5 +48,29 @@ public class Community {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
+    }
+
+    public Mood getMood() {
+        return mood;
+    }
+
+    public void setMood(Mood mood) {
+        this.mood = mood;
     }
 }
