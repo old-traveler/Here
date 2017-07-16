@@ -11,7 +11,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.here.R;
 import com.here.adapter.CommentAdapter;
@@ -19,15 +18,11 @@ import com.here.adapter.DetailsImageAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.Appointment;
 import com.here.bean.Comment;
-import com.here.bean.Community;
 import com.here.bean.Mood;
 import com.here.view.MyGridLayoutManager;
 import com.sackcentury.shinebuttonlib.ShineButton;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
