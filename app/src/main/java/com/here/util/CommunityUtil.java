@@ -100,7 +100,7 @@ public class CommunityUtil {
      */
     public static void queryMood(final CommunitySearchListener listener){
         BmobQuery<Mood> query = new BmobQuery<>();
-        query.setLimit(50);
+        query.setLimit(100);
         query.include("publisher");
         query.findObjects(new FindListener<Mood>() {
             @Override

@@ -41,6 +41,9 @@ import com.here.util.ImUtil;
 import com.here.util.JoinUtil;
 import com.here.view.MyViewPage;
 
+import org.litepal.crud.DataSupport;
+import org.litepal.tablemanager.Connector;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,6 +119,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         addActivity(this);
         initUserData();
         registerReceiver();
+        Connector.getDatabase();
     }
 
     @Override

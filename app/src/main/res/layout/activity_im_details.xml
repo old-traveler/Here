@@ -128,10 +128,6 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginRight="12sp"
                 android:layout_marginLeft="12dp"
-                android:text="时间总是不等人，转眼间马上半学期就快结束了，课文也上得十分地快，都上到第三单元了。可我最不喜欢的就是第三单元了。第三单元都是剧本，老师需要一个一个组上去演你，今天演的是“晏子使楚”对于我来说，是灭顶之灾！
-
-　　前一天，我特意写了剧本，就为了这天。今天终于到了，第一组上去了，有时候他们还会忘词，这让我更加的紧张。谁知，平常不大积极的周同学，在第一组结束之后，一溜烟儿地跑上了讲台，我就只能趴在桌子上，可周同学呢，下来把我晃来晃去，无奈之下，我只能上去了。
- "
                 android:textSize="15sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

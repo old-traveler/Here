@@ -6,6 +6,16 @@ package com.here.scan;
 
 public interface ScanContract {
 
+    void startScanCode();
 
+    void showLoading();
+
+    void stopLoading();
+
+    void promptIsFollow();
+
+    void followSuccess();
+
+    void followFail(String error);
 
 }

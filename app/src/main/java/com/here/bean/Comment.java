@@ -10,7 +10,7 @@ public class Comment extends BmobObject{
 
     private User user;
 
-    private BmobObject publish;
+    private String publish;
 
     private String content;
 
@@ -22,11 +22,11 @@ public class Comment extends BmobObject{
         this.user = user;
     }
 
-    public BmobObject getPublish() {
+    public String getPublish() {
         return publish;
     }
 
-    public void setPublish(BmobObject publish) {
+    public void setPublish(String publish) {
         this.publish = publish;
     }
 

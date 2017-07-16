@@ -1,12 +1,14 @@
 package com.here.bean;
 
+import java.io.Serializable;
+
 import cn.bmob.v3.BmobObject;
 
 /**
  * 预约类活动 Created by hyc on 2017/7/13 16:25
  */
 
-public class Appointment extends BmobObject{
+public class Appointment extends BmobObject implements Serializable{
 
     private User publisher;
 

@@ -215,12 +215,12 @@
                         android:background="@color/part_linear_color" />
 
                     <RelativeLayout
+                        android:id="@+id/rl_appointment_comment"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/item_message_selector"
                         android:clickable="true">
-
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"

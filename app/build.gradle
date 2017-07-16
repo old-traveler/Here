@@ -69,5 +69,6 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.yalantis:phoenix:1.2.3'
     compile 'com.daimajia.slider:library:1.1.5@aar'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }

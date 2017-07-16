@@ -329,6 +329,7 @@ public class UserUtil {
         });
     }
 
+
     public static void searchUserInfoById(String objectId , final OnSearchUserListener listener){
         BmobQuery<User> query = new BmobQuery<User>();
         query.getObject(objectId, new QueryListener<User>() {

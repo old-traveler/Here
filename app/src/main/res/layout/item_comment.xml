@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:minHeight="50dp"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cv_comment_head"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/text_head"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:id="@+id/tv_comment_nickname"
+            android:textSize="15sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@id/cv_comment_head"
+            android:text="木头人"
+            android:textColor="@color/share_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_comment_time"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="6dp"
+            android:layout_alignParentRight="true"
+            android:text="12:30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_comment_content"
+            android:layout_marginRight="10dp"
+            android:textSize="13sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@id/cv_comment_head"
+            android:text="的精品房均为会计分录去问减肥了等哈三等奖撒逻辑电路撒进来的爱神的箭撒逻辑电路撒娇的三达到撒大家按三六九等拉萨的就撒了解多少垃圾的拉丝机的是垃圾都是垃圾都是垃圾打开了我就发了我就发了"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <View
+        android:layout_marginTop="5dp"
+        android:background="@color/part_linear_color"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+</LinearLayout>

@@ -90,7 +90,8 @@
         <activity android:name=".apply.ApplyActivity" />
         <activity android:name=".community.details.CommunityDetailsActivity" />
         <activity android:name=".publish.share.ShareActivity" />
-        <activity android:name=".publish.appointment.AppointmentActivity"></activity>
+        <activity android:name=".publish.appointment.AppointmentActivity" />
+        <activity android:name=".details.PostDetailsActivity"/>
     </application>
 
 </manifest>

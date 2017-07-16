@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <litepal>
     <dbname value="here" ></dbname>
-    <version value="2" ></version>
+    <version value="3" ></version>
     <list>
         <mapping class="com.here.bean.Account"></mapping>
         <mapping class="com.here.bean.LikeId"></mapping>

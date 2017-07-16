@@ -1,12 +1,14 @@
 package com.here.bean;
 
+import java.io.Serializable;
+
 import cn.bmob.v3.BmobObject;
 
 /**
  * Created by hyc on 2017/7/13 16:06
  */
 
-public class Mood extends BmobObject{
+public class Mood extends BmobObject implements Serializable{
     /**
      * 发布者
      */

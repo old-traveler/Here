@@ -10,7 +10,7 @@ public class Like extends BmobObject{
 
     private User user;
 
-    private BmobObject publish;
+    private String publishId;
 
     public User getUser() {
         return user;
@@ -20,11 +20,11 @@ public class Like extends BmobObject{
         this.user = user;
     }
 
-    public BmobObject getPublish() {
-        return publish;
+    public String getPublish() {
+        return publishId;
     }
 
-    public void setPublish(BmobObject publish) {
-        this.publish = publish;
+    public void setPublish(String publish) {
+        this.publishId = publish;
     }
 }
