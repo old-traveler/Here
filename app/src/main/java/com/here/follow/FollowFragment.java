@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +13,19 @@ import android.view.ViewGroup;
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.here.R;
+import com.here.adapter.CommunityDetailsAdapter;
 import com.here.base.MvpFragment;
+import com.here.bean.Community;
 import com.here.publish.appointment.AppointmentActivity;
 import com.here.publish.share.ShareActivity;
+import com.here.util.CommunityUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,6 +44,9 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
     SmartRefreshLayout slFollow;
     @Bind(R.id.fb_add_activity)
     FloatingActionButton fbAddActivity;
+    private CommunityDetailsAdapter adapter;
+    private boolean isLoad = false;
+    private boolean isRefreshing =false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,15 +54,26 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
         View view = inflater.inflate(R.layout.fragment_follow, container, false);
         mvpPresenter.attachView(this);
         ButterKnife.bind(this, view);
-        initView();
+        adapter = new CommunityDetailsAdapter(new ArrayList<Community>(),getContext());
         return view;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser && !isLoad){
+            initView();
+            isLoad = true;
+            mvpPresenter.queryAppointment(false,null);
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
     private void initView() {
+
         slFollow.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000);
+                mvpPresenter.queryAppointment(true,refreshlayout);
             }
         });
 
@@ -63,6 +84,9 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
             }
         });
 
+        adapter = new CommunityDetailsAdapter(new ArrayList<Community>(),getActivity());
+        rvFollow.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvFollow.setAdapter(adapter);
 
     }
 
@@ -89,5 +113,25 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
                 }
             }
         }).show();
+    }
+
+    @Override
+    public void showLoading() {
+        showProgressDialog();
+    }
+
+    @Override
+    public void stopLoading() {
+        dissmiss();
+    }
+
+    @Override
+    public void loadSuccess(List<Community> communities) {
+        adapter.addData(CommunityUtil.sortByTime(communities));
+    }
+
+    @Override
+    public void loadFail(String error) {
+        toastShow(error);
     }
 }

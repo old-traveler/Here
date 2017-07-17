@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cv_item_activity_head"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/grils"
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
+        <TextView
+            android:id="@+id/tv_item_activity_name"
+            android:textSize="15sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@id/cv_item_activity_head"
+            android:textColor="@color/share_text"
+            android:text="木头人"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_item_activity_time"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="35dp"
+            android:layout_toRightOf="@id/cv_item_activity_head"
+            android:text="6月18日"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_item_activity_title"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginRight="10dp"
+            android:textSize="15sp"
+            android:textColor="@color/share_text"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="60dp"
+            android:layout_toRightOf="@id/cv_item_activity_head"
+            android:text="一起逛街"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_item_activity_content"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:layout_marginRight="10dp"
+            android:textSize="14sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="85dp"
+            android:layout_toRightOf="@id/cv_item_activity_head"
+            android:text="一起逛街"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <android.support.v7.widget.CardView
+        android:elevation="5dp"
+        app:cardBackgroundColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+    <View
+        android:background="@color/going_unfinsh_color"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+
+</LinearLayout>

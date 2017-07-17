@@ -1,5 +1,7 @@
 package com.here.util;
 
+import android.util.Log;
+
 import com.here.HereApplication;
 import com.here.R;
 import com.here.bean.Follow;
@@ -8,7 +10,12 @@ import com.here.bean.User;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 
 /**
@@ -16,6 +23,11 @@ import cn.bmob.v3.listener.SaveListener;
  */
 
 public class FollowUtil {
+
+    public interface OnFindFollowListener{
+        void success(List<Follow> follows);
+        void fail(String error);
+    }
 
     /**
      * 关注用户
@@ -35,7 +47,7 @@ public class FollowUtil {
                     followId.setFollowUserId(followUser.getObjectId());
                     followId.setFollowId(s);
                     followId.setUserId(user.getObjectId());
-                    followId.save();
+                    Log.i("TAG","关注是否成功"+followId.save());
                     listener.success();
                 }else {
                     if (e.getErrorCode() == 9016){
@@ -61,6 +73,57 @@ public class FollowUtil {
             }
         }
         return false;
+    }
+
+    public static void queryFollows(User user, final OnFindFollowListener listener){
+        BmobQuery<Follow> query = new BmobQuery<>();
+        query.addWhereEqualTo("user",user);
+        query.include("followUser");
+        query.findObjects(new FindListener<Follow>() {
+            @Override
+            public void done(List<Follow> list, BmobException e) {
+                if (e == null){
+                    listener.success(list);
+                }else {
+                    if (e.getErrorCode() == 9016){
+                        listener.fail(HereApplication.getContext().getString(R.string.err_no_net));
+                    }else {
+                        listener.fail(e.getMessage());
+                    }
+                }
+            }
+        });
+    }
+
+    public static void queryFans(User user,final OnFindFollowListener listener){
+        BmobQuery<Follow> query = new BmobQuery<>();
+        query.addWhereEqualTo("followUser",user);
+        query.include("user");
+        query.findObjects(new FindListener<Follow>() {
+            @Override
+            public void done(List<Follow> list, BmobException e) {
+                if (e == null){
+                    listener.success(list);
+                }else {
+                    if (e.getErrorCode() == 9016){
+                        listener.fail(HereApplication.getContext().getString(R.string.err_no_net));
+                    }else {
+                        listener.fail(e.getMessage());
+                    }
+                }
+            }
+        });
+    }
+
+    public static List<String> queryAllFollowId(String userId){
+        List<FollowId> followIds = DataSupport.findAll(FollowId.class);
+        List<String> strings = new ArrayList<>();
+        for (FollowId followId : followIds) {
+            if (userId.equals(followId.getUserId())){
+                strings.add(followId.getFollowUserId());
+            }
+        }
+        return strings;
     }
 
 

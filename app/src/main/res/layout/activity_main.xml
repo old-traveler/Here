@@ -99,8 +99,8 @@
 
                 android:layout_centerVertical="true"
                 android:src="@drawable/qrcode"
-                android:layout_width="@dimen/item_image_height"
-                android:layout_height="@dimen/item_image_height" />
+                android:layout_width="23dp"
+                android:layout_height="23dp" />
             <TextView
 
                 android:layout_marginLeft="@dimen/text_margin_left"
@@ -119,8 +119,8 @@
             <ImageView
                 android:layout_centerVertical="true"
                 android:src="@drawable/activity"
-                android:layout_width="@dimen/item_image_height"
-                android:layout_height="@dimen/item_image_height" />
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
             <TextView
                 android:layout_marginLeft="@dimen/text_margin_left"
                 android:layout_centerVertical="true"
@@ -174,10 +174,11 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/side_item_height">
             <ImageView
+                android:layout_marginLeft="4dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/feedback"
-                android:layout_width="@dimen/item_image_height"
-                android:layout_height="@dimen/item_image_height" />
+                android:src="@drawable/introducation"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
             <TextView
                 android:layout_marginLeft="@dimen/text_margin_left"
                 android:layout_centerVertical="true"

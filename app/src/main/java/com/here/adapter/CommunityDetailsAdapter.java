@@ -1,5 +1,8 @@
 package com.here.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import com.here.R;
 import com.here.bean.Appointment;
 import com.here.bean.Community;
 import com.here.bean.Mood;
+import com.here.details.PostDetailsActivity;
 import com.sackcentury.shinebuttonlib.ShineButton;
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -31,20 +35,32 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     List<Community> communities;
 
+    private boolean isCommunity = false;
+
+    private Context context;
+
+    public void setCommunity(boolean isCommunity){
+        this.isCommunity = isCommunity;
+    }
+
+
     public List<Community> getData() {
         return communities;
     }
 
     public void addData(List<Community> list) {
-        Community c = communities.get(0);
-        list.add(0, c);
+        if (isCommunity){
+            Community c = communities.get(0);
+            list.add(0, c);
+        }
         communities = null;
         communities = list;
         notifyDataSetChanged();
     }
 
-    public CommunityDetailsAdapter(List<Community> communities) {
+    public CommunityDetailsAdapter(List<Community> communities,Context context) {
         this.communities = communities;
+        this.context = context;
     }
 
     @Override
@@ -122,6 +138,7 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
         TextView tvAppointmentPicCount;
         ShineButton sbAppointmentLike;
         LinearLayout ll_appointment_images;
+        RelativeLayout rl_appointment_comment;
         public AppointmentHolder(View itemView) {
             super(itemView);
             cvAppointmentHead = (CircleImageView) itemView.findViewById(R.id.cv_appointment_head);
@@ -140,9 +157,10 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
             tvAppointmentPicCount = (TextView) itemView.findViewById(R.id.tv_appointment_pic_count);
             sbAppointmentLike = (ShineButton) itemView.findViewById(R.id.sb_appointment_like);
             ll_appointment_images = (LinearLayout) itemView.findViewById(R.id.ll_appointment_images);
+            rl_appointment_comment = (RelativeLayout) itemView.findViewById(R.id.rl_appointment_comment);
         }
 
-        public void load(Appointment appointment) {
+        public void load(final Appointment appointment) {
             Glide.with(HereApplication.getContext())
                     .load(appointment.getPublisher().getHeadImageUrl())
                     .into(cvAppointmentHead);
@@ -212,6 +230,17 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                 tvAppointmentPicCount.setVisibility(View.GONE);
                 ll_appointment_images.setVisibility(View.GONE);
             }
+            rl_appointment_comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context,PostDetailsActivity.class);
+                    intent.putExtra("type","appointment");
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("appointment",appointment);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -253,7 +282,7 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
             ll_share_images = (LinearLayout) itemView.findViewById(R.id.ll_mood_images);
         }
 
-        public void load(Mood mood) {
+        public void load(final Mood mood) {
             Glide.with(HereApplication.getContext())
                     .load(mood.getPublisher().getHeadImageUrl())
                     .into(cvMoodHead);
@@ -320,6 +349,18 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                 ivMoodPicCount.setVisibility(View.GONE);
                 ll_share_images.setVisibility(View.GONE);
             }
+
+            rlMoodComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context,PostDetailsActivity.class);
+                    intent.putExtra("type","mood");
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("mood",mood);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
+            });
 
 
         }

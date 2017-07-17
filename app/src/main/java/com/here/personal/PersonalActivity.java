@@ -219,7 +219,7 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
                     .into(ivPersonalHead);
         } else {
             Glide.with(this)
-                    .load(R.drawable.grils)
+                    .load(R.drawable.gbole)
                     .into(ivPersonalHead);
         }
 
@@ -229,7 +229,7 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
                     .into(ivPersonalBg);
         } else {
             Glide.with(this)
-                    .load(R.drawable.grils)
+                    .load(R.drawable.gbole)
                     .into(ivPersonalBg);
         }
 

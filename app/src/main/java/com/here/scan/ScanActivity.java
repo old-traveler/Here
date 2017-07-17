@@ -101,7 +101,10 @@ public class ScanActivity extends MvpActivity<ScanPresenter> implements ScanCont
             case R.id.iv_scan_code:
                 break;
             case R.id.rl_scan_code:
-                startScanCode();
+                if (getCcamra()){
+                    startScanCode();
+                }
+
                 break;
         }
     }
@@ -134,7 +137,6 @@ public class ScanActivity extends MvpActivity<ScanPresenter> implements ScanCont
         dissmiss();
     }
 
-
     @Override
     public void promptIsFollow() {
         new AlertView("提示", "是否关注该用户", "确定", new String[]{"取消"}, null, this,
@@ -150,13 +152,7 @@ public class ScanActivity extends MvpActivity<ScanPresenter> implements ScanCont
 
     @Override
     public void followSuccess() {
-        new AlertView("提示", "关注成功!", null
-                , new String[]{"确定"}, null, this, AlertView.Style.Alert, new OnItemClickListener() {
-            @Override
-            public void onItemClick(Object o, int position) {
-
-            }
-        }).show();
+        toastShow("关注成功");
     }
 
     @Override

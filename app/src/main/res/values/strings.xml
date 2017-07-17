@@ -101,7 +101,7 @@
     <string name="voice_up_tips">手指上滑,取消发送</string>
     <string name="voice_cancel_tips">松开手指，取消发送</string>
     <string name="search_user">查询用户</string>
-
+    <string name="string_help_text">当前应用缺少必要权限。\n\n请点击\"设置\"-\"权限\"-打开所需权限。\n\n最后点击两次后退按钮，即可返回。</string>
     <array name="tip_name">
         <item>美女</item>
         <item>帅哥</item>

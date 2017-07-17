@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.here.chat.ChatActivity;
 import com.here.community.CommunityFragment;
 import com.here.feedback.FeedBackActivity;
 import com.here.follow.FollowFragment;
+import com.here.follow.info.FollowActivity;
 import com.here.message.MessageActivity;
 import com.here.nearby.NearbyFragment;
 import com.here.personal.PersonalActivity;
@@ -104,6 +106,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
      */
     private int currentItem = 0;
 
+    private long mkeyTime = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,20 +121,40 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         initViewPage();
         ImUtil.connectServer();
         addActivity(this);
+        getLocationPre();
         initUserData();
-        registerReceiver();
         Connector.getDatabase();
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
+        registerReceiver();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        unregisterReceiver();
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mkeyTime) > 1500) {
+                mkeyTime = System.currentTimeMillis();
+                toastShow("再按一次退出程序");
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return false;
+
+        }
+
+        return super.onKeyDown(keyCode, event);
+
     }
 
     @Override
@@ -156,6 +180,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         }
 
     }
+
+
+
 
     @Override
     public void registerReceiver() {
@@ -317,7 +344,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
 
     @Override
     public void checkFollow() {
-
+        startActivity(new Intent(this, FollowActivity.class));
     }
 
     @Override

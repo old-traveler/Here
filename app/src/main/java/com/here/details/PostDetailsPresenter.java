@@ -39,14 +39,19 @@ public class PostDetailsPresenter  extends BasePresenter<PostDetailsContract>{
         CommentUtil.queryCommentOfPost(publishId, new CommentUtil.OnQueryCommentListener() {
             @Override
             public void success(List<Comment> comments) {
-                mvpView.stopLoading();
-                mvpView.loadComment(comments);
+                if (mvpView != null){
+                    mvpView.stopLoading();
+                    mvpView.loadComment(comments);
+                }
             }
 
             @Override
             public void fail(String error) {
-                mvpView.stopLoading();
-                mvpView.loadFail(error);
+                if (mvpView != null){
+                    mvpView.stopLoading();
+                    mvpView.loadFail(error);
+                }
+
             }
         });
     }
@@ -55,12 +60,17 @@ public class PostDetailsPresenter  extends BasePresenter<PostDetailsContract>{
         LikeUtil.queryLikeCount(publishId, new LikeUtil.OnCountQuery() {
             @Override
             public void success(int count) {
-                mvpView.setLikeCount(count);
+                if (mvpView != null){
+                    mvpView.setLikeCount(count);
+                }
+
             }
 
             @Override
             public void fail(String error) {
-                mvpView.loadFail("查询点赞出错 "+error);
+                if (mvpView !=null ){
+                    mvpView.loadFail("查询点赞出错 "+error);
+                }
             }
         });
     }
@@ -77,14 +87,19 @@ public class PostDetailsPresenter  extends BasePresenter<PostDetailsContract>{
             CommentUtil.uploadComment(comment, new UserUtil.OnDealListener() {
                 @Override
                 public void success() {
-                    mvpView.stopLoading();
-                    mvpView.commentSuccess(comment);
+                    if (mvpView !=null){
+                        mvpView.stopLoading();
+                        mvpView.commentSuccess(comment);
+                    }
                 }
 
                 @Override
                 public void fail(String error) {
-                    mvpView.stopLoading();
-                    mvpView.commentFail(error);
+                    if (mvpView != null){
+                        mvpView.stopLoading();
+                        mvpView.commentFail(error);
+                    }
+
                 }
             });
         }

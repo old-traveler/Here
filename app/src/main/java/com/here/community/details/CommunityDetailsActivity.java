@@ -57,6 +57,7 @@ public class CommunityDetailsActivity extends MvpActivity<CommunityDetailsPresen
         });
         initCommunityDetails();
         mvpPresenter.loadCommunityData();
+        communityDetailsAdapter.setCommunity(true);
     }
 
     private void initCommunityDetails() {
@@ -139,7 +140,7 @@ public class CommunityDetailsActivity extends MvpActivity<CommunityDetailsPresen
                 break;
         }
         communities.add(describe);
-        communityDetailsAdapter = new CommunityDetailsAdapter(communities);
+        communityDetailsAdapter = new CommunityDetailsAdapter(communities,this);
         rvCommunityDetails.setAdapter(communityDetailsAdapter);
     }
 
