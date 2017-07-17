@@ -15,17 +15,31 @@ public class CommunityDetailsPresenter  extends BasePresenter<CommunityDetailsCo
     /**
      * 加载社区数据
      */
-    public void loadCommunityData(){
-        mvpView.showLoading();
+    public void loadCommunityData(final boolean isRefresh){
+        if (!isRefresh){
+            mvpView.showLoading();
+        }
+
         CommunityUtil.queryAppointmentByKind(mvpView.getKind(), new CommunityUtil.CommunitySearchListener() {
             @Override
             public void success(List<Community> communities) {
-                loadMoodData(communities);
+                if (mvpView == null){
+                    return;
+                }
+                loadMoodData(communities,isRefresh);
             }
 
             @Override
             public void fail(String error) {
-                mvpView.stopLoading();
+                if (mvpView == null){
+                    return;
+                }
+                if (!isRefresh){
+                    mvpView.stopLoading();
+                }else {
+                    mvpView.stopRefreshing();
+                }
+
                 mvpView.fail(error);
             }
         });
@@ -35,21 +49,36 @@ public class CommunityDetailsPresenter  extends BasePresenter<CommunityDetailsCo
      * 加载心情分享数据
      * @param communityList
      */
-    public void loadMoodData(final List<Community> communityList){
+    public void loadMoodData(final List<Community> communityList, final boolean isRefresh){
         CommunityUtil.queryMoodByKind(mvpView.getKind(), new CommunityUtil.CommunitySearchListener() {
             @Override
             public void success(List<Community> communities) {
+                if (mvpView == null){
+                    return;
+                }
                 for (Community community : communityList) {
                     communities.add(community);
                 }
                 mvpView.loadSuccess(CommunityUtil.sortByTime(communities));
-                mvpView.stopLoading();
+                if (!isRefresh){
+                    mvpView.stopLoading();
+                }else {
+                    mvpView.stopRefreshing();
+                }
+
             }
 
             @Override
             public void fail(String error) {
+                if (mvpView == null){
+                    return;
+                }
                 mvpView.loadSuccess(CommunityUtil.sortByTime(communityList));
-                mvpView.stopLoading();
+                if (!isRefresh){
+                    mvpView.stopLoading();
+                }else {
+                    mvpView.stopRefreshing();
+                }
                 mvpView.fail(error);
             }
         });

@@ -35,7 +35,6 @@ public class CommunityDetailsActivity extends MvpActivity<CommunityDetailsPresen
     ImageView ivCommunityBackground;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,16 +46,11 @@ public class CommunityDetailsActivity extends MvpActivity<CommunityDetailsPresen
         pullToRefresh.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pullToRefresh.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        pullToRefresh.setRefreshing(false);
-                    }
-                }, 3000);
+              mvpPresenter.loadCommunityData(true);
             }
         });
         initCommunityDetails();
-        mvpPresenter.loadCommunityData();
+        mvpPresenter.loadCommunityData(false);
         communityDetailsAdapter.setCommunity(true);
     }
 
@@ -178,5 +172,10 @@ public class CommunityDetailsActivity extends MvpActivity<CommunityDetailsPresen
     @Override
     public String getKind() {
         return getIntent().getStringExtra("kind");
+    }
+
+    @Override
+    public void stopRefreshing() {
+        pullToRefresh.setRefreshing(false);
     }
 }

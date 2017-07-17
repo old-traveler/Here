@@ -22,11 +22,17 @@ public class FollowPresenter extends BasePresenter<FollowContract> {
         CommunityUtil.queryFollowMood(new CommunityUtil.CommunitySearchListener() {
             @Override
             public void success(List<Community> communities) {
+                if (mvpView == null){
+                    return;
+                }
                 queryMood(communities,isRefresh,refreshLayout);
             }
 
             @Override
             public void fail(String error) {
+                if (mvpView == null){
+                    return;
+                }
                 if (!isRefresh){
                     mvpView.stopLoading();
                 }else {
@@ -43,6 +49,9 @@ public class FollowPresenter extends BasePresenter<FollowContract> {
         CommunityUtil.queryFollowAppointment(new CommunityUtil.CommunitySearchListener() {
             @Override
             public void success(List<Community> communities) {
+                if (mvpView == null){
+                    return;
+                }
                 mvpView.stopLoading();
                 if (communityList !=null){
                     if (communities == null){
@@ -76,6 +85,9 @@ public class FollowPresenter extends BasePresenter<FollowContract> {
 
             @Override
             public void fail(String error) {
+                if (mvpView == null){
+                    return;
+                }
                 if (!isRefresh){
                     mvpView.stopLoading();
                 }

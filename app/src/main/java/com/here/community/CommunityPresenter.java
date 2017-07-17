@@ -15,18 +15,27 @@ public class CommunityPresenter extends BasePresenter<CommunityContract> {
     /**
      * 加载社区数据
      */
-    public void loadCommunityData(){
-        mvpView.showLoading();
+    public void loadCommunityData(final boolean isRefesh){
+
+        if (!isRefesh){
+            mvpView.showLoading();
+        }
+
         CommunityUtil.queryMood( new CommunityUtil.CommunitySearchListener() {
             @Override
             public void success(List<Community> communities) {
-                loadMoodData(communities);
+                loadMoodData(communities,isRefesh);
             }
 
             @Override
             public void fail(String error) {
-                mvpView.stopLoading();
-                mvpView.fail(error);
+                if (mvpView !=null){
+                    if (!isRefesh){
+                        mvpView.stopLoading();
+                    }
+                    mvpView.fail(error);
+                }
+
             }
         });
     }
@@ -35,22 +44,32 @@ public class CommunityPresenter extends BasePresenter<CommunityContract> {
      * 加载心情分享数据
      * @param communityList
      */
-    public void loadMoodData(final List<Community> communityList){
+    public void loadMoodData(final List<Community> communityList, final boolean isRefresh){
         CommunityUtil.queryAppointment(new CommunityUtil.CommunitySearchListener() {
             @Override
             public void success(List<Community> communities) {
                 for (Community community : communityList) {
                     communities.add(community);
                 }
-                mvpView.setRecommend(CommunityUtil.sortByTime(communities));
-                mvpView.stopLoading();
+                if (mvpView != null){
+                    mvpView.setRecommend(CommunityUtil.sortByTime(communities));
+                    if (!isRefresh){
+                        mvpView.stopLoading();
+                    }
+                }
+
             }
 
             @Override
             public void fail(String error) {
-                mvpView.setRecommend(CommunityUtil.sortByTime(communityList));
-                mvpView.stopLoading();
-                mvpView.fail(error);
+                if (mvpView != null){
+                    mvpView.setRecommend(CommunityUtil.sortByTime(communityList));
+                    if (!isRefresh){
+                        mvpView.stopLoading();
+                    }
+                    mvpView.fail(error);
+                }
+
             }
         });
     }

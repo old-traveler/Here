@@ -46,7 +46,6 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
     FloatingActionButton fbAddActivity;
     private CommunityDetailsAdapter adapter;
     private boolean isLoad = false;
-    private boolean isRefreshing =false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,13 +54,13 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
         mvpPresenter.attachView(this);
         ButterKnife.bind(this, view);
         adapter = new CommunityDetailsAdapter(new ArrayList<Community>(),getContext());
+        initView();
         return view;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser && !isLoad){
-            initView();
             isLoad = true;
             mvpPresenter.queryAppointment(false,null);
         }

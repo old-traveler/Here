@@ -38,6 +38,10 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
     CommunityAdapter communityAdapter;
     private boolean isLoad = false;
 
+    private boolean isRefresh =false;
+
+    private RefreshLayout refreshLayout1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mvpPresenter = createPresenter();
@@ -52,7 +56,7 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         if (isVisibleToUser && !isLoad){
             isLoad = true;
             initView();
-            mvpPresenter.loadCommunityData();
+            mvpPresenter.loadCommunityData(false);
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -94,7 +98,9 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         slCommunity.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000);
+                mvpPresenter.loadCommunityData(true);
+                isRefresh = true;
+                refreshLayout1 = refreshlayout;
             }
         });
 
@@ -104,6 +110,7 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
                 refreshlayout.finishLoadmore(2000);
             }
         });
+
 
 
     }
@@ -132,6 +139,10 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
     @Override
     public void setRecommend(List<Community> communities) {
         communityAdapter.addData(communities);
+        if (isRefresh){
+            isRefresh = false;
+            refreshLayout1.finishRefresh(0);
+        }
     }
 
     @Override

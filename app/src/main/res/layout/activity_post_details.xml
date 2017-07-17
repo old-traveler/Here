@@ -21,11 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
-    <View
-        android:layout_marginTop="@dimen/toolbar_height"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/part_linear_color"/>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_marginTop="@dimen/toolbar_height"
         android:layout_width="match_parent"
@@ -195,10 +191,19 @@
                     android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+                <View
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"/>
             </LinearLayout>
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+    <View
+        android:layout_marginTop="@dimen/toolbar_height"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/part_linear_color"/>
     <RelativeLayout
         android:background="@color/white"
         android:layout_width="match_parent"

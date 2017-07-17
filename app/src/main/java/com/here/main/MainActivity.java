@@ -2,8 +2,11 @@ package com.here.main;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,8 +51,11 @@ import com.here.view.MyViewPage;
 import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -122,9 +129,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         initViewPage();
         ImUtil.connectServer();
         addActivity(this);
-        getLocationPre();
         initUserData();
         Connector.getDatabase();
+        Log.i("定位",sHA1(this));
 
     }
 
@@ -368,5 +375,33 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         startActivity(new Intent(this, PersonalActivity.class));
     }
 
+    public static String sHA1(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), PackageManager.GET_SIGNATURES);
+            byte[] cert = info.signatures[0].toByteArray();
+            MessageDigest md = null;
+            try {
+                md = MessageDigest.getInstance("SHA1");
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            byte[] publicKey = md.digest(cert);
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < publicKey.length; i++) {
+                String appendString = Integer.toHexString(0xFF & publicKey[i])
+                        .toUpperCase(Locale.US);
+                if (appendString.length() == 1)
+                    hexString.append("0");
+                hexString.append(appendString);
+                hexString.append(":");
+            }
+            String result = hexString.toString();
+            return result.substring(0, result.length()-1);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

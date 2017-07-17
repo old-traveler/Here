@@ -95,6 +95,7 @@ public class NewImmediatePresenter extends BasePresenter<NewImmediateContract> i
         }else {
             mvpView.noFilled("请先将信息填写完毕");
         }
+
     }
 
     @Override
@@ -107,6 +108,7 @@ public class NewImmediatePresenter extends BasePresenter<NewImmediateContract> i
         }else {
             mvpView.getLocationFail();
             mvpView.stopLoading();
+            Log.i("定位失败",aMapLocation.getErrorCode()+aMapLocation.getErrorInfo());
         }
     }
 

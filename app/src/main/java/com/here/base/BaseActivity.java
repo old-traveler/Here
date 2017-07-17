@@ -254,7 +254,7 @@ public class BaseActivity extends AppCompatActivity{
 
     public boolean getLocationPre(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){
+                != PackageManager.PERMISSION_GRANTED ){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             return false;
         }else{

@@ -20,4 +20,6 @@ public interface CommunityDetailsContract {
 
     String getKind();
 
+    void stopRefreshing();
+
 }

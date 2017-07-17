@@ -120,8 +120,11 @@ public class NearbyPresenter extends BasePresenter<NearbyContract> implements AM
 
                 @Override
                 public void fail(String error) {
-                    mvpView.loadingFail(error);
-                    isLoading = false;
+                    if (mvpView != null){
+                        mvpView.loadingFail(error);
+                        isLoading = false;
+                    }
+
                 }
             });
         }
@@ -169,8 +172,11 @@ public class NearbyPresenter extends BasePresenter<NearbyContract> implements AM
 
                     @Override
                     public void fail(String error) {
-                        isLoading = false;
-                        mvpView.loadingFail(error);
+                        if (mvpView != null){
+                            isLoading = false;
+                            mvpView.loadingFail(error);
+                        }
+
                     }
                 });
             }
@@ -197,11 +203,17 @@ public class NearbyPresenter extends BasePresenter<NearbyContract> implements AM
                     myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                 }
             } else {
-                mvpView.loadingFail("定位失败");
+                if (mvpView == null){
+                    mvpView.loadingFail("定位失败");
+                }
+
             }
         } else {
-            isNet = false;
-            mvpView.loadingFail("定位失败");
+            if (mvpView == null){
+                isNet = false;
+                mvpView.loadingFail("定位失败");
+            }
+
         }
     }
 
