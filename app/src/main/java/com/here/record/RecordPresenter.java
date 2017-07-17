@@ -15,46 +15,62 @@ import cn.bmob.v3.BmobUser;
 
 public class RecordPresenter extends BasePresenter<RecordContract> {
 
-    public void loadMyPublish(){
-        mvpView.showLoading();
-        RecordUtil.queryMyPublish(BmobUser.getCurrentUser(User.class), new RecordUtil.OnQueryListener() {
-            @Override
-            public void success(List<ImActivity> imActivities) {
-                if (mvpView != null){
-                    mvpView.stopLoading();
-                    mvpView.LoadActivity(imActivities);
-                }
-            }
+    private List<ImActivity> publishs;
 
-            @Override
-            public void fail(String error) {
-                if (mvpView != null){
-                    mvpView.stopLoading();
-                    mvpView.loadFail(error);
+    private List<ImActivity> joins;
+
+    public void loadMyPublish(){
+        if (publishs == null){
+            mvpView.showLoading();
+            RecordUtil.queryMyPublish(BmobUser.getCurrentUser(User.class), new RecordUtil.OnQueryListener() {
+                @Override
+                public void success(List<ImActivity> imActivities) {
+                    if (mvpView != null){
+                        mvpView.stopLoading();
+                        publishs = imActivities;
+                        mvpView.LoadActivity(imActivities);
+                    }
                 }
-            }
-        });
+
+                @Override
+                public void fail(String error) {
+                    if (mvpView != null){
+                        mvpView.stopLoading();
+                        mvpView.loadFail(error);
+                    }
+                }
+            });
+        }else {
+            mvpView.LoadActivity(publishs);
+        }
+
     }
 
     public void loadMyJoin(){
-        mvpView.showLoading();
-        RecordUtil.queryMyJoin(BmobUser.getCurrentUser(User.class), new RecordUtil.OnQueryListener() {
-            @Override
-            public void success(List<ImActivity> imActivities) {
-                if (mvpView != null){
-                    mvpView.stopLoading();
-                    mvpView.LoadActivity(imActivities);
+        if (joins == null){
+            mvpView.showLoading();
+            RecordUtil.queryMyJoin(BmobUser.getCurrentUser(User.class), new RecordUtil.OnQueryListener() {
+                @Override
+                public void success(List<ImActivity> imActivities) {
+                    if (mvpView != null){
+                        mvpView.stopLoading();
+                        joins = imActivities;
+                        mvpView.LoadActivity(imActivities);
+                    }
                 }
-            }
 
-            @Override
-            public void fail(String error) {
-                if (mvpView != null){
-                    mvpView.stopLoading();
-                    mvpView.loadFail(error);
+                @Override
+                public void fail(String error) {
+                    if (mvpView != null){
+                        mvpView.stopLoading();
+                        mvpView.loadFail(error);
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            mvpView.LoadActivity(joins);
+        }
+
     }
 
 

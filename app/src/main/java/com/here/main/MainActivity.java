@@ -36,6 +36,7 @@ import com.here.message.MessageActivity;
 import com.here.nearby.NearbyFragment;
 import com.here.personal.PersonalActivity;
 import com.here.receiver.ConnectionChangeReceiver;
+import com.here.record.RecordActivity;
 import com.here.scan.ScanActivity;
 import com.here.setting.SettingActivity;
 import com.here.util.ImActivityUtil;
@@ -339,7 +340,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
 
     @Override
     public void checkActivity() {
-
+        startActivity(new Intent(this,RecordActivity.class));
     }
 
     @Override

@@ -30,6 +30,7 @@ public class SplashActivity extends MvpActivity<SplashPresenter> implements Spla
         ButterKnife.bind(this);
         mvpPresenter.attachView(this);
         showSplashImage();
+        getLocationPre();
     }
 
     @Override

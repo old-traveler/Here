@@ -437,14 +437,17 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
 
     @Override
     public void updateBackground() {
-        SImagePicker
-                .from(PersonalActivity.this)
-                .pickMode(SImagePicker.MODE_AVATAR)
-                .showCamera(true)
-                .cropFilePath(
-                        CacheManager.getInstance().getImageInnerCache()
-                                .getAbsolutePath(AVATAR_FILE_NAME))
-                .forResult(REQUEST_CODE_IMAGE);
+        if (getStorage()){
+            SImagePicker
+                    .from(PersonalActivity.this)
+                    .pickMode(SImagePicker.MODE_AVATAR)
+                    .showCamera(true)
+                    .cropFilePath(
+                            CacheManager.getInstance().getImageInnerCache()
+                                    .getAbsolutePath(AVATAR_FILE_NAME))
+                    .forResult(REQUEST_CODE_IMAGE);
+        }
+
 
     }
 

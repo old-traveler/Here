@@ -8,16 +8,19 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.here.R;
 import com.here.adapter.RecordAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.ImActivity;
+import com.here.bean.User;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecordActivity extends MvpActivity<RecordPresenter> implements RecordContract {
@@ -54,10 +57,15 @@ public class RecordActivity extends MvpActivity<RecordPresenter> implements Reco
         ButterKnife.bind(this);
         setToolBar(R.id.tb_activity_record);
         initHome();
+        mvpPresenter.attachView(this);
         adapter = new RecordAdapter(null);
         rvMyActivity.setLayoutManager(new LinearLayoutManager(this));
         rvMyActivity.setAdapter(adapter);
+        Glide.with(this)
+                .load(BmobUser.getCurrentUser(User.class).getHeadImageUrl())
+                .into(cvActivityHead);
         mvpPresenter.loadMyPublish();
+
     }
 
     @Override

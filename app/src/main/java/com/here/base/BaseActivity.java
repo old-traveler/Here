@@ -231,13 +231,14 @@ public class BaseActivity extends AppCompatActivity{
         }
     }
 
-    public void getStorage(){
+    public boolean getStorage(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             //申请权限  第二个参数是一个 数组 说明可以同时申请多个权限
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            return false;
         } else {
-            return;
+            return true;
         }
     }
 
@@ -251,12 +252,13 @@ public class BaseActivity extends AppCompatActivity{
         }
     }
 
-    public void getLocationPre(){
+    public boolean getLocationPre(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            return false;
         }else{
-            return;
+            return true;
         }
 
     }
