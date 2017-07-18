@@ -3,10 +3,12 @@ package com.here.base;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.ActivityCompat;
@@ -23,11 +25,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.here.R;
+import com.here.bean.User;
+import com.here.chat.ChatActivity;
 import com.here.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.ButterKnife;
+import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.bean.BmobIMConversation;
+import cn.bmob.newim.bean.BmobIMUserInfo;
+import cn.bmob.newim.listener.ConversationListener;
+import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by hyc on 2017/6/21 13:43
@@ -311,6 +320,37 @@ public class BaseActivity extends AppCompatActivity{
                 builder.show();
             }
         }
+    }
+
+
+    public void openNewConversation(User user){
+        BmobIMUserInfo info =new BmobIMUserInfo();
+        info.setAvatar(user.getHeadImageUrl());
+        info.setUserId(user.getObjectId());
+        info.setName(user.getNickname());
+        BmobIM.getInstance().startPrivateConversation(info, new ConversationListener() {
+            @Override
+            public void done(BmobIMConversation c, BmobException e) {
+                if(e==null){
+                    //在此跳转到聊天页面
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("c", c);
+                    startActivity(ChatActivity.class,bundle,false);
+                }else{
+                    toastShow(e.getMessage()+"("+e.getErrorCode()+")");
+                }
+            }
+        });
+    }
+
+    public void startActivity(Class<? extends Activity> target, Bundle bundle, boolean finish) {
+        Intent intent = new Intent();
+        intent.setClass(this, target);
+        if (bundle != null)
+            intent.putExtra(getPackageName(), bundle);
+        startActivity(intent);
+        if (finish)
+            finish();
     }
 
 

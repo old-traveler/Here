@@ -369,7 +369,6 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
     @Override
     public void sendEmoji() {
-
     }
 
     @Override
@@ -395,5 +394,10 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
     @Override
     public BmobIMConversation getConversation() {
         return c;
+    }
+
+    @Override
+    public void cleanInput() {
+        editMsg.setText("");
     }
 }

@@ -2,6 +2,8 @@ package com.here.going;
 
 import com.here.bean.ImActivity;
 import com.here.bean.Join;
+import com.here.bean.User;
+
 import java.util.List;
 
 /**
@@ -29,5 +31,7 @@ public interface GoingContract {
     void deleteSuccess();
 
     void confirmDelete();
+
+    void contract(User user);
 
 }

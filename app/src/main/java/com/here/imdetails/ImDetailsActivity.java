@@ -1,5 +1,6 @@
 package com.here.imdetails;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.bumptech.glide.Glide;
@@ -15,9 +17,12 @@ import com.here.R;
 import com.here.adapter.DetailsImageAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.ImActivity;
+import com.here.personal.other.OtherInfoActivity;
 import com.here.view.MyGridLayoutManager;
+
 import java.util.Arrays;
 import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -118,7 +123,7 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
             rvImDetails.setLayoutManager(new MyGridLayoutManager(this, 3));
         }
         rvImDetails.setAdapter(detailsImageAdapter);
-        if (!imActivity.isNeedApply()){
+        if (!imActivity.isNeedApply()) {
             btnDetailsApply.setText("加入");
         }
     }
@@ -157,11 +162,11 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
 
     @Override
     public void joinFail(String error) {
-            toastShow(error);
+        toastShow(error);
     }
 
 
-    @OnClick({R.id.tv_details_follow, R.id.btn_details_apply})
+    @OnClick({R.id.tv_details_follow, R.id.btn_details_apply,R.id.cv_details_head})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_details_follow:
@@ -169,6 +174,16 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
             case R.id.btn_details_apply:
                 mvpPresenter.apply();
                 break;
+            case R.id.cv_details_head:
+                Intent intent = new Intent(this , OtherInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("other",getImActivity().getPublisher());
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+                break;
         }
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.here.search;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.here.R;
 import com.here.base.MvpActivity;
 import com.here.bean.User;
+import com.here.personal.other.OtherInfoActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,6 +31,8 @@ public class SearchActivity extends MvpActivity<SearchPresenter> implements Sear
     TextView tvSearchUsername;
     @Bind(R.id.rl_search_info)
     RelativeLayout rlSearchInfo;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,12 @@ public class SearchActivity extends MvpActivity<SearchPresenter> implements Sear
                 mvpPresenter.searchUser();
                 break;
             case R.id.rl_search_info:
+                Intent intent =new Intent(this,OtherInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("other",user);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
                 break;
         }
     }
@@ -78,6 +88,7 @@ public class SearchActivity extends MvpActivity<SearchPresenter> implements Sear
                 .into(cvSearchHead);
         tvSearchUsername.setText(user.getUsername());
         rlSearchInfo.setVisibility(View.VISIBLE);
+        this.user = user;
     }
 
     @Override

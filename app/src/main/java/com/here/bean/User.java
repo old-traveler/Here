@@ -1,14 +1,13 @@
 package com.here.bean;
 
-import java.util.Date;
-
+import java.io.Serializable;
 import cn.bmob.v3.BmobUser;
 
 /**
  * Created by hyc on 2017/6/23 11:04
  */
 
-public class User  extends BmobUser{
+public class User  extends BmobUser implements Serializable{
 
     private String name;
 

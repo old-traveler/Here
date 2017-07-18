@@ -1,8 +1,13 @@
 package com.here.util;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.here.bean.User;
+import com.here.chat.ChatActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +19,7 @@ import cn.bmob.newim.bean.BmobIMTextMessage;
 import cn.bmob.newim.core.ConnectionStatus;
 import cn.bmob.newim.listener.ConnectListener;
 import cn.bmob.newim.listener.ConnectStatusChangeListener;
+import cn.bmob.newim.listener.ConversationListener;
 import cn.bmob.newim.listener.MessageSendListener;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -26,13 +32,11 @@ public class ImUtil {
 
     public static boolean isConnected=false;
 
-
     public interface OnConnectListener{
         void connectSuccess();
         void connecting();
         void connectFail();
     }
-
 
     public static void connectServer(){
         initConnectListener();
@@ -81,8 +85,4 @@ public class ImUtil {
             }
         });
     }
-
-
-
-
 }

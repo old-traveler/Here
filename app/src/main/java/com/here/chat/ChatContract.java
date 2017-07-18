@@ -35,6 +35,8 @@ public interface ChatContract {
 
     BmobIMConversation getConversation();
 
+    void cleanInput();
+
 
 
 }

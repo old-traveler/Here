@@ -25,6 +25,7 @@ import com.here.bean.ImActivity;
 import com.here.bean.Join;
 import com.here.bean.User;
 import com.here.login.LoginActivity;
+import com.here.personal.other.OtherInfoActivity;
 import com.here.setting.SettingActivity;
 import com.here.util.ImActivityUtil;
 import com.here.util.JoinUtil;
@@ -188,6 +189,16 @@ public class GoingActivity extends MvpActivity<GoingPresenter> implements GoingC
                 }
             }
         }).show();
+    }
+
+    @Override
+    public void contract(User user) {
+        Intent intent = new Intent(this, OtherInfoActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("other",user);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
     }
 
     @OnClick({R.id.btn_delete_going, R.id.btn_contract_going})

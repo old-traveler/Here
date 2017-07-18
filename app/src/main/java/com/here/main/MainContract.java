@@ -26,5 +26,4 @@ public interface MainContract {
 
     void unregisterReceiver();
 
-
 }

@@ -18,7 +18,6 @@ import com.here.base.MvpActivity;
 import com.here.bean.User;
 import com.here.main.MainActivity;
 import com.here.other.Constants;
-import com.here.util.UserUtil;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
@@ -31,14 +30,11 @@ import com.tencent.connect.auth.QQToken;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bmob.v3.BmobUser;
 import qiu.niorgai.StatusBarCompat;
 
 public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginContract {
@@ -72,6 +68,8 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginC
 
     private AuthInfo mAuthInfo;
 
+    private boolean isHasWeibo = true ;
+
 
     private static final String TAG = "MainActivity";
     private static final String APP_ID = "1106163416";//官方获取的APPID
@@ -85,11 +83,16 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mTencent = Tencent.createInstance(APP_ID,LoginActivity.this.getApplicationContext());
-        mAuthInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
-        mSsoHandler = new SsoHandler(this, mAuthInfo);
         ButterKnife.bind(this);
         initView();
         mvpPresenter.attachView(this);
+        try {
+            mAuthInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
+            mSsoHandler = new SsoHandler(this, mAuthInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            isHasWeibo = false;
+        }
     }
 
     private void initView() {
@@ -172,7 +175,9 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginC
                 mTencent.login(LoginActivity.this,"all", mIUiListener);
                 break;
             case R.id.iv_wei_bo:
-                mSsoHandler.authorize(new AuthListener());
+                if (isHasWeibo){
+                    mSsoHandler.authorize(new AuthListener());
+                }
                 break;
         }
     }
@@ -293,6 +298,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginC
             public void onComplete(String response) {
                 if (!TextUtils.isEmpty(response)) {
                     com.sina.weibo.sdk.openapi.models.User user = com.sina.weibo.sdk.openapi.models.User.parse(response);
+                    thirdUser = new User();
                     thirdUser.setUsername(user.id);
                     thirdUser.setHeadImageUrl(user.avatar_hd);
                     thirdUser.setBackgroundUrl(user.profile_image_url);

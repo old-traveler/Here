@@ -116,7 +116,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
 
     private long mkeyTime = 0;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,8 +130,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         addActivity(this);
         initUserData();
         Connector.getDatabase();
-        Log.i("定位",sHA1(this));
-
     }
 
     @Override
@@ -271,23 +268,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
                 dlMain.openDrawer(GravityCompat.START);
                 return true;
             case R.id.message:
-//                BmobIMUserInfo info =new BmobIMUserInfo();
-//                info.setAvatar("http://bmob-cdn-12662.b0.upaiyun.com/2017/07/04/cd40eb8c0ce741eab6604ed692d14e7a.jpg");
-//                info.setUserId("233cbba0c8");
-//                info.setName("周滔");
-//                BmobIM.getInstance().startPrivateConversation(info, new ConversationListener() {
-//                    @Override
-//                    public void done(BmobIMConversation c, BmobException e) {
-//                        if(e==null){
-//                            //在此跳转到聊天页面
-//                            Bundle bundle = new Bundle();
-//                            bundle.putSerializable("c", c);
-//                            startActivity(ChatActivity.class, bundle, true);
-//                        }else{
-//                            toastShow(e.getMessage()+"("+e.getErrorCode()+")");
-//                        }
-//                    }
-//                });
                 startActivity(new Intent(this, MessageActivity.class));
                 return true;
         }
@@ -375,33 +355,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         startActivity(new Intent(this, PersonalActivity.class));
     }
 
-    public static String sHA1(Context context) {
-        try {
-            PackageInfo info = context.getPackageManager().getPackageInfo(
-                    context.getPackageName(), PackageManager.GET_SIGNATURES);
-            byte[] cert = info.signatures[0].toByteArray();
-            MessageDigest md = null;
-            try {
-                md = MessageDigest.getInstance("SHA1");
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-            byte[] publicKey = md.digest(cert);
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < publicKey.length; i++) {
-                String appendString = Integer.toHexString(0xFF & publicKey[i])
-                        .toUpperCase(Locale.US);
-                if (appendString.length() == 1)
-                    hexString.append("0");
-                hexString.append(appendString);
-                hexString.append(":");
-            }
-            String result = hexString.toString();
-            return result.substring(0, result.length()-1);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 
 }

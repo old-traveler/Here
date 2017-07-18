@@ -104,7 +104,7 @@ public class GoingPresenter extends BasePresenter<GoingContract> {
     }
 
     public void contract(){
-
+        mvpView.contract(publisher);
     }
 
 }
