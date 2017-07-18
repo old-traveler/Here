@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.bumptech.glide.Glide;
@@ -41,10 +39,8 @@ import com.here.view.MyGridLayoutManager;
 import com.here.view.UnfoldAndZoomScrollView;
 import com.imnjh.imagepicker.SImagePicker;
 import com.imnjh.imagepicker.activity.PhotoPickerActivity;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -114,7 +110,7 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
     public static final int REQUEST_CODE_AVATAR = 100;
     public static final int REQUEST_CODE_IMAGE = 101;
 
-
+    private boolean isLoaded = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,16 +141,18 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
         rvPersonalTips.setLayoutManager(new MyGridLayoutManager(this, 4));
 
         List<Tip> tips = new ArrayList<>();
-        String[] tips_name = HereApplication.getContext().getResources().getStringArray(R.array.tip_name);
         String[] tips_slogan = HereApplication.getContext().getResources().getStringArray(R.array.tip_slogan);
         int[] bg = HereApplication.getContext().getResources().getIntArray(R.array.tips_bg);
-        for (int i = 0; i < 24; i++) {
-            Tip tip = new Tip();
-            tip.setHave(false);
-            tip.setColor(bg[i]);
-            tip.setName(tips_name[i]);
-            tip.setSlogan(tips_slogan[i]);
-            tips.add(tip);
+        User user = User.getCurrentUser(User.class);
+        if (user.getTips()!=null){
+            for (int i = 0; i < user.getTips().length; i++) {
+                Tip tip = new Tip();
+                tip.setHave(true);
+                tip.setColor(bg[i]);
+                tip.setName(user.getTips()[i]);
+                tip.setSlogan(tips_slogan[i]);
+                tips.add(tip);
+            }
         }
         showTipsAdapter = new ShowTipsAdapter(tips);
         showTipsAdapter.setListener(new PublishImageAdapter.OnItemClickListener() {
@@ -166,9 +164,28 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
         rvPersonalTips.setAdapter(showTipsAdapter);
     }
 
+    public void initTips(){
+        List<Tip> tips = new ArrayList<>();
+        String[] tips_slogan = HereApplication.getContext().getResources().getStringArray(R.array.tip_slogan);
+        int[] bg = HereApplication.getContext().getResources().getIntArray(R.array.tips_bg);
+        User user = User.getCurrentUser(User.class);
+        if (user.getTips()!=null){
+            for (int i = 0; i < user.getTips().length; i++) {
+                Tip tip = new Tip();
+                tip.setHave(true);
+                tip.setColor(bg[i]);
+                tip.setName(user.getTips()[i]);
+                tip.setSlogan(tips_slogan[i]);
+                tips.add(tip);
+            }
+        }
+        showTipsAdapter.setNewData(tips);
+    }
+
     @Override
     protected void onResume() {
         mvpPresenter.updateInfo();
+        initTips();
         super.onResume();
     }
 
@@ -212,7 +229,10 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
         } else {
             tvEmail.setText(R.string.no_bind);
         }
-
+        if (isLoaded){
+            return;
+        }
+        isLoaded = true;
         if (!TextUtils.isEmpty(user.getHeadImageUrl())) {
             Glide.with(this)
                     .load(user.getHeadImageUrl())

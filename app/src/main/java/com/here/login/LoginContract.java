@@ -21,7 +21,7 @@ public interface LoginContract {
 
     void loginSuccess();
 
-
+    User getThridUser();
 
     void forgotPassword();
 

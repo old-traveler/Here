@@ -155,14 +155,23 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <TextView
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="10dp"
+    <ImageView
+        android:id="@+id/iv_qq_login"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="100dp"
+        android:src="@drawable/qq"
+        android:layout_alignParentBottom="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <ImageView
+        android:id="@+id/iv_wei_bo"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="100dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:textColor="#293a5e"
-        android:text="忘记密码？"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/weibo"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
 
 </RelativeLayout>

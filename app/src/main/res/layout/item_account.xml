@@ -11,6 +11,9 @@
         android:layout_height="35dp" />
 
     <TextView
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginRight="50dp"
         android:textColor="@color/share_text"
         android:textSize="15sp"
         android:id="@+id/tv_account_username"

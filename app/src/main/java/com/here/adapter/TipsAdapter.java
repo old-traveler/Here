@@ -15,6 +15,7 @@ import java.util.List;
 
 public class TipsAdapter extends BaseQuickAdapter<Tip>  {
 
+
     public TipsAdapter(List<Tip> data) {
         super(R.layout.item_tips, data);
     }

@@ -69,7 +69,6 @@ public class CommunityPresenter extends BasePresenter<CommunityContract> {
                     }
                     mvpView.fail(error);
                 }
-
             }
         });
     }

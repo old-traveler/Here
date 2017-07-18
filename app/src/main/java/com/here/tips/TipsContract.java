@@ -12,4 +12,14 @@ public interface TipsContract {
 
     void initData(List<Tip> tips);
 
+    String[] getTips();
+
+    void showLoading();
+
+    void stopLoading();
+
+    void loadSuccess();
+
+    void loadFail(String error);
+
 }

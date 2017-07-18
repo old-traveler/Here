@@ -22,7 +22,7 @@ public class User  extends BmobUser{
 
     private String introduction;
 
-    private String tips;
+    private String[] tips;
 
     private String headImageUrl;
 
@@ -86,11 +86,11 @@ public class User  extends BmobUser{
         this.introduction = introduction;
     }
 
-    public String getTips() {
+    public String[] getTips() {
         return tips;
     }
 
-    public void setTips(String tips) {
+    public void setTips(String[] tips) {
         this.tips = tips;
     }
 

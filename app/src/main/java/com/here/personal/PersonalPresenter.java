@@ -21,7 +21,6 @@ public class PersonalPresenter extends BasePresenter<PersonalContract> {
             isNeedRefreshUserData = false;
             mvpView.initUserData();
         }else {
-
         }
     }
 

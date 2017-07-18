@@ -36,6 +36,9 @@ public class ImUtil {
 
     public static void connectServer(){
         initConnectListener();
+        if (BmobUser.getCurrentUser(User.class) == null){
+            return;
+        }
         BmobIM.connect(BmobUser.getCurrentUser(User.class).getObjectId(), new ConnectListener() {
             @Override
             public void done(String s, BmobException e) {
