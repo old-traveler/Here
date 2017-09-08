@@ -7,8 +7,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.CameraUpdateFactory;
@@ -31,16 +34,21 @@ import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.maps.model.animation.Animation;
 import com.amap.api.maps.model.animation.ScaleAnimation;
 import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.here.R;
+import com.here.adapter.NearAdapter;
 import com.here.base.MvpFragment;
 import com.here.bean.ImActivity;
+import com.here.bean.Kind;
 import com.here.going.GoingActivity;
 import com.here.imdetails.ImDetailsActivity;
 import com.here.immediate.NewImmediateActivity;
 import com.here.util.BitmapUtil;
 import com.here.util.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -81,6 +89,8 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
     RelativeLayout rlImActivity;
     @Bind(R.id.rl_view_down)
     RelativeLayout rlViewDown;
+    @Bind(R.id.rcv_near)
+    RecyclerView rcvNear;
     private UiSettings mUiSettings;
 
     private AMap aMap;
@@ -91,7 +101,7 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
 
     private Marker lastClickMarker;
 
-    private boolean isTouchMap=true;
+    private boolean isTouchMap = true;
 
     private MyLocationStyle myLocationStyle;
 
@@ -106,12 +116,40 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
         mvpPresenter.attachView(this);
         ButterKnife.bind(this, view);
         mapNearby.onCreate(savedInstanceState);
-        aMap = mapNearby.getMap();
-        mUiSettings = aMap.getUiSettings();
-        mUiSettings.setZoomControlsEnabled(false);
-        mvpPresenter.checkMyPublisher();
-        initMap();
+        initView();
         return view;
+    }
+
+    private void initView() {
+        rcvNear.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        List<Kind> list = new ArrayList<>();
+        list.add(new Kind(R.drawable.yd,"运动"));
+        list.add(new Kind(R.drawable.gw,"购物"));
+        list.add(new Kind(R.drawable.cg,"唱歌"));
+        list.add(new Kind(R.drawable.dy,"电影"));
+        list.add(new Kind(R.drawable.hw,"户外"));
+        list.add(new Kind(R.drawable.jb,"酒吧"));
+        list.add(new Kind(R.drawable.mr,"美容"));
+        list.add(new Kind(R.drawable.ms,"美食"));
+        list.add(new Kind(R.drawable.xp,"棋牌"));
+        list.add(new Kind(R.drawable.yx,"游戏"));
+        list.add(new Kind(R.drawable.zy,"桌游"));
+        list.add(new Kind(R.drawable.qt,"其他"));
+        final NearAdapter adapter = new NearAdapter(list);
+        rcvNear.setAdapter(adapter);
+        adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int i) {
+                rcvNear.removeAllViews();
+                rcvNear.setVisibility(View.GONE);
+                mvpPresenter.setKind(adapter.getData().get(i).getName());
+                aMap = mapNearby.getMap();
+                mUiSettings = aMap.getUiSettings();
+                mUiSettings.setZoomControlsEnabled(false);
+                mvpPresenter.checkMyPublisher();
+                initMap();
+            }
+        });
     }
 
     private void initMap() {
@@ -131,15 +169,15 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
         aMap.setOnMapTouchListener(new AMap.OnMapTouchListener() {
             @Override
             public void onTouch(MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                    if (motionEvent.getY() < rlImActivity.getY()){
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (motionEvent.getY() < rlImActivity.getY()) {
                         isTouchMap = false;
-                    }else {
+                    } else {
                         isTouchMap = true;
                     }
                 }
-                if (motionEvent.getAction() == MotionEvent.ACTION_MOVE &&!isTouchMap){
-                    if (rlImActivity.getVisibility() == View.VISIBLE){
+                if (motionEvent.getAction() == MotionEvent.ACTION_MOVE && !isTouchMap) {
+                    if (rlImActivity.getVisibility() == View.VISIBLE) {
                         downTheDetail();
                     }
                 }
@@ -164,7 +202,7 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mapNearby != null){
+        if (mapNearby != null) {
             mapNearby.onSaveInstanceState(outState);
         }
 
@@ -173,7 +211,7 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mapNearby != null){
+        if (mapNearby != null) {
             mapNearby.onDestroy();
         }
 
@@ -190,12 +228,12 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.iv_refresh_nearby, R.id.fb_add_activity, R.id.cv_map_head, R.id.v_down,R.id.rl_view_down})
+    @OnClick({R.id.iv_refresh_nearby, R.id.fb_add_activity, R.id.cv_map_head, R.id.v_down, R.id.rl_view_down})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_refresh_nearby:
                 mvpPresenter.checkMyPublisher();
-                if (!mvpPresenter.isLoading()){
+                if (!mvpPresenter.isLoading()) {
                     mvpPresenter.queryNearByImActivity();
                 }
                 break;
@@ -213,7 +251,7 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
             case R.id.cv_map_head:
                 Intent intent = new Intent(getActivity(), ImDetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("imActivity",selectedImActivity);
+                bundle.putSerializable("imActivity", selectedImActivity);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
@@ -241,7 +279,7 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
 
     @Override
     public void loadingSuccess(final List<ImActivity> imActivities) {
-        if (markers != null){
+        if (markers != null) {
             for (Marker marker : markers) {
                 marker.remove();
             }
@@ -259,7 +297,7 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
                                 .getLatitude(), imActivities.get(markers.size() - 1).getLongitude()));
                         startGrowAnimation(markers.get(markers.size() - 1));
                         markers.get(markers.size() - 1).setObject(imActivity);
-                        if (markers.size()==imActivities.size()){
+                        if (markers.size() == imActivities.size()) {
                             mvpPresenter.loadingComplete();
                         }
 
@@ -275,7 +313,7 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
                                 .getLatitude(), imActivities.get(markers.size() - 1).getLongitude()));
                         startGrowAnimation(markers.get(markers.size() - 1));
                         markers.get(markers.size() - 1).setObject(imActivity);
-                        if (markers.size()==imActivities.size()){
+                        if (markers.size() == imActivities.size()) {
                             mvpPresenter.loadingComplete();
                         }
                     }
@@ -289,7 +327,7 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
                         imActivities.get(markers.size() - 1).getLongitude()));
                 startGrowAnimation(markers.get(markers.size() - 1));
                 markers.get(markers.size() - 1).setObject(imActivities.get(i));
-                if (markers.size()==imActivities.size()){
+                if (markers.size() == imActivities.size()) {
                     mvpPresenter.loadingComplete();
                 }
             }
@@ -299,7 +337,6 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
     @Override
     public void loadingFail(String error) {
         toastShow(error);
-        Log.i("测试",error);
     }
 
     @Override
@@ -325,38 +362,36 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
 
     @Override
     public void loadActivityDetail(ImActivity imActivity) {
-        if (rlImActivity.getVisibility()==View.GONE){
+        if (rlImActivity.getVisibility() == View.GONE) {
             upTheDetail();
         }
-        if (!TextUtils.isEmpty(imActivity.getPublisher().getHeadImageUrl())){
+        if (!TextUtils.isEmpty(imActivity.getPublisher().getHeadImageUrl())) {
             Glide.with(getActivity())
                     .load(imActivity.getPublisher().getHeadImageUrl())
                     .into(cvMapHead);
-        }else {
+        } else {
             Glide.with(getActivity())
                     .load(R.drawable.grils)
                     .into(cvMapHead);
         }
 
-        if (!TextUtils.isEmpty(imActivity.getPublisher().getNickname())){
+        if (!TextUtils.isEmpty(imActivity.getPublisher().getNickname())) {
             tvPublisherName.setText(imActivity.getPublisher().getNickname());
-        }else {
+        } else {
             tvPublisherName.setText("木头人");
         }
 
         tvActivityAddress.setText(imActivity.getLocation());
-        tvJoinNumber.setText(0+"/"+imActivity.getNumber());
-        tvDistance.setText((int)AMapUtils.calculateLineDistance(mvpPresenter.getMyLatLng()
-                ,new LatLng(imActivity.getLatitude(),imActivity.getLongitude()))+"米");
-        tvOverTime.setText("结束时间："+imActivity.getOverTime());
-        tvActivityName.setText("活动名称："+imActivity.getTitle());
-        tvActivityDescribe.setText("活动简介："+imActivity.getDescribe());
+        tvJoinNumber.setText(0 + "/" + imActivity.getNumber());
+        tvDistance.setText((int) AMapUtils.calculateLineDistance(mvpPresenter.getMyLatLng()
+                , new LatLng(imActivity.getLatitude(), imActivity.getLongitude())) + "米");
+        tvOverTime.setText("结束时间：" + imActivity.getOverTime());
+        tvActivityName.setText("活动名称：" + imActivity.getTitle());
+        tvActivityDescribe.setText("活动简介：" + imActivity.getDescribe());
         selectedImActivity = imActivity;
 
 
-
     }
-
 
 
     @Override
@@ -364,7 +399,6 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
         aMap.setMyLocationStyle(myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE));
         aMap.reloadMap();
     }
-
 
 
     /**
@@ -386,12 +420,12 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        if (!(marker.getObject() instanceof  ImActivity)){
+        if (!(marker.getObject() instanceof ImActivity)) {
             return true;
         }
-        if (lastClickMarker!=null && ((ImActivity)marker.getObject()).getObjectId()
-                .equals(((ImActivity)lastClickMarker.getObject()).getObjectId()) &&
-                rlImActivity.getVisibility() == View.VISIBLE){
+        if (lastClickMarker != null && ((ImActivity) marker.getObject()).getObjectId()
+                .equals(((ImActivity) lastClickMarker.getObject()).getObjectId()) &&
+                rlImActivity.getVisibility() == View.VISIBLE) {
             return true;
         }
         lastClickMarker = marker;

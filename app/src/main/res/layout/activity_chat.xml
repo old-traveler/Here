@@ -9,6 +9,8 @@
         android:background="@color/white"
         android:id="@+id/tb_chat"
         android:layout_width="match_parent"
+        android:paddingBottom="7dp"
+        android:elevation="7dp"
         android:layout_height="@dimen/toolbar_height">
         <TextView
             android:text="木头人"
@@ -19,10 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/part_linear_color"/>
+
     <FrameLayout
         android:background="#ebecf0"
         android:layout_width="match_parent"

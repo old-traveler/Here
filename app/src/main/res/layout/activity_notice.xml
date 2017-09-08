@@ -6,6 +6,8 @@
     tools:context="com.here.notice.NoticeActivity"
     android:orientation="vertical">
     <android.support.v7.widget.Toolbar
+        android:paddingBottom="7dp"
+        android:elevation="7dp"
         android:id="@+id/tb_notice"
         android:background="@color/theme_color"
         android:layout_width="match_parent"
@@ -19,10 +21,6 @@
             android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/part_linear_color"/>
     <RelativeLayout
         android:background="@color/white"
         android:layout_width="match_parent"

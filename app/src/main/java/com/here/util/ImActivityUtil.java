@@ -174,7 +174,7 @@ public class ImActivityUtil {
      * @param longitude
      * @param listener
      */
-    public static void getNearByImActivity(double latitude,double longitude, final OnGetNearByListener listener){
+    public static void getNearByImActivity(double latitude,double longitude,String kind, final OnGetNearByListener listener){
         double minLatitude = latitude - 0.09f;
         double maxLatitude = latitude + 0.09f;
         double minLongitude = longitude - 0.1016f;
@@ -197,12 +197,15 @@ public class ImActivityUtil {
         query_5.addWhereLessThanOrEqualTo("latitude",maxLatitude);
         BmobQuery<ImActivity> query_6 = new BmobQuery();
         query_6.addWhereEqualTo("publishDate",now.get(Calendar.YEAR)+"-"+(now.get(Calendar.MONTH)+1)+"-"+now.get(Calendar.DAY_OF_MONTH));
+        BmobQuery<ImActivity> query_7 = new BmobQuery();
+        query_7.addWhereEqualTo("kind",kind);
         attrQuery.add(query_1);
         attrQuery.add(query_2);
         attrQuery.add(query_3);
         attrQuery.add(query_4);
         attrQuery.add(query_5);
         attrQuery.add(query_6);
+        attrQuery.add(query_7);
         query.and(attrQuery);
         query.setLimit(100);
         query.include("publisher");

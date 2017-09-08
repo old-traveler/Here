@@ -27,8 +27,7 @@ public class BitmapUtil {
         void fail(ImActivity imActivity);
     }
 
-    public static Bitmap createCircleImage(Bitmap source, Context context, int min)
-    {
+    public static Bitmap createCircleImage(Bitmap source, Context context, int min) {
         final Paint paint = new Paint();
         paint.setAntiAlias(true);
         Bitmap target = Bitmap.createBitmap(min, min, Bitmap.Config.ARGB_8888);
@@ -43,8 +42,7 @@ public class BitmapUtil {
     }
 
 
-    public static void drawMark(final ImActivity imActivity, final int min, final boolean isWhite, final OnGetMapHeadListener listener)
-    {
+    public static void drawMark(final ImActivity imActivity, final int min, final boolean isWhite, final OnGetMapHeadListener listener) {
 
         Glide.with(HereApplication.getContext()).load(imActivity.getPublisher().getHeadImageUrl()).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override

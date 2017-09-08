@@ -9,6 +9,8 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
+        android:paddingBottom="7dp"
+        android:elevation="7dp"
         android:id="@+id/tb_post_details"
         android:background="@color/white"
         android:layout_width="match_parent"

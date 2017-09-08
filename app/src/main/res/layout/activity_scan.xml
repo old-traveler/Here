@@ -7,6 +7,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.here.scan.ScanActivity">
     <android.support.v7.widget.Toolbar
+        android:paddingBottom="7dp"
+        android:elevation="7dp"
         android:id="@+id/tb_scan"
         android:background="#ffffff"
         android:layout_alignParentTop="true"

@@ -8,6 +8,8 @@
     android:orientation="vertical"
     android:background="@color/white">
     <android.support.v7.widget.Toolbar
+        android:paddingBottom="7dp"
+        android:elevation="7dp"
         android:background="@color/white"
         android:id="@+id/tb_follow"
         android:layout_width="match_parent"
@@ -21,10 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
-    <View
-        android:background="@color/part_linear_color"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

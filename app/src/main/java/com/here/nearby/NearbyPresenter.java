@@ -32,6 +32,8 @@ import cn.bmob.v3.BmobUser;
 
 public class NearbyPresenter extends BasePresenter<NearbyContract> implements AMap.OnMyLocationChangeListener {
 
+    private String kind;
+
     public static boolean going = false;
 
     private List<ImActivity> imActivities;
@@ -84,7 +86,7 @@ public class NearbyPresenter extends BasePresenter<NearbyContract> implements AM
     public void queryNearByImActivity(double latitude, double longitude) {
         if (!isLoading) {
             isLoading = true;
-            ImActivityUtil.getNearByImActivity(latitude, longitude,
+            ImActivityUtil.getNearByImActivity(latitude, longitude,kind,
                     new ImActivityUtil.OnGetNearByListener() {
                 @Override
                 public void success(List<ImActivity> activities) {
@@ -142,7 +144,7 @@ public class NearbyPresenter extends BasePresenter<NearbyContract> implements AM
             if (myLatLng != null) {
                 isLoading = true;
                 ImActivityUtil.getNearByImActivity(myLatLng.latitude, myLatLng
-                        .longitude, new ImActivityUtil.OnGetNearByListener() {
+                        .longitude,kind, new ImActivityUtil.OnGetNearByListener() {
                     @Override
                     public void success(List<ImActivity> activities) {
                         if (activities.size() != 0) {
@@ -223,4 +225,8 @@ public class NearbyPresenter extends BasePresenter<NearbyContract> implements AM
     }
 
 
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
 }

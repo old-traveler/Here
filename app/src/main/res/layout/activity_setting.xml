@@ -7,6 +7,8 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
+        android:paddingBottom="7dp"
+        android:elevation="7dp"
         android:id="@+id/tb_setting"
         android:background="@color/theme_color"
         android:layout_width="match_parent"
@@ -21,10 +23,7 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/part_linear_color"/>
+
 
     <RelativeLayout
         android:id="@+id/rl_account_manage"
@@ -115,25 +114,28 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/part_linear_color"/>
+
     <RelativeLayout
         android:id="@+id/rl_message_notice"
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_item_height">
+        android:layout_height="@dimen/setting_item_height"
+        android:background="@color/white">
+
         <TextView
-            android:text="@string/message_notice"
-            android:layout_marginLeft="@dimen/setting_margin_left"
-            android:layout_centerVertical="true"
-            android:textColor="@color/share_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:layout_marginRight="@dimen/setting_margin_left"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/setting_right"
+            android:layout_marginLeft="@dimen/setting_margin_left"
+            android:text="@string/message_notice"
+            android:textColor="@color/share_text" />
+
+        <ImageView
             android:layout_width="@dimen/setting_ic_length"
-            android:layout_height="@dimen/setting_ic_length" />
+            android:layout_height="@dimen/setting_ic_length"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_margin_left"
+            android:src="@drawable/setting_right" />
     </RelativeLayout>
 
     <View

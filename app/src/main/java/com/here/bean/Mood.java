@@ -38,9 +38,7 @@ public class Mood extends BmobObject implements Serializable{
      */
     private String kind;
 
-    public String getKind() {
-        return kind;
-    }
+    public String getKind() {return kind;}
 
     public void setKind(String kind) {
         this.kind = kind;

@@ -70,9 +70,8 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginC
 
     private boolean isHasWeibo = true ;
 
-
     private static final String TAG = "MainActivity";
-    private static final String APP_ID = "1106163416";//官方获取的APPID
+    private static final String APP_ID = "1106163416";
     private Tencent mTencent;
     private BaseUiListener mIUiListener;
     private UserInfo mUserInfo;
@@ -86,13 +85,13 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginC
         ButterKnife.bind(this);
         initView();
         mvpPresenter.attachView(this);
-        try {
-            mAuthInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
-            mSsoHandler = new SsoHandler(this, mAuthInfo);
-        } catch (Exception e) {
-            e.printStackTrace();
-            isHasWeibo = false;
-        }
+//        try {
+//            mAuthInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
+//            mSsoHandler = new SsoHandler(this, mAuthInfo);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            isHasWeibo = false;
+//        }
     }
 
     private void initView() {
@@ -354,7 +353,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginC
                 mTencent.setAccessToken(accessToken,expires);
                 QQToken qqToken = mTencent.getQQToken();
                 mUserInfo = new UserInfo(getApplicationContext(),qqToken);
-                mUserInfo.getUserInfo(new IUiListener() {
+                mUserInfo.getUserInfo(new IUiListener(){
                     @Override
                     public void onComplete(Object response) {
                         try {

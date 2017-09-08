@@ -27,6 +27,7 @@ public class ChatPresenter extends BasePresenter<ChatContract>  {
         BmobIMTextMessage msg =new BmobIMTextMessage();
         String message = mvpView.getMessage();
         msg.setContent(message);
+        mvpView.cleanInput();
         Map<String,Object> map =new HashMap<>();
         msg.setFromId(BmobUser.getCurrentUser(User.class).getObjectId());
         final int position=mvpView.sendTextMessage(msg);

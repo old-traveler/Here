@@ -9,6 +9,8 @@
     tools:context="com.here.going.GoingActivity">
     <android.support.v7.widget.Toolbar
         android:id="@+id/tb_going"
+        android:paddingBottom="7dp"
+        android:elevation="7dp"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height">
@@ -21,10 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/part_linear_color"/>
+
     <com.github.lzyzsd.circleprogress.ArcProgress
         android:id="@+id/arc_progress"
         android:layout_marginTop="30dp"

@@ -1,5 +1,6 @@
 package com.here.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -30,9 +33,18 @@ import com.here.bean.Propaganda;
 import com.here.bean.User;
 import com.here.community.details.CommunityDetailsActivity;
 import com.here.details.PostDetailsActivity;
+import com.here.login.LoginActivity;
+import com.here.publish.appointment.AppointmentActivity;
+import com.here.publish.share.ShareActivity;
 import com.here.util.LikeUtil;
 import com.here.util.UserUtil;
+import com.here.zxing.Intents;
 import com.sackcentury.shinebuttonlib.ShineButton;
+import com.tencent.connect.share.QQShare;
+import com.tencent.connect.share.QzoneShare;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 import org.litepal.crud.DataSupport;
 
@@ -52,17 +64,22 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private Context context;
 
+    private static final String APP_ID = "1106163416";
+
     private List<String> postIds;
 
     private int[] colors;
 
     private boolean isLikeing = false;
 
+    private Tencent mTencent;
+
     public CommunityAdapter(List<Community> communities,Context context) {
         this.communities = communities;
         this.context = context;
         colors = HereApplication.getContext().getResources().getIntArray(R.array.tips_bg);
         refresh();
+        mTencent = Tencent.createInstance(APP_ID,HereApplication.getContext());
     }
 
     public void refresh(){
@@ -278,6 +295,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ShineButton sbAppointmentLike;
         LinearLayout ll_appointment_images;
         RelativeLayout rl_appointment_comment;
+        RelativeLayout rl_share_appointment;
         public AppointmentHolder(View itemView) {
             super(itemView);
             cvAppointmentHead = (CircleImageView) itemView.findViewById(R.id.cv_appointment_head);
@@ -297,6 +315,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             sbAppointmentLike = (ShineButton) itemView.findViewById(R.id.sb_appointment_like);
             ll_appointment_images = (LinearLayout) itemView.findViewById(R.id.ll_appointment_images);
             rl_appointment_comment = (RelativeLayout) itemView.findViewById(R.id.rl_appointment_comment);
+            rl_share_appointment = (RelativeLayout) itemView.findViewById(R.id.rl_share_appointment);
         }
 
         public void load(final Appointment appointment, final int position) {
@@ -435,6 +454,53 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     bundle.putSerializable("appointment",appointment);
                     intent.putExtras(bundle);
                     context.startActivity(intent);
+                }
+            });
+
+            rl_share_appointment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertView("分享", null, "取消", new String[]{"分享到QQ好友"}, new String[]{"分享到QQ空间"}, context, AlertView.Style.ActionSheet, new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Object o, int position) {
+                            final Bundle params = new Bundle();
+                            if (position == 0) {
+                                params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE,
+                                        QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
+                                params.putString(QQShare.SHARE_TO_QQ_TITLE, appointment.getTitle());
+                                params.putString(QQShare.SHARE_TO_QQ_SUMMARY, appointment.getDescribe());
+                                params.putString(QQShare.SHARE_TO_QQ_TARGET_URL,
+                                        "https://github.com/old-traveler/Here/blob/master/app/app-release.apk");
+                                if (appointment.getImages()!= null && appointment.getImages().length>0){
+                                    params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
+                                            appointment.getImages()[0]);
+                                }else {
+                                    params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
+                                            "https://avatars1.githubusercontent.com/u/22116148?v=4&u=48ec6f70dce731dcc8f3cbf66231f5ca651e9953&s=40");
+                                }
+                                params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "来here一起玩吧");
+                                params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "与附近的人一起活动吧");
+                                mTencent.shareToQQ((Activity) context, params, new BaseUiListener1());
+                            } else if (position == 1) {
+                                params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE,QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
+                                params.putString(QzoneShare.SHARE_TO_QQ_TITLE, appointment.getTitle());
+                                params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, appointment.getDescribe());
+                                params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL,"https://github.com/old-traveler/Here/blob/master/app/app-release.apk");
+                                ArrayList<String> imgUrlList = new ArrayList<>();
+                                if (appointment.getImages()!= null && appointment.getImages().length>0){
+                                    for (String s : appointment.getImages()) {
+                                        imgUrlList.add(s);
+                                    }
+                                }else {
+                                    imgUrlList.add( "https://avatars1.githubusercontent.com/u/22116148?v=4&u=48ec6f70dce731dcc8f3cbf66231f5ca651e9953&s=40");
+                                }
+                                params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL,imgUrlList);
+                                mTencent.shareToQzone((Activity) context, params, new BaseUiListener1());
+                            }else {
+                                return;
+                            }
+                        }
+                    }).show();
                 }
             });
         }
@@ -615,8 +681,77 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     context.startActivity(new Intent(intent));
                 }
             });
+
+            rlMoodShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertView("分享", null, "取消", new String[]{"分享到QQ好友"}, new String[]{"分享到QQ空间"}, context, AlertView.Style.ActionSheet, new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Object o, int position) {
+                            final Bundle params = new Bundle();
+                            if (position == 0) {
+                                params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE,
+                                        QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
+                                params.putString(QQShare.SHARE_TO_QQ_TITLE, mood.getTitle());
+                                params.putString(QQShare.SHARE_TO_QQ_SUMMARY, mood.getContent());
+                                params.putString(QQShare.SHARE_TO_QQ_TARGET_URL,
+                                        "https://github.com/old-traveler/Here/blob/master/app/app-release.apk");
+                                if (mood.getImages()!= null && mood.getImages().length>0){
+                                    params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
+                                            mood.getImages()[0]);
+                                }else {
+                                    params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
+                                            "https://avatars1.githubusercontent.com/u/22116148?v=4&u=48ec6f70dce731dcc8f3cbf66231f5ca651e9953&s=40");
+                                }
+                                params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "来here一起玩吧");
+                                params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "与附近的人一起活动吧");
+                                mTencent.shareToQQ((Activity) context, params, new BaseUiListener1());
+                            } else if (position == 1) {
+                                params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE,QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
+                                params.putString(QzoneShare.SHARE_TO_QQ_TITLE, mood.getTitle());
+                                params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, mood.getContent());
+                                params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL,"https://github.com/old-traveler/Here/blob/master/app/app-release.apk");
+                                ArrayList<String> imgUrlList = new ArrayList<>();
+                                if (mood.getImages()!= null && mood.getImages().length>0){
+                                    for (String s : mood.getImages()) {
+                                        imgUrlList.add(s);
+                                    }
+                                }else {
+                                    imgUrlList.add( "https://avatars1.githubusercontent.com/u/22116148?v=4&u=48ec6f70dce731dcc8f3cbf66231f5ca651e9953&s=40");
+                                }
+                                params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL,imgUrlList);
+                                mTencent.shareToQzone((Activity) context, params, new BaseUiListener1());
+                            }else {
+                                return;
+                            }
+                        }
+                    }).show();
+
+                }
+            });
         }
     }
+
+    public class BaseUiListener1 implements IUiListener {
+        @Override
+        public void onComplete(Object response) {
+            doComplete(response);
+        }
+
+        protected void doComplete(Object values) {
+        }
+
+        @Override
+        public void onError(UiError e) {
+        }
+
+        @Override
+        public void onCancel() {
+        }
+    }
+
+
+
 
     class TipsHolder extends RecyclerView.ViewHolder {
 

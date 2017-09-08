@@ -20,6 +20,7 @@ import cn.bmob.v3.Bmob;
  */
 
 public class HereApplication extends Application {
+
     private static Context context;
 
     public static Context getContext() {

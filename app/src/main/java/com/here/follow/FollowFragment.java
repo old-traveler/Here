@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +41,10 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
 
     @Bind(R.id.rv_follow)
     RecyclerView rvFollow;
-    @Bind(R.id.sl_follow)
-    SmartRefreshLayout slFollow;
     @Bind(R.id.fb_add_activity)
     FloatingActionButton fbAddActivity;
+    @Bind(R.id.sl_follow)
+    SmartRefreshLayout slFollow;
     private CommunityDetailsAdapter adapter;
     private boolean isLoad = false;
 
@@ -51,28 +52,31 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mvpPresenter = createPresenter();
         View view = inflater.inflate(R.layout.fragment_follow, container, false);
-        mvpPresenter.attachView(this);
         ButterKnife.bind(this, view);
-        adapter = new CommunityDetailsAdapter(new ArrayList<Community>(),getContext());
-        initView();
+        mvpPresenter.attachView(this);
+        if (isLoad){
+            adapter = new CommunityDetailsAdapter(new ArrayList<Community>(), getContext());
+            initView();
+            slFollow.autoRefresh();
+        }
         return view;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (isVisibleToUser && !isLoad){
+        if (isVisibleToUser && !isLoad) {
             isLoad = true;
-            mvpPresenter.queryAppointment(false,null);
+        }else {
+            isLoad = false;
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
 
     private void initView() {
-
         slFollow.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                mvpPresenter.queryAppointment(true,refreshlayout);
+                mvpPresenter.queryAppointment(true, refreshlayout);
             }
         });
 
@@ -83,7 +87,7 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
             }
         });
 
-        adapter = new CommunityDetailsAdapter(new ArrayList<Community>(),getActivity());
+        adapter = new CommunityDetailsAdapter(new ArrayList<Community>(), getActivity());
         rvFollow.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvFollow.setAdapter(adapter);
 
@@ -102,7 +106,8 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
 
     @OnClick(R.id.fb_add_activity)
     public void onViewClicked() {
-        new AlertView("发布", null, "取消", new String[]{"发布心情"}, new String[]{"发布预约活动"}, getActivity(), AlertView.Style.ActionSheet, new OnItemClickListener() {
+        new AlertView("发布", null, "取消", new String[]{"发布心情"}, new String[]{"发布预约活动"},
+                getActivity(), AlertView.Style.ActionSheet, new OnItemClickListener() {
             @Override
             public void onItemClick(Object o, int position) {
                 if (position == 0) {

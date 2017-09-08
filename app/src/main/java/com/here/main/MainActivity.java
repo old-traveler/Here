@@ -2,11 +2,8 @@ package com.here.main;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -16,7 +13,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +27,6 @@ import com.here.R;
 import com.here.adapter.FragmentAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.User;
-import com.here.chat.ChatActivity;
 import com.here.community.CommunityFragment;
 import com.here.feedback.FeedBackActivity;
 import com.here.follow.FollowFragment;
@@ -43,29 +38,18 @@ import com.here.receiver.ConnectionChangeReceiver;
 import com.here.record.RecordActivity;
 import com.here.scan.ScanActivity;
 import com.here.setting.SettingActivity;
-import com.here.util.ImActivityUtil;
 import com.here.util.ImUtil;
-import com.here.util.JoinUtil;
 import com.here.view.MyViewPage;
 
-import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bmob.newim.BmobIM;
-import cn.bmob.newim.bean.BmobIMConversation;
-import cn.bmob.newim.bean.BmobIMUserInfo;
-import cn.bmob.newim.listener.ConversationListener;
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
 import de.hdodenhof.circleimageview.CircleImageView;
 import qiu.niorgai.StatusBarCompat;
 
@@ -73,8 +57,6 @@ import qiu.niorgai.StatusBarCompat;
 public class MainActivity extends MvpActivity<MainPresenter> implements MainContract {
 
 
-    @Bind(R.id.tv_tool_main)
-    TextView tvToolMain;
     @Bind(R.id.tb_main)
     Toolbar tbMain;
     @Bind(R.id.vp_main)
@@ -105,6 +87,12 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
     TextView tvSideNickname;
     @Bind(R.id.tv_side_introduction)
     TextView tvSideIntroduction;
+    @Bind(R.id.tv_main_near)
+    TextView tvMainNear;
+    @Bind(R.id.tv_main_community)
+    TextView tvMainCommunity;
+    @Bind(R.id.tv_main_follow)
+    TextView tvMainFollow;
 
     private FragmentAdapter adapter;
 
@@ -112,7 +100,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
     /**
      * 记录ViewPage当前的选中界面
      */
-    private int currentItem = 0;
 
     private long mkeyTime = 0;
 
@@ -124,7 +111,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         ButterKnife.bind(this);
         mvpPresenter.attachView(this);
         setToolBar(R.id.tb_main);
-        initToolBarText(R.id.tv_tool_main, getString(R.string.toolbar_title_main), R.drawable.category);
+        initToolBarText(R.id.tv_main_near, getString(R.string.toolbar_title_main), R.drawable.category);
         initViewPage();
         ImUtil.connectServer();
         addActivity(this);
@@ -155,7 +142,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
                 System.exit(0);
             }
             return false;
-
         }
 
         return super.onKeyDown(keyCode, event);
@@ -164,21 +150,21 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
 
     @Override
     public void initUserData() {
-        User user= BmobUser.getCurrentUser(User.class);
-        if (!TextUtils.isEmpty(user.getNickname())){
+        User user = BmobUser.getCurrentUser(User.class);
+        if (!TextUtils.isEmpty(user.getNickname())) {
             tvSideNickname.setText(user.getNickname());
         }
 
-        if (!TextUtils.isEmpty(user.getIntroduction())){
+        if (!TextUtils.isEmpty(user.getIntroduction())) {
             tvSideIntroduction.setText(user.getIntroduction());
         }
 
-        if (!TextUtils.isEmpty(user.getHeadImageUrl())){
+        if (!TextUtils.isEmpty(user.getHeadImageUrl())) {
             Glide.with(this)
                     .load(user.getHeadImageUrl())
                     .into(cvSideHead);
         }
-        if (!TextUtils.isEmpty(user.getBackgroundUrl())){
+        if (!TextUtils.isEmpty(user.getBackgroundUrl())) {
             Glide.with(this)
                     .load(user.getBackgroundUrl())
                     .into(ivSideBackground);
@@ -187,12 +173,10 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
     }
 
 
-
-
     @Override
     public void registerReceiver() {
-        IntentFilter filter=new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        receiver=new ConnectionChangeReceiver();
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        receiver = new ConnectionChangeReceiver();
         this.registerReceiver(receiver, filter);
     }
 
@@ -209,7 +193,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
     }
 
 
-
     private void initViewPage() {
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new NearbyFragment());
@@ -223,11 +206,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         vpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (currentItem - 1 == position) {
-                    tvToolMain.setAlpha(positionOffset);
-                } else {
-                    tvToolMain.setAlpha(1 - positionOffset);
-                }
 
             }
 
@@ -235,16 +213,19 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
-                        tvToolMain.setText(getString(R.string.toolbar_title_main));
-                        currentItem = 0;
+                        tvMainNear.setTextColor(Color.parseColor("#108de8"));
+                        tvMainCommunity.setTextColor(Color.BLACK);
+                        tvMainFollow.setTextColor(Color.BLACK);
                         break;
                     case 1:
-                        tvToolMain.setText(getString(R.string.toolbar_title_community));
-                        currentItem = 1;
+                        tvMainNear.setTextColor(Color.BLACK);
+                        tvMainFollow.setTextColor(Color.BLACK);
+                        tvMainCommunity.setTextColor(Color.parseColor("#108de8"));
                         break;
                     case 2:
-                        tvToolMain.setText(getString(R.string.toolbar_title_follow));
-                        currentItem = 2;
+                        tvMainNear.setTextColor(Color.BLACK);
+                        tvMainCommunity.setTextColor(Color.BLACK);
+                        tvMainFollow.setTextColor(Color.parseColor("#108de8"));
                         break;
                 }
             }
@@ -290,7 +271,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         return true;
     }
 
-    @OnClick({R.id.iv_side_background, R.id.cv_side_head, R.id.rv_enter_scan, R.id.rv_my_activity, R.id.rv_my_follow, R.id.rv_my_grade, R.id.rv_feedback, R.id.iv_setting})
+    @OnClick({R.id.iv_side_background, R.id.cv_side_head, R.id.rv_enter_scan, R.id.rv_my_activity, R.id.rv_my_follow, R.id.rv_my_grade, R.id.rv_feedback, R.id.iv_setting,R.id.tv_main_near, R.id.tv_main_community, R.id.tv_main_follow})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_side_background:
@@ -317,6 +298,15 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
             case R.id.iv_setting:
                 enterSetting();
                 break;
+            case R.id.tv_main_near:
+                vpMain.setCurrentItem(0);
+                break;
+            case R.id.tv_main_community:
+                vpMain.setCurrentItem(1);
+                break;
+            case R.id.tv_main_follow:
+                vpMain.setCurrentItem(2);
+                break;
         }
     }
 
@@ -327,7 +317,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
 
     @Override
     public void checkActivity() {
-        startActivity(new Intent(this,RecordActivity.class));
+        startActivity(new Intent(this, RecordActivity.class));
     }
 
     @Override

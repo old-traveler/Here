@@ -7,6 +7,8 @@
     android:orientation="vertical">
     <android.support.v7.widget.Toolbar
         android:id="@+id/tb_message"
+        android:paddingBottom="7dp"
+        android:elevation="7dp"
         android:background="@color/theme_color"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height">
@@ -19,10 +21,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/part_linear_color"/>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/sl_message"
         android:layout_width="match_parent"

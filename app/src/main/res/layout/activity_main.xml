@@ -13,23 +13,48 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v7.widget.Toolbar
+            android:paddingBottom="7dp"
+            android:elevation="7dp"
             android:background="@color/white"
             android:id="@+id/tb_main"
             android:layout_width="match_parent"
-            android:layout_height="30dp">
-            <TextView
-                android:layout_gravity="center"
-                android:id="@+id/tv_tool_main"
-                android:textSize="18sp"
-                android:textColor="@color/share_text"
+            android:layout_height="45dp">
+            <LinearLayout
+                android:layout_marginTop="9dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="140dp"
+                android:layout_height="25dp">
+                <TextView
+                    android:text="@string/toolbar_title_main"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:id="@+id/tv_main_near"
+                    android:textSize="18sp"
+                    android:textColor="@color/color_accent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_main_community"
+                    android:text="@string/toolbar_title_community"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_main_follow"
+                    android:text="@string/toolbar_title_follow"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </android.support.v7.widget.Toolbar>
-        <View
-            android:background="@color/part_linear_color"
-            android:layout_width="match_parent"
-            android:layout_height="2px"/>
+
         <com.here.view.MyViewPage
             android:id="@+id/vp_main"
             android:layout_width="match_parent"
@@ -45,7 +70,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
-
             android:layout_width="match_parent"
             android:layout_height="@dimen/side_pull_height">
             <ImageView
@@ -59,7 +83,6 @@
                 android:id="@+id/cv_side_head"
                 app:civ_border_width="2dp"
                 app:civ_border_color="@color/white"
-                android:src="@drawable/grils"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="30dp"
                 android:layout_marginLeft="20dp"
@@ -72,8 +95,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="43dp"
                 android:id="@+id/tv_side_nickname"
-                android:text="木头人"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
@@ -83,7 +104,6 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textSize="13sp"
-                android:text="土地是以它的肥沃和收获而被估价的；才能也是土地，不过它生产的不是粮食，而是真理。如果只能滋生瞑想和幻想的话，即使再大的才能也只是砂地或盐池，那上面连小草也长不出来的。 —— 别林斯基"
                 android:layout_alignParentBottom="true"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"

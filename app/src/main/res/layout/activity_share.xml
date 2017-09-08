@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     tools:context="com.here.publish.share.ShareActivity">
     <android.support.v7.widget.Toolbar
+        android:paddingBottom="7dp"
+        android:elevation="7dp"
         android:id="@+id/tb_share"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height">

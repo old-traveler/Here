@@ -56,7 +56,7 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         if (isVisibleToUser && !isLoad){
             isLoad = true;
             initView();
-            mvpPresenter.loadCommunityData(false);
+            slCommunity.autoRefresh();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -141,12 +141,16 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         communityAdapter.addData(communities);
         if (isRefresh){
             isRefresh = false;
-            refreshLayout1.finishRefresh(0);
+            refreshLayout1.finishRefresh();
         }
     }
 
     @Override
     public void fail(String error) {
+        if (isRefresh){
+            isRefresh = false;
+            refreshLayout1.finishRefresh();
+        }
         toastShow(error);
     }
 }
