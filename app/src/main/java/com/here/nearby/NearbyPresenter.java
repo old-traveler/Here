@@ -134,7 +134,7 @@ public class NearbyPresenter extends BasePresenter<NearbyContract> implements AM
 
     }
 
-    public void queryNearByImActivity() {
+    public void queryNearByImActivity(final boolean isRefresh) {
         if (!isFirstLocation && isNeedLoadMap && NetworkState
                 .networkConnected(HereApplication.getContext())) {
             isNeedLoadMap = false;
@@ -144,15 +144,16 @@ public class NearbyPresenter extends BasePresenter<NearbyContract> implements AM
             if (myLatLng != null) {
                 isLoading = true;
                 ImActivityUtil.getNearByImActivity(myLatLng.latitude, myLatLng
-                        .longitude,kind, new ImActivityUtil.OnGetNearByListener() {
+                        .longitude,kind,new ImActivityUtil.OnGetNearByListener() {
                     @Override
                     public void success(List<ImActivity> activities) {
+                        Log.i("TAG","类型是"+kind + activities.size());
                         if (activities.size() != 0) {
                             if (imActivities == null) {
                                 imActivities = activities;
                                 mvpView.loadingSuccess(activities);
                             } else {
-                                if (imActivities.size() == activities.size()) {
+                                if (imActivities.size() == activities.size() && isRefresh) {
                                     for (int i = 0; i < imActivities.size(); i++) {
                                         if (!imActivities.get(i).getObjectId()
                                                 .equals(activities.get(i).getObjectId())) {
@@ -168,6 +169,7 @@ public class NearbyPresenter extends BasePresenter<NearbyContract> implements AM
                                 }
                             }
                         } else {
+                            Log.i("TAG","loadingComplete"+kind + activities.size());
                             loadingComplete();
                         }
                     }

@@ -113,10 +113,35 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         setToolBar(R.id.tb_main);
         initToolBarText(R.id.tv_main_near, getString(R.string.toolbar_title_main), R.drawable.category);
         initViewPage();
+        initEvent();
         ImUtil.connectServer();
         addActivity(this);
         initUserData();
         Connector.getDatabase();
+    }
+
+    private void initEvent() {
+        dlMain.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                drawerView.setClickable(true);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
     }
 
     @Override
@@ -138,8 +163,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
                 mkeyTime = System.currentTimeMillis();
                 toastShow("再按一次退出程序");
             } else {
-                finish();
-                System.exit(0);
+                Intent intent = new Intent(Intent.ACTION_MAIN,null);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                startActivity(intent);
             }
             return false;
         }
@@ -195,12 +221,13 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
 
     private void initViewPage() {
         List<Fragment> fragments = new ArrayList<>();
+
         fragments.add(new NearbyFragment());
         fragments.add(new CommunityFragment());
         fragments.add(new FollowFragment());
         adapter = new FragmentAdapter(getSupportFragmentManager(), fragments);
         vpMain.setAdapter(adapter);
-
+        vpMain.setOffscreenPageLimit(2);
         vpMain.setRightDistance(getWindowManager().getDefaultDisplay().getWidth());
 
         vpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

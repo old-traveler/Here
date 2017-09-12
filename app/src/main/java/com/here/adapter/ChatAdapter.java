@@ -3,6 +3,8 @@ package com.here.adapter;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import org.json.JSONException;
+import org.json.JSONObject;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,26 +13,16 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.amap.api.maps.model.Text;
 import com.bumptech.glide.Glide;
-import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonReader;
+import com.github.library.bubbleview.BubbleImageView;
 import com.here.HereApplication;
 import com.here.R;
 import com.here.bean.User;
+import com.here.util.CommonUtils;
+import com.here.util.DensityUtil;
 import com.here.util.NetworkState;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
-
-import cn.bmob.newim.bean.BmobIMAudioMessage;
-import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -58,7 +50,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public int getItemViewType(int position) {
         switch (bmobIMMessages.get(position).getMsgType()){
-            case "text":
+            case "txt":
                 return TEXT;
             case "image":
                 return IMAGE;
@@ -116,7 +108,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 tHolder.tv_text_left.setText(bmobIMMessages.get(position).getContent());
             }
         }else if (holder instanceof ImageMessageHolder){
-            ImageMessageHolder iHolder = (ImageMessageHolder) holder;
+            final ImageMessageHolder iHolder = (ImageMessageHolder) holder;
             if (bmobIMMessages.get(position).getFromId().equals(BmobUser
                     .getCurrentUser(User.class).getObjectId())){
                 iHolder.rl_image_left.setVisibility(View.GONE);
@@ -124,16 +116,33 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 Glide.with(HereApplication.getContext())
                         .load(BmobUser.getCurrentUser(User.class).getHeadImageUrl())
                         .into(iHolder.cv_image_right);
-                if (bmobIMMessages.get(position).getContent().indexOf("&")!=-1){
+                int width = 0;
+                int height = 0;
+                String info = bmobIMMessages.get(position).getExtra();
+                try {
+                    JSONObject jsonObject = new JSONObject(info);
+                    JSONObject json =new JSONObject(String.valueOf(jsonObject.getJSONObject("metaData")));
+                    int[] size = CommonUtils.zoomImage(json.getInt("width"),json.getInt("height"));
+                    width = size[0];
+                    height = size[1];
+                    DensityUtil.setViewSize(iHolder.iv_image_right,width,height);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.i("出错","解析格式出错"+info);
+                }
+                if (bmobIMMessages.get(position).getContent().indexOf("&") != -1){
                     Glide.with(HereApplication.getContext())
                             .load(bmobIMMessages.get(position).getContent().split("&")[0])
+                            .asBitmap()
+                            .override(width,height)
                             .into(iHolder.iv_image_right);
                 }else {
                     Glide.with(HereApplication.getContext())
                             .load(bmobIMMessages.get(position).getContent())
+                            .asBitmap()
+                            .override(width,height)
                             .into(iHolder.iv_image_right);
                 }
-
                 if (bmobIMMessages.get(position).getSendStatus() == 2){
                     iHolder.iv_image_fail.setVisibility(View.GONE);
                     iHolder.pb_image.setVisibility(View.GONE);
@@ -145,6 +154,20 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     iHolder.iv_image_fail.setVisibility(View.VISIBLE);
                 }
             }else {
+                int width = 0;
+                int height = 0;
+                String info = bmobIMMessages.get(position).getExtra();
+                try {
+                    JSONObject jsonObject = new JSONObject(info);
+                    JSONObject json =new JSONObject(String.valueOf(jsonObject.getJSONObject("metaData")));
+                    int[] size = CommonUtils.zoomImage(json.getInt("width"),json.getInt("height"));
+                    width = size[0];
+                    height = size[1];
+                    DensityUtil.setViewSize(iHolder.iv_image_left,width,height);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.i("出错","解析格式出错"+info);
+                }
                 iHolder.rl_image_left.setVisibility(View.VISIBLE);
                 iHolder.rl_image_right.setVisibility(View.GONE);
                 Glide.with(HereApplication.getContext())
@@ -152,11 +175,24 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                         .into(iHolder.cv_image_left);
                 Glide.with(HereApplication.getContext())
                         .load(bmobIMMessages.get(position).getContent())
+                        .asBitmap()
+                        .override(width,height)
                         .into(iHolder.iv_image_left);
+
             }
 
         }else if (holder instanceof VoiceMessageHolder){
             VoiceMessageHolder vHolder = (VoiceMessageHolder) holder;
+            int duration = 0;
+            String info = bmobIMMessages.get(position).getExtra();
+            try {
+                JSONObject jsonObject = new JSONObject(info);
+                JSONObject json =new JSONObject(String.valueOf(jsonObject.getJSONObject("metaData")));
+                duration = json.getInt("duration");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.i("出错","解析格式出错"+info);
+            }
             if (bmobIMMessages.get(position).getFromId().equals(BmobUser
                     .getCurrentUser(User.class).getObjectId())){
                 vHolder.rl_voice_left.setVisibility(View.GONE);
@@ -174,6 +210,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     vHolder.pb_voice.setVisibility(View.GONE);
                     vHolder.iv_voice_fail.setVisibility(View.VISIBLE);
                 }
+
+                vHolder.tv_voice_right.setText(duration+"\"");
+                final int position1 = position;
                 vHolder.rl_voice_right.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -184,7 +223,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                             mediaPlayer.release();
                         }
                         mediaPlayer = new MediaPlayer();
-                        String voice = bmobIMMessages.get(position).getContent();
+                        String voice = bmobIMMessages.get(position1).getContent();
                         try {
                             mediaPlayer.setDataSource(voice.indexOf("&")!=-1 ? voice.split("&")[0]:voice);
                             mediaPlayer.prepare();
@@ -195,6 +234,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     }
                 });
             }else {
+                final int position1 = position;
                 vHolder.rl_voice_left.setVisibility(View.VISIBLE);
                 vHolder.rl_voice_right.setVisibility(View.GONE);
                 Glide.with(HereApplication.getContext())
@@ -203,7 +243,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 vHolder.rl_voice_left.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Uri uri= Uri.parse(bmobIMMessages.get(position).getContent());
+                        Uri uri= Uri.parse(bmobIMMessages.get(position1).getContent());
                         if (mediaPlayer !=null ){
                             if (mediaPlayer.isPlaying()){
                                 mediaPlayer.stop();
@@ -216,10 +256,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                         }
                     }
                 });
-
-
-
-
+                vHolder.tv_voice_left.setText(duration+"\"");
             }
 
         }
@@ -278,8 +315,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     class  ImageMessageHolder extends RecyclerView.ViewHolder {
         protected CircleImageView cv_image_left;
         protected CircleImageView cv_image_right;
-        protected ImageView iv_image_left;
-        protected ImageView iv_image_right;
+        protected BubbleImageView iv_image_left;
+        protected BubbleImageView iv_image_right;
         protected RelativeLayout rl_image_left;
         protected RelativeLayout rl_image_right;
         protected ImageView iv_image_fail;
@@ -288,8 +325,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             super(itemView);
             cv_image_left = (CircleImageView) itemView.findViewById(R.id.cv_image_left);
             cv_image_right = (CircleImageView) itemView.findViewById(R.id.cv_image_right);
-            iv_image_left = (ImageView) itemView.findViewById(R.id.iv_image_left);
-            iv_image_right = (ImageView) itemView.findViewById(R.id.iv_image_right);
+            iv_image_left = (BubbleImageView) itemView.findViewById(R.id.iv_image_left);
+            iv_image_right = (BubbleImageView) itemView.findViewById(R.id.iv_image_right);
             rl_image_left = (RelativeLayout) itemView.findViewById(R.id.rl_image_left);
             rl_image_right = (RelativeLayout) itemView.findViewById(R.id.rl_image_right);
             iv_image_fail = (ImageView) itemView.findViewById(R.id.iv_image_fail);
@@ -301,6 +338,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         bmobIMMessages.add(bmobIMMessage);
         notifyItemInserted(bmobIMMessages.size()-1);
         recyclerView.scrollToPosition(bmobIMMessages.size()-1);
+
     }
 
     public void sendMessageSuccess(int position){

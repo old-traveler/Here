@@ -1,5 +1,7 @@
 package com.here.chat;
 
+import android.util.Log;
+
 import com.here.base.BasePresenter;
 import com.here.bean.User;
 import com.here.util.TinyUtil;
@@ -53,7 +55,7 @@ public class ChatPresenter extends BasePresenter<ChatContract>  {
     }
 
     public void sendImageMessage(String path){
-        TinyUtil.compress(path, new TinyUtil.OnCompressListener() {
+        TinyUtil.compressChatImage(path, new TinyUtil.OnCompressListener() {
             @Override
             public void success(final String out) {
                 BmobIMImageMessage image =new BmobIMImageMessage(out);

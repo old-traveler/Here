@@ -1,84 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp">
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/rl_left_voice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/cv_voice_left"
-            android:src="@drawable/grils"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_width="@dimen/item_head_length"
             android:layout_height="@dimen/item_head_length" />
-        <LinearLayout
+        <com.github.library.bubbleview.BubbleLinearLayout
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            app:arrowLocation="left"
+            app:bubbleColor="#9d6cb6"
+            app:arrowHeight="10dp"
+            app:arrowWidth="8dp"
+            android:gravity="right"
+            app:arrowCenter="true"
             android:id="@+id/ll_left_voice"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="22dp"
             android:layout_toRightOf="@id/cv_voice_left"
-            android:background="@drawable/left_bubble"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="90dp"
+            android:layout_height="38dp">
+            <TextView
+                android:textColor="@color/white"
+                android:id="@+id/tv_left_voice"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <ImageView
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/voice_right3"
                 android:id="@+id/iv_left_voice"
                 android:layout_width="50dp"
                 android:layout_height="25dp" />
-            <TextView
-                android:id="@+id/tv_left_voice"
-                android:layout_gravity="center_vertical"
-                android:text=""
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+
+        </com.github.library.bubbleview.BubbleLinearLayout>
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/rl_right_voice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginTop="10dp"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
             android:id="@+id/cv_voice_right"
-            android:src="@drawable/grils"
-            android:layout_marginLeft="10dp"
             android:layout_width="@dimen/item_head_length"
             android:layout_height="@dimen/item_head_length" />
-        <LinearLayout
+        <com.github.library.bubbleview.BubbleLinearLayout
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            app:arrowLocation="right"
+            app:bubbleColor="#7EC0EE"
+            app:arrowHeight="10dp"
+            app:arrowWidth="8dp"
+            app:arrowCenter="true"
             android:id="@+id/ll_right_voice"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="22dp"
             android:layout_toLeftOf="@id/cv_voice_right"
-            android:background="@drawable/right_bubble"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="90dp"
+            android:layout_height="38dp">
             <ImageView
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/voice_left3"
                 android:id="@+id/iv_right_voice"
                 android:layout_width="50dp"
                 android:layout_height="25dp" />
             <TextView
                 android:id="@+id/tv_right_voice"
+                android:textColor="@color/white"
                 android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
+        </com.github.library.bubbleview.BubbleLinearLayout>
         <ProgressBar
             android:id="@+id/pb_voice"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="34dp"
+            android:layout_marginTop="20dp"
             android:layout_toLeftOf="@id/ll_right_voice"
             android:layout_width="@dimen/item_pb_length"
             android:layout_height="@dimen/item_pb_length" />
         <ImageView
             android:visibility="gone"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="34dp"
+            android:layout_marginTop="20dp"
             android:id="@+id/iv_voice_fail"
             android:layout_toLeftOf="@id/ll_right_voice"
             android:src="@drawable/send_fail"

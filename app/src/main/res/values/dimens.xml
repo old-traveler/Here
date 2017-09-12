@@ -34,7 +34,7 @@
     <dimen name="publish_content_height">100dp</dimen>
     <dimen name="publish_image_length">70dp</dimen>
     <dimen name="publish_item_height">40dp</dimen>
-    <dimen name="item_head_length">35dp</dimen>
+    <dimen name="item_head_length">38dp</dimen>
     <dimen name="item_pb_length">20dp</dimen>
     <dimen name="ts_13">13sp</dimen>
     <dimen name="ts_10">10sp</dimen>

@@ -10,6 +10,21 @@
         android:id="@+id/map_nearby"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <FrameLayout
+        android:id="@+id/fl_kind"
+        android:clickable="true"
+        android:background="@drawable/iv_kind_selector"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp">
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/select"/>
+    </FrameLayout>
+
     <RelativeLayout
         android:visibility="gone"
         android:animateLayoutChanges="true"

@@ -49,7 +49,8 @@ public class LoginPresenter extends BasePresenter<LoginContract>  {
                 mvpView.dismissLoading();
                 mvpView.loginSuccess();
                 User user = BmobUser.getCurrentUser(User.class);
-                AccountUtil.addAccount(user.getName(),user.getUsername(),mvpView.getPassword(),user.getHeadImageUrl(),false);
+                AccountUtil.addAccount(user.getName(),user.getUsername(),
+                        mvpView.getPassword(),user.getHeadImageUrl(),false);
             }
 
             @Override
@@ -84,12 +85,12 @@ public class LoginPresenter extends BasePresenter<LoginContract>  {
                 mvpView.dismissLoading();
                 mvpView.loginSuccess();
                 User user = BmobUser.getCurrentUser(User.class);
-                AccountUtil.addAccount(user.getName(),user.getUsername(),mvpView.getPassword(),user.getHeadImageUrl(),false);
+                AccountUtil.addAccount(user.getName(),user.getUsername(),
+                        mvpView.getPassword(),user.getHeadImageUrl(),false);
             }
 
             @Override
             public void fail(String error) {
-                Log.i("账号信息",mvpView.getThridUser().getUsername());
                 mvpView.dismissLoading();
                 mvpView.showError(error);
             }

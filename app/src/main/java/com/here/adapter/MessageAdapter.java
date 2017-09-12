@@ -3,6 +3,7 @@ package com.here.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -46,8 +47,8 @@ public class MessageAdapter extends BaseQuickAdapter<BmobIMConversation>{
     @Override
     protected void convert(BaseViewHolder baseViewHolder, final BmobIMConversation bmobIMConversation) {
         baseViewHolder.setText(R.id.tv_message_nickname,bmobIMConversation.getConversationTitle());
-        SimpleDateFormat  time = new SimpleDateFormat("MM-dd-hh:mm");
-        if (bmobIMConversation.getMessages().size()-1 > -1){
+        SimpleDateFormat  time = new SimpleDateFormat("MM-DD-hh:mm");
+        if (bmobIMConversation.getMessages().size() > 0){
             String message_time = time.format(new Date(bmobIMConversation.getMessages()
                     .get(bmobIMConversation.getMessages().size()-1).getUpdateTime()));
             int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
@@ -57,7 +58,13 @@ public class MessageAdapter extends BaseQuickAdapter<BmobIMConversation>{
             }else {
                 baseViewHolder.setText(R.id.tv_message_time,message_time.substring(0,5));
             }
-            baseViewHolder.setText(R.id.tv_message_content,bmobIMConversation.getMessages().get(bmobIMConversation.getMessages().size()-1).getContent());
+            if (bmobIMConversation.getMessages().get(0).getMsgType().equals("txt")){
+                baseViewHolder.setText(R.id.tv_message_content,bmobIMConversation.getMessages().get(0).getContent());
+            }else if(bmobIMConversation.getMessages().get(0).getMsgType().equals("image")){
+                baseViewHolder.setText(R.id.tv_message_content,"[图片]");
+            }else if(bmobIMConversation.getMessages().get(0).getMsgType().equals("sound")){
+                baseViewHolder.setText(R.id.tv_message_content,"[语音]");
+            }
         }
         if (bmobIMConversation.getUnreadCount()>0){
             baseViewHolder.getView(R.id.rl_is_notice).setVisibility(View.VISIBLE);

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.here.R;
 import com.here.base.MvpActivity;
 import com.here.bean.User;
+import com.here.binding.BindInfoActivity;
 import com.here.main.MainActivity;
 import com.here.other.Constants;
 import com.sina.weibo.sdk.auth.AuthInfo;
@@ -35,6 +36,7 @@ import org.json.JSONObject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.BmobUser;
 import qiu.niorgai.StatusBarCompat;
 
 public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginContract {
@@ -220,10 +222,15 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginC
 
     @Override
     public void loginSuccess() {
-        startActivity(new Intent(this, MainActivity.class));
-        overridePendingTransition(R.anim.zoom_enter,
-                R.anim.zoom_exit);
-        finish();
+        if (TextUtils.isEmpty(BmobUser.getCurrentUser(User.class).getIdCard())){
+            startActivity(new Intent(this , BindInfoActivity.class));
+            finish();
+        }else {
+            startActivity(new Intent(this, MainActivity.class));
+            overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+            finish();
+        }
+
     }
 
     @Override

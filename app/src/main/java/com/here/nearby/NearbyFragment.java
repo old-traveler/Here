@@ -9,8 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -107,6 +107,8 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
 
     private ImActivity selectedImActivity;
 
+    private NearAdapter adapter;
+
 
     @Nullable
     @Override
@@ -121,21 +123,21 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
     }
 
     private void initView() {
-        rcvNear.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        rcvNear.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         List<Kind> list = new ArrayList<>();
-        list.add(new Kind(R.drawable.yd,"运动"));
-        list.add(new Kind(R.drawable.gw,"购物"));
-        list.add(new Kind(R.drawable.cg,"唱歌"));
-        list.add(new Kind(R.drawable.dy,"电影"));
-        list.add(new Kind(R.drawable.hw,"户外"));
-        list.add(new Kind(R.drawable.jb,"酒吧"));
-        list.add(new Kind(R.drawable.mr,"美容"));
-        list.add(new Kind(R.drawable.ms,"美食"));
-        list.add(new Kind(R.drawable.xp,"棋牌"));
-        list.add(new Kind(R.drawable.yx,"游戏"));
-        list.add(new Kind(R.drawable.zy,"桌游"));
-        list.add(new Kind(R.drawable.qt,"其他"));
-        final NearAdapter adapter = new NearAdapter(list);
+        list.add(new Kind(R.drawable.yd, "运动"));
+        list.add(new Kind(R.drawable.gw, "购物"));
+        list.add(new Kind(R.drawable.cg, "唱歌"));
+        list.add(new Kind(R.drawable.dy, "电影"));
+        list.add(new Kind(R.drawable.hw, "户外"));
+        list.add(new Kind(R.drawable.jb, "酒吧"));
+        list.add(new Kind(R.drawable.mr, "美容"));
+        list.add(new Kind(R.drawable.ms, "美食"));
+        list.add(new Kind(R.drawable.xp, "棋牌"));
+        list.add(new Kind(R.drawable.yx, "游戏"));
+        list.add(new Kind(R.drawable.zy, "桌游"));
+        list.add(new Kind(R.drawable.qt, "其他"));
+        adapter = new NearAdapter(list);
         rcvNear.setAdapter(adapter);
         adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
@@ -150,6 +152,30 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
                 initMap();
             }
         });
+    }
+
+    private void restoreSelectView(){
+        if (markers != null){
+            for (Marker marker : markers) {
+                marker.remove();
+            }
+        }
+        rcvNear.setVisibility(View.VISIBLE);
+        if (adapter != null ){
+            rcvNear.setAdapter(adapter);
+            adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+                @Override
+                public void onItemClick(View view, int i) {
+                    rcvNear.removeAllViews();
+                    rcvNear.setVisibility(View.GONE);
+                    mvpPresenter.setKind(adapter.getData().get(i).getName());
+                    if (!mvpPresenter.isLoading()) {
+                        mvpPresenter.queryNearByImActivity(false);
+                    }
+                }
+            });
+        }
+
     }
 
     private void initMap() {
@@ -228,13 +254,13 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.iv_refresh_nearby, R.id.fb_add_activity, R.id.cv_map_head, R.id.v_down, R.id.rl_view_down})
+    @OnClick({R.id.iv_refresh_nearby, R.id.fb_add_activity, R.id.cv_map_head, R.id.v_down, R.id.rl_view_down,R.id.fl_kind})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_refresh_nearby:
                 mvpPresenter.checkMyPublisher();
                 if (!mvpPresenter.isLoading()) {
-                    mvpPresenter.queryNearByImActivity();
+                    mvpPresenter.queryNearByImActivity(true);
                 }
                 break;
             case R.id.fb_add_activity:
@@ -258,6 +284,9 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
             case R.id.rl_view_down:
                 downTheDetail();
                 break;
+            case R.id.fl_kind:
+                restoreSelectView();
+                break;
         }
     }
 
@@ -279,6 +308,7 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
 
     @Override
     public void loadingSuccess(final List<ImActivity> imActivities) {
+        Log.i("TAG","导入成功!");
         if (markers != null) {
             for (Marker marker : markers) {
                 marker.remove();
@@ -383,8 +413,9 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
 
         tvActivityAddress.setText(imActivity.getLocation());
         tvJoinNumber.setText(0 + "/" + imActivity.getNumber());
-        tvDistance.setText((int) AMapUtils.calculateLineDistance(mvpPresenter.getMyLatLng()
-                , new LatLng(imActivity.getLatitude(), imActivity.getLongitude())) + "米");
+        tvDistance.setText((int) AMapUtils.calculateLineDistance(mvpPresenter
+                .getMyLatLng(), new LatLng(imActivity.getLatitude(),
+                imActivity.getLongitude())) + "米");
         tvOverTime.setText("结束时间：" + imActivity.getOverTime());
         tvActivityName.setText("活动名称：" + imActivity.getTitle());
         tvActivityDescribe.setText("活动简介：" + imActivity.getDescribe());

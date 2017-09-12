@@ -30,8 +30,23 @@ public class TinyUtil {
 
     public static void compress(String path, final OnCompressListener listener){
         Tiny.FileCompressOptions options = new Tiny.FileCompressOptions();
-        options.width=600;
-        options.height=600;
+        options.width = 300;
+        options.height = 300;
+        Tiny.getInstance().source(path).asFile().withOptions(options).compress(new FileCallback() {
+            @Override
+            public void callback(boolean isSuccess, String outfile) {
+                if (isSuccess){
+                    listener.success(outfile);
+                }else {
+                    listener.fail();
+                }
+            }
+        });
+    }
+
+    public static void compressChatImage(String path, final OnCompressListener listener){
+        Tiny.FileCompressOptions options = new Tiny.FileCompressOptions();
+        options.quality = 30;
         Tiny.getInstance().source(path).asFile().withOptions(options).compress(new FileCallback() {
             @Override
             public void callback(boolean isSuccess, String outfile) {

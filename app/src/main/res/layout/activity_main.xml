@@ -25,7 +25,6 @@
                 android:layout_width="140dp"
                 android:layout_height="25dp">
                 <TextView
-                    android:text="@string/toolbar_title_main"
                     android:gravity="center"
                     android:layout_weight="1"
                     android:id="@+id/tv_main_near"

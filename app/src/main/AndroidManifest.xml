@@ -76,6 +76,7 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+
         <service
             android:name="cn.bmob.newim.core.service.BmobIMService"
             android:process=":bmobcore" />
@@ -95,33 +96,35 @@
         <activity android:name=".details.PostDetailsActivity" />
         <activity android:name=".follow.info.FollowActivity" />
         <activity android:name=".record.RecordActivity" />
-        <activity android:name=".personal.other.OtherInfoActivity"></activity>
-
-
+        <activity android:name=".personal.other.OtherInfoActivity" />
         <activity
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"></activity>
-
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
-            android:noHistory="true"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1106172269" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.tencent.connect.common.AssistActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".binding.BindInfoActivity" />
 
-
+        <service
+            android:name=".server.ChatInfoUpdateServer"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

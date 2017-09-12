@@ -11,7 +11,8 @@ import android.view.MotionEvent;
 
 public class MyViewPage extends ViewPager {
 
-    private int rightDistance=950;
+    private int rightDistance = 950;
+
 
     public MyViewPage(Context context) {
         this(context,null);
@@ -24,7 +25,7 @@ public class MyViewPage extends ViewPager {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
 
-        if (ev.getAction()==MotionEvent.ACTION_DOWN&&ev.getX()<rightDistance&&getCurrentItem()==0 ){
+        if (ev.getAction()==MotionEvent.ACTION_DOWN&&ev.getX()<rightDistance&&getCurrentItem() == 0 ){
             return false;
         }
         return super.onTouchEvent(ev);
@@ -32,14 +33,14 @@ public class MyViewPage extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (ev.getAction()==MotionEvent.ACTION_DOWN&&ev.getX()<rightDistance&&getCurrentItem()==0 ){
+        if (ev.getAction()==MotionEvent.ACTION_DOWN&&ev.getX()<rightDistance&&getCurrentItem() == 0 ){
             return false;
         }
         return super.onInterceptTouchEvent(ev);
     }
 
     public void setRightDistance(int distance){
-        this.rightDistance=distance*19/20;
+        this.rightDistance = distance*19/20;
     }
 
 }

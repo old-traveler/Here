@@ -4,46 +4,70 @@ import java.io.Serializable;
 import cn.bmob.v3.BmobUser;
 
 /**
- * Created by hyc on 2017/6/23 11:04
+ * 用户类 Created by hyc on 2017/6/23 11:04
  */
 
 public class User  extends BmobUser implements Serializable{
-
+    /**
+     * 姓名
+     */
     private String name;
-
+    /**
+     * 昵称
+     */
     private String nickname;
-
+    /**
+     * 性别
+     */
     private String sex;
-
+    /**
+     * 年龄
+     */
     private int age;
-
+    /**
+     * 生日
+     */
     private String DateOfBirth;
-
+    /**
+     * 简介
+     */
     private String introduction;
-
+    /**
+     * 标签
+     */
     private String[] tips;
-
+    /**
+     * 头像地址
+     */
     private String headImageUrl;
-
+    /**
+     * 用户地址
+     */
     private String address;
-
+    /**
+     * 家庭住址
+     */
+    private String homeAddress;
+    /**
+     * 是否向其他用户展示电话号码
+     */
     private boolean isShowNumber;
-
+    /**
+     * 是否向其他用户展示年龄
+     */
     private boolean isShowAge;
-
+    /**
+     * 是否向其他用户展示生日日期
+     */
     private boolean isShowDataOfBirth;
-
+    /**
+     * 用户背景图片地址
+     */
     private String backgroundUrl;
-
-    private String kind;
-
-    public String getKind() {
-        return kind;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
+    /**
+     * 身份证号
+     */
+    private String idCard;
 
     public String getNickname() {
         return nickname;
@@ -147,5 +171,21 @@ public class User  extends BmobUser implements Serializable{
 
     public void setBackgroundUrl(String backgroundUrl) {
         this.backgroundUrl = backgroundUrl;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(String homeAddress) {
+        this.homeAddress = homeAddress;
     }
 }

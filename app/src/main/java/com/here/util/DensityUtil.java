@@ -1,5 +1,6 @@
 package com.here.util;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -68,5 +69,14 @@ public class DensityUtil {
         view.setLayoutParams(marginParams);
         view.requestLayout();
         return marginParams;
+    }
+
+    public static void setViewSize(View view,int width , int height){
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = width;
+        params.height = height;
+        view.setLayoutParams(params);
+        view.requestLayout();
+
     }
 }
