@@ -39,9 +39,15 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public static final int VOICE = 003;
 
+    public List<BmobIMMessage> getBmobIMMessages() {
+        return bmobIMMessages;
+    }
+
     private List<BmobIMMessage> bmobIMMessages;
 
     private MediaPlayer mediaPlayer;
+
+    private String imageUrl;
 
     public ChatAdapter(List<BmobIMMessage> bmobIMMessages){
         this.bmobIMMessages=bmobIMMessages;
@@ -100,11 +106,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     tHolder.pb_text_right.setVisibility(View.GONE);
                 }
             }else {
+
+                Glide.with(HereApplication.getContext())
+                        .load(imageUrl)
+                        .into(tHolder.cv_text_left_head);
+
                 tHolder.rl_text_right.setVisibility(View.GONE);
                 tHolder.rl_text_left.setVisibility(View.VISIBLE);
-                Glide.with(HereApplication.getContext())
-                        .load(bmobIMMessages.get(position).getBmobIMUserInfo().getAvatar())
-                        .into(tHolder.cv_text_left_head);
                 tHolder.tv_text_left.setText(bmobIMMessages.get(position).getContent());
             }
         }else if (holder instanceof ImageMessageHolder){
@@ -170,9 +178,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 }
                 iHolder.rl_image_left.setVisibility(View.VISIBLE);
                 iHolder.rl_image_right.setVisibility(View.GONE);
+
                 Glide.with(HereApplication.getContext())
-                        .load(bmobIMMessages.get(position).getBmobIMUserInfo().getAvatar())
+                        .load(imageUrl)
                         .into(iHolder.cv_image_left);
+
+
                 Glide.with(HereApplication.getContext())
                         .load(bmobIMMessages.get(position).getContent())
                         .asBitmap()
@@ -237,9 +248,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 final int position1 = position;
                 vHolder.rl_voice_left.setVisibility(View.VISIBLE);
                 vHolder.rl_voice_right.setVisibility(View.GONE);
+
                 Glide.with(HereApplication.getContext())
-                        .load(bmobIMMessages.get(position).getBmobIMUserInfo().getAvatar())
+                        .load(imageUrl)
                         .into(vHolder.cv_voice_left);
+
                 vHolder.rl_voice_left.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -265,6 +278,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public int getItemCount() {
         return bmobIMMessages.size();
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     class  TextMessageHolder extends RecyclerView.ViewHolder{
@@ -343,5 +360,15 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public void sendMessageSuccess(int position){
         notifyItemChanged(position);
+    }
+
+    public void insert(List<BmobIMMessage> data){
+        if (data != null && data.size()>0){
+            for (BmobIMMessage bmobIMMessage : data) {
+                int position = data.indexOf(bmobIMMessage);
+                bmobIMMessages.add(position,bmobIMMessage);
+                notifyItemInserted(position);
+            }
+        }
     }
 }

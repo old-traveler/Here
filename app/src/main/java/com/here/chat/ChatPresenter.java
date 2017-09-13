@@ -6,14 +6,18 @@ import com.here.base.BasePresenter;
 import com.here.bean.User;
 import com.here.util.TinyUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cn.bmob.newim.bean.BmobIMAudioMessage;
+import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMImageMessage;
 import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.newim.bean.BmobIMTextMessage;
 import cn.bmob.newim.listener.MessageSendListener;
+import cn.bmob.newim.listener.MessagesQueryListener;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 
@@ -75,6 +79,19 @@ public class ChatPresenter extends BasePresenter<ChatContract>  {
             }
         });
 
+    }
+
+    public void queryMessageRecord(BmobIMConversation conversation , BmobIMMessage message){
+        conversation.queryMessages(message, 10, new MessagesQueryListener() {
+            @Override
+            public void done(List<BmobIMMessage> list, BmobException e) {
+                if (e == null){
+                    mvpView.loadMessageRecord(list);
+                }else {
+                    mvpView.loadMessageRecord(new ArrayList<BmobIMMessage>());
+                }
+            }
+        });
     }
 
 

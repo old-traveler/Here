@@ -1,17 +1,21 @@
 package com.here.receiver;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.here.HereApplication;
+import com.here.R;
 import com.here.apply.ApplyActivity;
 import com.here.apply.ApplyPresenter;
 import com.here.bean.ImActivity;
 import com.here.bean.User;
 import com.here.going.GoingActivity;
 import com.here.util.ImActivityUtil;
+import com.here.util.ImUtil;
 import com.here.util.JoinUtil;
 import com.here.util.NotificationUtil;
 
@@ -31,9 +35,18 @@ import cn.bmob.v3.BmobUser;
  */
 
 public class HereMessageHandler extends BmobIMMessageHandler {
+    SoundPool soundPool;
 
     @Override
     public void onMessageReceive(MessageEvent messageEvent) {
+        soundPool= new SoundPool(1, AudioManager.STREAM_MUSIC,5);
+        soundPool.load(HereApplication.getContext(), R.raw.voice_tip,1);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                soundPool.play(sampleId, 0.6f, 0.6f, 1, 0, 1f);
+            }
+        });
         if (messageEvent.getMessage().getMsgType().equals("apply")) {
             Intent intent = new Intent(HereApplication.getContext(), ApplyActivity.class);
             Bundle bundle = new Bundle();
@@ -68,6 +81,8 @@ public class HereMessageHandler extends BmobIMMessageHandler {
                 JoinUtil.clearLimit();
             }
         } else {
+            messageEvent.getConversation().setUnreadCount(1);
+            ImUtil.updateUserInfo(messageEvent);
             EventBus.getDefault().post(messageEvent.getMessage());
         }
 
@@ -113,6 +128,8 @@ public class HereMessageHandler extends BmobIMMessageHandler {
                             JoinUtil.clearLimit();
                         }
                     } else {
+                        messageEvent.getConversation().setUnreadCount(1);
+                        ImUtil.updateUserInfo(messageEvent);
                         EventBus.getDefault().post(messageEvent.getMessage());
                     }
                 }

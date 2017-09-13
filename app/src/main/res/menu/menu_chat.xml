@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/chat_info"
+        android:id="@+id/chat_call"
         android:title="信息"
         app:showAsAction="always"
-        android:icon="@drawable/account"/>
+        android:icon="@drawable/call"/>
 </menu>

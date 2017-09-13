@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.here.bean.User;
@@ -16,7 +17,9 @@ import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.newim.bean.BmobIMTextMessage;
+import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.newim.core.ConnectionStatus;
+import cn.bmob.newim.event.MessageEvent;
 import cn.bmob.newim.listener.ConnectListener;
 import cn.bmob.newim.listener.ConnectStatusChangeListener;
 import cn.bmob.newim.listener.ConversationListener;
@@ -85,4 +88,32 @@ public class ImUtil {
             }
         });
     }
+
+    /**
+     * 更新会话的信息
+     * @param event
+     */
+    public static void updateUserInfo(MessageEvent event){
+        final BmobIMConversation conversation = event.getConversation();
+        if(conversation.getConversationId().equals(conversation.getConversationTitle())) {
+            UserUtil.searchUserInfoById(conversation.getConversationId(), new UserUtil.OnSearchUserListener() {
+                @Override
+                public void success(User user) {
+                    conversation.setConversationIcon(user.getHeadImageUrl());
+                    if (TextUtils.isEmpty(user.getNickname())) {
+                        conversation.setConversationTitle(user.getUsername());
+                    } else {
+                        conversation.setConversationTitle(user.getNickname());
+                    }
+                    BmobIM.getInstance().updateConversation(conversation);
+                }
+
+                @Override
+                public void fail(String error) {
+
+                }
+            });
+        }
+    }
+
 }

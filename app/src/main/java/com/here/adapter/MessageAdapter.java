@@ -47,13 +47,14 @@ public class MessageAdapter extends BaseQuickAdapter<BmobIMConversation>{
     @Override
     protected void convert(BaseViewHolder baseViewHolder, final BmobIMConversation bmobIMConversation) {
         baseViewHolder.setText(R.id.tv_message_nickname,bmobIMConversation.getConversationTitle());
-        SimpleDateFormat  time = new SimpleDateFormat("MM-DD-hh:mm");
+        SimpleDateFormat  time = new SimpleDateFormat("MM-dd-HH:mm");
         if (bmobIMConversation.getMessages().size() > 0){
-            String message_time = time.format(new Date(bmobIMConversation.getMessages()
-                    .get(bmobIMConversation.getMessages().size()-1).getUpdateTime()));
+            String message_time = time.format(new Date(bmobIMConversation
+                    .getMessages().get(0).getCreateTime()));
             int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-            if (System.currentTimeMillis() - bmobIMConversation.getMessages().get(bmobIMConversation.getMessages()
-                    .size()-1).getUpdateTime()<1000*60*60*24L && Integer.parseInt(message_time.split("-")[1]) == day){
+            if (System.currentTimeMillis() - bmobIMConversation.getMessages()
+                    .get(0).getCreateTime() < 1000*60*60*24L && Integer
+                    .parseInt(message_time.split("-")[1]) == day){
                 baseViewHolder.setText(R.id.tv_message_time,message_time.split("-")[2]);
             }else {
                 baseViewHolder.setText(R.id.tv_message_time,message_time.substring(0,5));
@@ -66,7 +67,7 @@ public class MessageAdapter extends BaseQuickAdapter<BmobIMConversation>{
                 baseViewHolder.setText(R.id.tv_message_content,"[语音]");
             }
         }
-        if (bmobIMConversation.getUnreadCount()>0){
+        if (BmobIM.getInstance().getUnReadCount(bmobIMConversation.getConversationId())>0){
             baseViewHolder.getView(R.id.rl_is_notice).setVisibility(View.VISIBLE);
         }else {
             baseViewHolder.getView(R.id.rl_is_notice).setVisibility(View.GONE);

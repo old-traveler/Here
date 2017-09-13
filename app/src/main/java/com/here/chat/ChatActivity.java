@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -107,13 +108,21 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
         initHome();
         initChat();
         initVoice();
-
+        c.setUnreadCount(0);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_chat,menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.chat_call){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initVoice() {
@@ -189,7 +198,8 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
                         } else {
                             int recordTime = recordManager.stopRecording();
                             if (recordTime > 1) {
-                                mvpPresenter.sendVoiceMessage(recordManager.getRecordFilePath(c.getConversationId()),recordTime);
+                                mvpPresenter.sendVoiceMessage(recordManager
+                                        .getRecordFilePath(c.getConversationId()),recordTime);
                             } else {
                                 layoutRecord.setVisibility(View.GONE);
                                 showShortToast().show();
@@ -234,10 +244,6 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
 
     private void initChat() {
-        chatAdapter = new ChatAdapter(new ArrayList<BmobIMMessage>());
-        rcView.setLayoutManager(new LinearLayoutManager(this));
-        rcView.setItemAnimator(new DefaultItemAnimator());
-        rcView.setAdapter(chatAdapter);
         c= BmobIMConversation.obtain(BmobIMClient.getInstance(), (BmobIMConversation) getBundle().getSerializable("c"));
         tvChatName.setText(c.getConversationTitle());
         editMsg.addTextChangedListener(new TextWatcher() {
@@ -260,6 +266,14 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
                     btnChatSend.setVisibility(View.VISIBLE);
                     btnChatVoice.setVisibility(View.GONE);
                 }
+            }
+        });
+        mvpPresenter.queryMessageRecord(c,null);
+        swRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mvpPresenter.queryMessageRecord(c,chatAdapter.getBmobIMMessages().get(0));
+                swRefresh.setRefreshing(false);
             }
         });
     }
@@ -317,7 +331,10 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BmobIMMessage event) {
-        chatAdapter.addNewMessage(rcView,event);
+        if (event.getFromId().equals(c.getConversationId())){
+            chatAdapter.addNewMessage(rcView,event);
+            c.setUnreadCount(0);
+        }
     }
 
     @Override
@@ -380,6 +397,27 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
     public void sending(int value) {
 
     }
+
+    @Override
+    public void loadMessageRecord(List<BmobIMMessage> messages) {
+        if (chatAdapter == null){
+            chatAdapter = new ChatAdapter(messages);
+            chatAdapter.setImageUrl(c.getConversationIcon());
+            rcView.setLayoutManager(new LinearLayoutManager(this));
+            rcView.setItemAnimator(new DefaultItemAnimator());
+            rcView.setAdapter(chatAdapter);
+            if (messages.size() > 0){
+                rcView.scrollToPosition(messages.size()-1);
+            }
+        }else {
+            if (messages.size() > 0){
+                chatAdapter.insert(messages);
+            }
+        }
+        swRefresh.setEnabled(messages.size() == 10);
+    }
+
+
 
     @Override
     public void sendSuccess(int position) {

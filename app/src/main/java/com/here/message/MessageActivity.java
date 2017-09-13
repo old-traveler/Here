@@ -13,7 +13,12 @@ import com.here.R;
 import com.here.adapter.MessageAdapter;
 import com.here.base.MvpActivity;
 import com.here.search.SearchActivity;
+import com.here.server.ChatInfoUpdateServer;
 import com.here.util.ImUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,6 +58,36 @@ public class MessageActivity extends MvpActivity<MessagePresenter> implements Me
                 slMessage.setRefreshing(false);
             }
         });
+
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (messageAdapter != null && ImUtil.isConnected){
+            messageAdapter.setNewData(BmobIM.getInstance().loadAllConversation());
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BmobIMMessage event) {
+        if (ImUtil.isConnected){
+            messageAdapter.setNewData(BmobIM.getInstance().loadAllConversation());
+        }
     }
 
     @Override

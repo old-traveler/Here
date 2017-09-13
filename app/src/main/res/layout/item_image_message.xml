@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -24,7 +25,6 @@
             app:arrowHeight="10dp"
             app:arrowPosition="17dp"
             app:arrowLocation="left"
-            app:arrowCenter="true"
             app:bubbleColor="#9d6cb6"
             android:id="@+id/iv_image_left"
             android:layout_marginTop="5dp"

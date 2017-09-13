@@ -120,11 +120,8 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".binding.BindInfoActivity" />
-
         <service
-            android:name=".server.ChatInfoUpdateServer"
-            android:enabled="true"
-            android:exported="true"></service>
+            android:name=".server.ChatInfoUpdateServer"/>
     </application>
 
 </manifest>

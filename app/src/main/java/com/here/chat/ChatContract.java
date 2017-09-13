@@ -29,6 +29,8 @@ public interface ChatContract {
 
     void sending(int value);
 
+    void loadMessageRecord(List<BmobIMMessage> messages);
+
     void sendSuccess(int position);
 
     String getMessage();
