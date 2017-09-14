@@ -47,6 +47,7 @@ public class HereMessageHandler extends BmobIMMessageHandler {
                 soundPool.play(sampleId, 0.6f, 0.6f, 1, 0, 1f);
             }
         });
+
         if (messageEvent.getMessage().getMsgType().equals("apply")) {
             Intent intent = new Intent(HereApplication.getContext(), ApplyActivity.class);
             Bundle bundle = new Bundle();
@@ -80,10 +81,13 @@ public class HereMessageHandler extends BmobIMMessageHandler {
                         false, null);
                 JoinUtil.clearLimit();
             }
-        } else {
+        } else if (messageEvent.getMessage().getMsgType().equals("call")){
+            EventBus.getDefault().post(messageEvent);
+            Log.i("TAG",messageEvent.getMessage().getMsgType()+"  "+ messageEvent.getMessage().getContent());
+        }else {
             messageEvent.getConversation().setUnreadCount(1);
             ImUtil.updateUserInfo(messageEvent);
-            EventBus.getDefault().post(messageEvent.getMessage());
+            EventBus.getDefault().post(messageEvent);
         }
 
     }
@@ -127,10 +131,10 @@ public class HereMessageHandler extends BmobIMMessageHandler {
                                     false, null);
                             JoinUtil.clearLimit();
                         }
-                    } else {
+                    } else if (!messageEvent.getMessage().getMsgType().equals("call")){
                         messageEvent.getConversation().setUnreadCount(1);
                         ImUtil.updateUserInfo(messageEvent);
-                        EventBus.getDefault().post(messageEvent.getMessage());
+                        EventBus.getDefault().post(messageEvent);
                     }
                 }
             }

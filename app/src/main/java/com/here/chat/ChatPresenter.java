@@ -3,6 +3,7 @@ package com.here.chat;
 import android.util.Log;
 
 import com.here.base.BasePresenter;
+import com.here.bean.CallMessage;
 import com.here.bean.User;
 import com.here.util.TinyUtil;
 
@@ -79,6 +80,23 @@ public class ChatPresenter extends BasePresenter<ChatContract>  {
             }
         });
 
+    }
+
+    public void sendVoiceRequest(BmobIMConversation conversation){
+        mvpView.showLoading();
+        CallMessage callMessage = new CallMessage();
+        callMessage.setContent("[语音电话]");
+        conversation.sendMessage(callMessage, new MessageSendListener() {
+            @Override
+            public void done(BmobIMMessage bmobIMMessage, BmobException e) {
+                mvpView.stopLoading();
+                if(e == null){
+                    mvpView.startVoiceChat();
+                }else {
+                    mvpView.sendFail("发送请求失败，请稍后再试");
+                }
+            }
+        });
     }
 
     public void queryMessageRecord(BmobIMConversation conversation , BmobIMMessage message){

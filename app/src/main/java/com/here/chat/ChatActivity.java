@@ -39,6 +39,7 @@ import com.here.base.MvpActivity;
 import com.here.bean.User;
 import com.here.immediate.NewImmediateActivity;
 import com.here.util.ImUtil;
+import com.here.voice.VoiceChatViewActivity;
 import com.imnjh.imagepicker.SImagePicker;
 import com.imnjh.imagepicker.activity.PhotoPickerActivity;
 
@@ -59,6 +60,7 @@ import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.newim.bean.BmobIMTextMessage;
 import cn.bmob.newim.core.BmobIMClient;
 import cn.bmob.newim.core.BmobRecordManager;
+import cn.bmob.newim.event.MessageEvent;
 import cn.bmob.newim.listener.MessageSendListener;
 import cn.bmob.newim.listener.OnRecordChangeListener;
 import cn.bmob.v3.BmobUser;
@@ -119,7 +121,8 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.chat_call){
+        if (item.getItemId() == R.id.chat_call && c != null){
+            mvpPresenter.sendVoiceRequest(c);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -330,9 +333,9 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(BmobIMMessage event) {
-        if (event.getFromId().equals(c.getConversationId())){
-            chatAdapter.addNewMessage(rcView,event);
+    public void onMessageEvent(MessageEvent event) {
+        if (event.getFromUserInfo().getUserId().equals(c.getConversationId())){
+            chatAdapter.addNewMessage(rcView,event.getMessage());
             c.setUnreadCount(0);
         }
     }
@@ -437,5 +440,14 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
     @Override
     public void cleanInput() {
         editMsg.setText("");
+    }
+
+    @Override
+    public void startVoiceChat() {
+        User user = BmobUser.getCurrentUser(User.class);
+        Intent intent = new Intent(this, VoiceChatViewActivity.class);
+        intent.putExtra("channel",user.getObjectId());
+        intent.putExtra("background",c.getConversationIcon());
+        startActivity(intent);
     }
 }

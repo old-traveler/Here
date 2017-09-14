@@ -65,6 +65,8 @@ public class MessageAdapter extends BaseQuickAdapter<BmobIMConversation>{
                 baseViewHolder.setText(R.id.tv_message_content,"[图片]");
             }else if(bmobIMConversation.getMessages().get(0).getMsgType().equals("sound")){
                 baseViewHolder.setText(R.id.tv_message_content,"[语音]");
+            }else if (bmobIMConversation.getMessages().get(0).getMsgType().equals("call")){
+                baseViewHolder.setText(R.id.tv_message_content,"[语音电话]");
             }
         }
         if (BmobIM.getInstance().getUnReadCount(bmobIMConversation.getConversationId())>0){

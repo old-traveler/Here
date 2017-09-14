@@ -39,6 +39,7 @@ public interface ChatContract {
 
     void cleanInput();
 
+    void startVoiceChat();
 
 
 }

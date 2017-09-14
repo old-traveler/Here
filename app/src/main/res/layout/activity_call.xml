@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/chat_back"
+    tools:context=".voice.CallActivity">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/cv_head"
+        android:layout_marginTop="110dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="120dp"
+        android:layout_height="120dp" />
+    <TextView
+        android:id="@+id/tv_nickname"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/cv_head"
+        android:text="这里是昵称"
+        android:textColor="#504f4f"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cv_accept"
+            android:layout_weight="1"
+            android:src="@drawable/accpect_call"
+            android:layout_width="65dp"
+            android:layout_height="65dp" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cv_refuse"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:src="@drawable/refuse_call"
+            android:layout_width="55dp"
+            android:layout_height="55dp" />
+    </LinearLayout>
+</RelativeLayout>

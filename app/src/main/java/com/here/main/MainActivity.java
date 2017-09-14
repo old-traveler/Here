@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.here.R;
@@ -40,7 +41,11 @@ import com.here.scan.ScanActivity;
 import com.here.setting.SettingActivity;
 import com.here.util.ImUtil;
 import com.here.view.MyViewPage;
+import com.here.voice.CallActivity;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.litepal.tablemanager.Connector;
 
 import java.util.ArrayList;
@@ -49,6 +54,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.newim.event.MessageEvent;
 import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 import qiu.niorgai.StatusBarCompat;
@@ -148,12 +154,34 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
     protected void onStart() {
         super.onStart();
         registerReceiver();
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         unregisterReceiver();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event) {
+        if (event.getMessage().getMsgType().equals("call")){
+            Intent intent = new Intent(this , CallActivity.class);
+            intent.putExtra("name",event.getFromUserInfo().getName());
+            intent.putExtra("channel",event.getFromUserInfo().getUserId());
+            intent.putExtra("background",event.getFromUserInfo().getAvatar());
+            startActivity(intent);
+        }
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {

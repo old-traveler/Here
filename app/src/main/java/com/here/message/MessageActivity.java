@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMMessage;
+import cn.bmob.newim.event.MessageEvent;
 
 public class MessageActivity extends MvpActivity<MessagePresenter> implements MessageContract {
 
@@ -84,7 +85,7 @@ public class MessageActivity extends MvpActivity<MessagePresenter> implements Me
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(BmobIMMessage event) {
+    public void onMessageEvent(MessageEvent event) {
         if (ImUtil.isConnected){
             messageAdapter.setNewData(BmobIM.getInstance().loadAllConversation());
         }
