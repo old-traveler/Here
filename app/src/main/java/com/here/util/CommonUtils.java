@@ -1,8 +1,15 @@
 package com.here.util;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.view.View;
+
 import com.here.HereApplication;
 
 public class CommonUtils {
+
+
 
     /**
      * 获取dimens定义的大小
@@ -43,6 +50,18 @@ public class CommonUtils {
         }
         return size;
     }
+
+    public static Bundle captureValues(@NonNull View view) {
+        Bundle b = new Bundle();
+        int[] screenLocation = new int[2];
+        view.getLocationOnScreen(screenLocation);
+        b.putInt("left", screenLocation[0]);
+        b.putInt("top", screenLocation[1]);
+        b.putInt("width", view.getWidth());
+        b.putInt("height", view.getHeight());
+        return b;
+    }
+
 
 
 

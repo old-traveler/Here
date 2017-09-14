@@ -4,15 +4,17 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.here.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bmob.newim.bean.BmobIMUserInfo;
 import de.hdodenhof.circleimageview.CircleImageView;
 import qiu.niorgai.StatusBarCompat;
 
@@ -30,16 +32,33 @@ public class CallActivity extends AppCompatActivity {
         StatusBarCompat.translucentStatusBar(this);
         setContentView(R.layout.activity_call);
         ButterKnife.bind(this);
-        Glide.with(this).load(getIntent().getStringExtra("background")).into(cvHead);
-        tvNickname.setText(getIntent().getStringExtra("name"));
-        soundPool= new SoundPool(1,AudioManager.STREAM_MUSIC,5);
+        Glide.with(this).load(getIntent()
+                .getStringExtra("background")).into(cvHead);
+        tvNickname.setText(getIntent()
+                .getStringExtra("name"));
+        soundPool= new SoundPool(1,AudioManager
+                .STREAM_MUSIC,5);
         soundPool.load(this,R.raw.call,1);
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+        soundPool.setOnLoadCompleteListener(
+                new SoundPool.OnLoadCompleteListener() {
             @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+            public void onLoadComplete(SoundPool soundPool
+                    , int sampleId, int status) {
                 soundPool.play(sampleId, 0.6f, 0.6f, 1, -1, 1f);
             }
         });
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!isDestroyed()){
+                    Toast.makeText(CallActivity.this,"对方已放弃"
+                            , Toast.LENGTH_SHORT).show();
+                    soundPool.autoPause();
+                    soundPool.release();
+                    finish();
+                }
+            }
+        }, 30000);
     }
 
     @OnClick({R.id.cv_accept, R.id.cv_refuse})
@@ -48,15 +67,22 @@ public class CallActivity extends AppCompatActivity {
         soundPool.release();
         switch (view.getId()) {
             case R.id.cv_accept:
-                Intent intent = new Intent(this,VoiceChatViewActivity.class);
-                intent.putExtra("channel",getIntent().getSerializableExtra("channel"));
-                intent.putExtra("background",getIntent().getSerializableExtra("background"));
-                startActivity(intent);
-                finish();
+                accept();
                 break;
             case R.id.cv_refuse:
                 finish();
                 break;
         }
+    }
+
+    public void accept(){
+        Intent intent = new Intent(this,
+                VoiceChatViewActivity.class);
+        intent.putExtra("channel",getIntent()
+                .getSerializableExtra("channel"));
+        intent.putExtra("background",getIntent()
+                .getSerializableExtra("background"));
+        startActivity(intent);
+        finish();
     }
 }

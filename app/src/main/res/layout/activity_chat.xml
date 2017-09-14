@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/ll_chat"
     android:layout_height="match_parent"
     tools:context="com.here.chat.ChatActivity"
     android:orientation="vertical">
@@ -66,6 +67,19 @@
                 android:text="@string/voice_up_tips"
                 android:textSize="14sp" />
         </RelativeLayout>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_chat_notice"
+            android:paddingRight="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:paddingLeft="10dp"
+            android:background="#e27ec0ee"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
     </FrameLayout>
 
     <include layout="@layout/include_chat_bottom_bar"/>

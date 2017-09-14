@@ -1,6 +1,7 @@
 package com.here.photo;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.here.R;
 import com.here.base.BasePresenter;

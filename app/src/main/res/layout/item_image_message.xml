@@ -20,6 +20,7 @@
             android:layout_height="@dimen/item_head_length" />
 
         <com.github.library.bubbleview.BubbleImageView
+            android:transitionName="transitionImg"
             app:arrowWidth="8dp"
             app:angle="8dp"
             app:arrowHeight="10dp"
@@ -47,6 +48,7 @@
             android:layout_height="@dimen/item_head_length" />
 
         <com.github.library.bubbleview.BubbleImageView
+            android:transitionName="transitionImg"
             app:arrowWidth="8dp"
             app:angle="8dp"
             app:arrowHeight="10dp"

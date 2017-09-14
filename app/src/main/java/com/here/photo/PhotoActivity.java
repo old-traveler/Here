@@ -1,17 +1,28 @@
 package com.here.photo;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.here.R;
 import com.here.base.MvpActivity;
+import com.here.util.CommonUtils;
+import com.scwang.smartrefresh.header.waveswipe.DropBounceInterpolator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import qiu.niorgai.StatusBarCompat;
+import uk.co.senab.photoview.DefaultOnDoubleTapListener;
 import uk.co.senab.photoview.PhotoView;
+
+import static com.autonavi.ae.gmap.glanimation.ADGLAnimation.DEFAULT_DURATION;
 
 
 public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoContract {
@@ -32,6 +43,8 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
         mvpPresenter.showImage();
     }
 
+
+
     @Override
     protected PhotoPresenter createPresenter() {
         return new PhotoPresenter();
@@ -43,6 +56,7 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
         Glide.with(this)
                 .load(url)
                 .into(photo);
+
     }
 
     @Override
@@ -57,4 +71,9 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
     public void onViewClicked() {
         finish();
     }
+
+
+
+
+
 }

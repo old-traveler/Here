@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,41 +30,32 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.here.R;
 import com.here.adapter.ChatAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.User;
-import com.here.immediate.NewImmediateActivity;
-import com.here.util.ImUtil;
 import com.here.voice.VoiceChatViewActivity;
 import com.imnjh.imagepicker.SImagePicker;
 import com.imnjh.imagepicker.activity.PhotoPickerActivity;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMMessage;
-import cn.bmob.newim.bean.BmobIMTextMessage;
 import cn.bmob.newim.core.BmobIMClient;
 import cn.bmob.newim.core.BmobRecordManager;
 import cn.bmob.newim.event.MessageEvent;
-import cn.bmob.newim.listener.MessageSendListener;
 import cn.bmob.newim.listener.OnRecordChangeListener;
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
 
-public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatContract {
+
+public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatContract, View.OnLayoutChangeListener {
 
     @Bind(R.id.tv_chat_name)
     TextView tvChatName;
@@ -95,10 +84,18 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
     @Bind(R.id.btn_chat_send)
     Button btnChatSend;
     BmobIMConversation c;
+    @Bind(R.id.tv_chat_notice)
+    TextView tvChatNotice;
+    @Bind(R.id.ll_chat)
+    LinearLayout llChat;
     private ChatAdapter chatAdapter;
     private Drawable[] drawable_Anims;
     BmobRecordManager recordManager;
     public static final int REQUEST_CODE_IMAGE = 101;
+    private int screenHeight = 0;
+    //软件盘弹起后所占高度阀值
+    private int keyHeight = 0;
+    private boolean isKeyOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,17 +108,27 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
         initChat();
         initVoice();
         c.setUnreadCount(0);
+        screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
+        keyHeight = screenHeight/3;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //添加layout大小发生改变监听器
+        llChat.addOnLayoutChangeListener(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_chat,menu);
+        getMenuInflater().inflate(R.menu.menu_chat, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.chat_call && c != null){
+        if (item.getItemId() == R.id.chat_call && c != null) {
             mvpPresenter.sendVoiceRequest(c);
             return true;
         }
@@ -130,12 +137,12 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
     private void initVoice() {
         btnSpeak.setOnTouchListener(new VoiceTouchListener());
-        drawable_Anims = new Drawable[] {
+        drawable_Anims = new Drawable[]{
                 getResources().getDrawable(R.mipmap.chat_icon_voice2),
                 getResources().getDrawable(R.mipmap.chat_icon_voice3),
                 getResources().getDrawable(R.mipmap.chat_icon_voice4),
                 getResources().getDrawable(R.mipmap.chat_icon_voice5),
-                getResources().getDrawable(R.mipmap.chat_icon_voice6) };
+                getResources().getDrawable(R.mipmap.chat_icon_voice6)};
         recordManager = BmobRecordManager.getInstance(this);
         recordManager.setOnRecordChangeListener(new OnRecordChangeListener() {
             @Override
@@ -162,13 +169,31 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
         });
     }
 
+    @Override
+    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+        //现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
+        if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > keyHeight)){
+            if (chatAdapter.getItemCount() > 0){
+                rcView.scrollToPosition(chatAdapter.getItemCount()-1);
+            }
+            isKeyOpen = true;
+        }else if(oldBottom != 0 && bottom != 0 &&(bottom - oldBottom > keyHeight)){
+            isKeyOpen = false;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     class VoiceTouchListener implements View.OnTouchListener {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    if (!android.os.Environment.getExternalStorageState().equals(
-                            android.os.Environment.MEDIA_MOUNTED)) {
+                    if (!Environment.getExternalStorageState().equals(
+                            Environment.MEDIA_MOUNTED)) {
                         toastShow("发送语音需要sdcard支持！");
                         return false;
                     }
@@ -202,7 +227,7 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
                             int recordTime = recordManager.stopRecording();
                             if (recordTime > 1) {
                                 mvpPresenter.sendVoiceMessage(recordManager
-                                        .getRecordFilePath(c.getConversationId()),recordTime);
+                                        .getRecordFilePath(c.getConversationId()), recordTime);
                             } else {
                                 layoutRecord.setVisibility(View.GONE);
                                 showShortToast().show();
@@ -245,9 +270,8 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
     }
 
 
-
     private void initChat() {
-        c= BmobIMConversation.obtain(BmobIMClient.getInstance(), (BmobIMConversation) getBundle().getSerializable("c"));
+        c = BmobIMConversation.obtain(BmobIMClient.getInstance(), (BmobIMConversation) getBundle().getSerializable("c"));
         tvChatName.setText(c.getConversationTitle());
         editMsg.addTextChangedListener(new TextWatcher() {
             @Override
@@ -262,40 +286,51 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(editMsg.getText().toString())){
+                if (TextUtils.isEmpty(editMsg.getText().toString())) {
                     btnChatVoice.setVisibility(View.VISIBLE);
                     btnChatSend.setVisibility(View.GONE);
-                }else {
+                } else {
                     btnChatSend.setVisibility(View.VISIBLE);
                     btnChatVoice.setVisibility(View.GONE);
                 }
             }
         });
-        mvpPresenter.queryMessageRecord(c,null);
+        mvpPresenter.queryMessageRecord(c, null);
         swRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mvpPresenter.queryMessageRecord(c,chatAdapter.getBmobIMMessages().get(0));
+                mvpPresenter.queryMessageRecord(c, chatAdapter.getBmobIMMessages().get(0));
                 swRefresh.setRefreshing(false);
             }
         });
+        rcView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy < -2 && isKeyOpen){
+                    hideSoftInputView();
+                }
+            }
+        });
+
     }
+
 
     public Bundle getBundle() {
         if (getIntent() != null && getIntent().hasExtra(getPackageName()))
             return getIntent().getBundleExtra(getPackageName());
-        else{
+        else {
             return null;
         }
 
     }
 
 
-
     @Override
     protected ChatPresenter createPresenter() {
         return new ChatPresenter();
     }
+
     public void hideSoftInputView() {
         InputMethodManager manager = ((InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE));
         if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
@@ -334,9 +369,19 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
-        if (event.getFromUserInfo().getUserId().equals(c.getConversationId())){
-            chatAdapter.addNewMessage(rcView,event.getMessage());
-            c.setUnreadCount(0);
+        if (event.getFromUserInfo().getUserId().equals(c.getConversationId())) {
+            chatAdapter.addNewMessage(rcView, event.getMessage());
+            event.getConversation().setUnreadCount(0);
+        } else {
+            tvChatNotice.setVisibility(View.VISIBLE);
+            tvChatNotice.setText(event.getFromUserInfo().getName()
+                    + "：" + event.getMessage().getContent());
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    tvChatNotice.setVisibility(View.GONE);
+                }
+            }, 5000);
         }
     }
 
@@ -367,8 +412,8 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
     @Override
     public int sendTextMessage(BmobIMMessage bmobIMMessage) {
-        chatAdapter.addNewMessage(rcView,bmobIMMessage);
-        return chatAdapter.getItemCount()-1;
+        chatAdapter.addNewMessage(rcView, bmobIMMessage);
+        return chatAdapter.getItemCount() - 1;
     }
 
     @Override
@@ -403,23 +448,22 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
     @Override
     public void loadMessageRecord(List<BmobIMMessage> messages) {
-        if (chatAdapter == null){
-            chatAdapter = new ChatAdapter(messages);
+        if (chatAdapter == null) {
+            chatAdapter = new ChatAdapter(messages, new WeakReference<Activity>(ChatActivity.this));
             chatAdapter.setImageUrl(c.getConversationIcon());
             rcView.setLayoutManager(new LinearLayoutManager(this));
             rcView.setItemAnimator(new DefaultItemAnimator());
             rcView.setAdapter(chatAdapter);
-            if (messages.size() > 0){
-                rcView.scrollToPosition(messages.size()-1);
+            if (messages.size() > 0) {
+                rcView.scrollToPosition(messages.size() - 1);
             }
-        }else {
-            if (messages.size() > 0){
+        } else {
+            if (messages.size() > 0) {
                 chatAdapter.insert(messages);
             }
         }
         swRefresh.setEnabled(messages.size() == 10);
     }
-
 
 
     @Override
@@ -446,8 +490,8 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
     public void startVoiceChat() {
         User user = BmobUser.getCurrentUser(User.class);
         Intent intent = new Intent(this, VoiceChatViewActivity.class);
-        intent.putExtra("channel",user.getObjectId());
-        intent.putExtra("background",c.getConversationIcon());
+        intent.putExtra("channel", user.getObjectId());
+        intent.putExtra("background", c.getConversationIcon());
         startActivity(intent);
     }
 }

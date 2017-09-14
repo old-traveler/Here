@@ -43,9 +43,11 @@ public class ApplyActivity extends MvpActivity<ApplyPresenter> implements ApplyC
         setToolBar(R.id.tb_apply);
         initHome();
         mvpPresenter.loadingData();
-        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager manager = (NotificationManager)
+                getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(getIntent().getIntExtra("id",0));
     }
+
 
     @Override
     protected ApplyPresenter createPresenter() {
@@ -69,13 +71,15 @@ public class ApplyActivity extends MvpActivity<ApplyPresenter> implements ApplyC
 
     @Override
     public MessageEvent getApplyUserInfo() {
-        return (MessageEvent) getIntent().getSerializableExtra("apply");
+        return (MessageEvent) getIntent()
+                .getSerializableExtra("apply");
     }
 
     @Override
     public void respondSuccess(String msg) {
         new AlertView("提示", msg, null
-                , new String[]{"确定"}, null, this, AlertView.Style.Alert, new OnItemClickListener() {
+                , new String[]{"确定"}, null, this, AlertView
+                .Style.Alert, new OnItemClickListener() {
             @Override
             public void onItemClick(Object o, int position) {
                 finish();

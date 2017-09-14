@@ -59,7 +59,9 @@
         <activity android:name=".main.MainActivity" />
         <activity android:name=".password.PasswordActivity" />
         <activity android:name=".account.AccountActivity" />
-        <activity android:name=".photo.PhotoActivity" />
+        <activity
+            android:theme="@style/Transparent"
+            android:name=".photo.PhotoActivity" />
         <activity
             android:name=".immediate.NewImmediateActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -85,7 +87,8 @@
         <service android:name="cn.bmob.newim.core.service.ReConnectService" />
         <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
 
-        <activity android:name=".chat.ChatActivity" />
+        <activity android:name=".chat.ChatActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity android:name=".message.MessageActivity" />
         <activity android:name=".search.SearchActivity" />
         <activity android:name=".apply.ApplyActivity" />

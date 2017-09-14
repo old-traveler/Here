@@ -85,10 +85,10 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         propagandas[5].setDescribe("陪我去看一场烟花");
         propagandas[5].setImage(R.drawable.page_6);
         Community.setPropagandas(propagandas);
-        list.add(c);
         Community com =new Community();
         com.setType(Community.TYPE_COMMUNITY);
         list.add(com);
+        list.add(c);
         Community tip = new Community();
         tip.setType(Community.TYPE_TIPS);
         list.add(tip);

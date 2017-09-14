@@ -1,11 +1,16 @@
 package com.here.adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +23,15 @@ import com.github.library.bubbleview.BubbleImageView;
 import com.here.HereApplication;
 import com.here.R;
 import com.here.bean.User;
+import com.here.chat.ChatActivity;
+import com.here.photo.PhotoActivity;
+import com.here.photo.PhotoPresenter;
+import com.here.util.CommentUtil;
 import com.here.util.CommonUtils;
 import com.here.util.DensityUtil;
 import com.here.util.NetworkState;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.List;
 import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.v3.BmobUser;
@@ -49,8 +59,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private String imageUrl;
 
-    public ChatAdapter(List<BmobIMMessage> bmobIMMessages){
+    private WeakReference<Activity> context;
+
+    public ChatAdapter(List<BmobIMMessage> bmobIMMessages, WeakReference<Activity> context){
         this.bmobIMMessages=bmobIMMessages;
+        this.context = context;
     }
 
     @Override
@@ -106,7 +119,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     tHolder.pb_text_right.setVisibility(View.GONE);
                 }
             }else {
-
                 Glide.with(HereApplication.getContext())
                         .load(imageUrl)
                         .into(tHolder.cv_text_left_head);
@@ -117,6 +129,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             }
         }else if (holder instanceof ImageMessageHolder){
             final ImageMessageHolder iHolder = (ImageMessageHolder) holder;
+            final String url ;
+            if (bmobIMMessages.get(position).getContent().indexOf("&") != -1){
+                url = bmobIMMessages.get(position).getContent().split("&")[0];
+            }else {
+                url = bmobIMMessages.get(position).getContent();
+            }
             if (bmobIMMessages.get(position).getFromId().equals(BmobUser
                     .getCurrentUser(User.class).getObjectId())){
                 iHolder.rl_image_left.setVisibility(View.GONE);
@@ -138,19 +156,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     e.printStackTrace();
                     Log.i("出错","解析格式出错"+info);
                 }
-                if (bmobIMMessages.get(position).getContent().indexOf("&") != -1){
-                    Glide.with(HereApplication.getContext())
-                            .load(bmobIMMessages.get(position).getContent().split("&")[0])
-                            .asBitmap()
-                            .override(width,height)
-                            .into(iHolder.iv_image_right);
-                }else {
-                    Glide.with(HereApplication.getContext())
-                            .load(bmobIMMessages.get(position).getContent())
-                            .asBitmap()
-                            .override(width,height)
-                            .into(iHolder.iv_image_right);
-                }
+
+                Glide.with(HereApplication.getContext())
+                        .load(url)
+                        .asBitmap()
+                        .override(width,height)
+                        .into(iHolder.iv_image_right);
                 if (bmobIMMessages.get(position).getSendStatus() == 2){
                     iHolder.iv_image_fail.setVisibility(View.GONE);
                     iHolder.pb_image.setVisibility(View.GONE);
@@ -161,6 +172,21 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     iHolder.pb_image.setVisibility(View.GONE);
                     iHolder.iv_image_fail.setVisibility(View.VISIBLE);
                 }
+                iHolder.iv_image_right.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PhotoPresenter.imageUrl = url;
+                        Intent intent = new Intent(context.get(), PhotoActivity.class);
+                        if (android.os.Build.VERSION.SDK_INT > 20) {
+                            context.get().startActivity(intent, ActivityOptions
+                                    .makeSceneTransitionAnimation(context.get(),
+                                    iHolder.iv_image_right,"transitionImg").toBundle());
+                        } else {
+                            context.get().startActivity(intent);
+                        }
+
+                    }
+                });
             }else {
                 int width = 0;
                 int height = 0;
@@ -183,13 +209,25 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                         .load(imageUrl)
                         .into(iHolder.cv_image_left);
 
-
                 Glide.with(HereApplication.getContext())
                         .load(bmobIMMessages.get(position).getContent())
                         .asBitmap()
                         .override(width,height)
                         .into(iHolder.iv_image_left);
-
+                iHolder.iv_image_left.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PhotoPresenter.imageUrl = url;
+                        Intent intent = new Intent(context.get(), PhotoActivity.class);
+                        if (android.os.Build.VERSION.SDK_INT > 20) {
+                            context.get().startActivity(intent, ActivityOptions
+                                    .makeSceneTransitionAnimation(context.get(),
+                                    iHolder.iv_image_left, "transitionImg").toBundle());
+                        } else {
+                            context.get().startActivity(intent);
+                        }
+                    }
+                });
             }
 
         }else if (holder instanceof VoiceMessageHolder){
