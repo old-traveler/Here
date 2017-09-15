@@ -36,6 +36,5 @@ public interface PostDetailsContract {
 
     void commentFail(String error);
 
-    void setLikeCount(int count);
 
 }

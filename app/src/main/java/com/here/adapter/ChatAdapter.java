@@ -393,7 +393,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         bmobIMMessages.add(bmobIMMessage);
         notifyItemInserted(bmobIMMessages.size()-1);
         recyclerView.scrollToPosition(bmobIMMessages.size()-1);
-
     }
 
     public void sendMessageSuccess(int position){

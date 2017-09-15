@@ -55,7 +55,7 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
         ButterKnife.bind(this, view);
         mvpPresenter.attachView(this);
         if (isLoad){
-            adapter = new CommunityDetailsAdapter(new ArrayList<Community>(), getContext());
+            adapter = new CommunityDetailsAdapter(new ArrayList<Community>(), getActivity());
             initView();
             slFollow.autoRefresh();
         }

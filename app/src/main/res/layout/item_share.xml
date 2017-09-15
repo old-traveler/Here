@@ -79,27 +79,24 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="110dp">
+                android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/iv_mood_image1"
                     android:layout_marginRight="1dp"
-                    android:layout_weight="1"
                     android:scaleType="centerCrop"
-                    android:layout_width="0dp"
+                    android:layout_width="110dp"
                     android:layout_height="110dp" />
                 <ImageView
                     android:id="@+id/iv_mood_image2"
-                    android:layout_weight="1"
                     android:layout_marginRight="1dp"
                     android:layout_marginLeft="1dp"
                     android:scaleType="centerCrop"
-                    android:layout_width="0dp"
+                    android:layout_width="110dp"
                     android:layout_height="110dp" />
                 <RelativeLayout
                     android:id="@+id/rl_mood_pic"
-                    android:layout_weight="1"
                     android:layout_marginLeft="1dp"
-                    android:layout_width="0dp"
+                    android:layout_width="110dp"
                     android:layout_height="110dp">
                     <ImageView
                         android:id="@+id/iv_mood_image3"

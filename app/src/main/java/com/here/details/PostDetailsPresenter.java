@@ -29,7 +29,6 @@ public class PostDetailsPresenter  extends BasePresenter<PostDetailsContract>{
             mvpView.setAppointment(mvpView.getAppointment());
             publishId = mvpView.getAppointment().getObjectId();
         }
-        loadLikesCount();
         loadComment();
     }
 
@@ -56,24 +55,7 @@ public class PostDetailsPresenter  extends BasePresenter<PostDetailsContract>{
         });
     }
 
-    public void loadLikesCount(){
-        LikeUtil.queryLikeCount(publishId, new LikeUtil.OnCountQuery() {
-            @Override
-            public void success(int count) {
-                if (mvpView != null){
-                    mvpView.setLikeCount(count);
-                }
 
-            }
-
-            @Override
-            public void fail(String error) {
-                if (mvpView !=null ){
-                    mvpView.loadFail("查询点赞出错 "+error);
-                }
-            }
-        });
-    }
 
     public void comment(){
         if (TextUtils.isEmpty(mvpView.getCommentMessage())){

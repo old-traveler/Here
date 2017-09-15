@@ -51,6 +51,51 @@ public class CommonUtils {
         return size;
     }
 
+    public static int[] zoomImageDetail(int width , int height){
+        int[] size = new int[2];
+        if (width > height){
+            if (width > dipToPx(250)){
+                size[0] = dipToPx(250);
+                size[1] = height * dipToPx(250) / width;
+            }else {
+                size[0] = width;
+                size[1] = height;
+            }
+        }else {
+            if (height > dipToPx(300)){
+                size[0] = width * dipToPx(300) / height;
+                size[1] = dipToPx(300);
+            }else {
+                size[0] = width;
+                size[1] = height;
+            }
+        }
+        return size;
+    }
+
+
+    public static int[] zoomCommunityImage(int width , int height){
+        int[] size = new int[2];
+        if (width > height){
+            if (width > dipToPx(210)){
+                size[0] = dipToPx(210);
+                size[1] = height * dipToPx(210) / width;
+            }else {
+                size[0] = width;
+                size[1] = height;
+            }
+        }else {
+            if (height > dipToPx(250)){
+                size[0] = width * dipToPx(250) / height;
+                size[1] = dipToPx(250);
+            }else {
+                size[0] = width;
+                size[1] = height;
+            }
+        }
+        return size;
+    }
+
     public static Bundle captureValues(@NonNull View view) {
         Bundle b = new Bundle();
         int[] screenLocation = new int[2];

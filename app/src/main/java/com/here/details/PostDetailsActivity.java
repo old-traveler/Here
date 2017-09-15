@@ -1,5 +1,6 @@
 package com.here.details;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,7 +11,9 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.here.R;
 import com.here.adapter.CommentAdapter;
@@ -19,10 +22,13 @@ import com.here.base.MvpActivity;
 import com.here.bean.Appointment;
 import com.here.bean.Comment;
 import com.here.bean.Mood;
+import com.here.personal.other.OtherInfoActivity;
 import com.here.view.MyGridLayoutManager;
 import com.sackcentury.shinebuttonlib.ShineButton;
+
 import java.util.Arrays;
 import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -62,8 +68,9 @@ public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> imple
     EditText etCommentInput;
     @Bind(R.id.sb_post_like)
     ShineButton sbPostLike;
-    @Bind(R.id.tv_like_comment)
-    TextView tvLikeComment;
+
+    @Bind(R.id.pb_post_loading)
+    ProgressBar pbPostLoading;
 
     private DetailsImageAdapter adapter;
 
@@ -120,10 +127,20 @@ public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> imple
     }
 
     @Override
-    public void setMood(Mood mood) {
+    public void setMood(final Mood mood) {
         Glide.with(this)
                 .load(mood.getPublisher().getHeadImageUrl())
                 .into(cvPostHead);
+        cvPostHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PostDetailsActivity.this, OtherInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("other",mood.getPublisher());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
         tvPostNickname.setText(mood.getPublisher().getNickname());
         tvPostTime.setText(mood.getPublisherDate());
         tvPostTitle.setText(mood.getTitle());
@@ -132,7 +149,7 @@ public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> imple
         llPostLocation.setVisibility(View.GONE);
         tvPostInterval.setVisibility(View.GONE);
         tvPostNumber.setVisibility(View.GONE);
-        if (mood.getImages() == null || mood.getImages().length<1){
+        if (mood.getImages() == null || mood.getImages().length < 1) {
             rvImagePost.setVisibility(View.GONE);
             return;
         }
@@ -161,9 +178,9 @@ public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> imple
         tvPostContent.setText(appointment.getDescribe());
         tvPostTips.setText(appointment.getKind());
         tvPostAddress.setText(appointment.getAddress());
-        tvPostTime.setText(appointment.getStartDate()+"~"+appointment.getOverDate());
-        tvPostNumber.setText("参与人数："+appointment.getJoinNumber());
-        if (appointment.getImages() == null || appointment.getImages().length<1){
+        tvPostTime.setText(appointment.getStartDate() + "~" + appointment.getOverDate());
+        tvPostNumber.setText("参与人数：" + appointment.getJoinNumber());
+        if (appointment.getImages() == null || appointment.getImages().length < 1) {
             rvImagePost.setVisibility(View.GONE);
             return;
         }
@@ -193,12 +210,12 @@ public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> imple
 
     @Override
     public void showLoading() {
-        showProgressDialog();
+        pbPostLoading.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void stopLoading() {
-        dissmiss();
+        pbPostLoading.setVisibility(View.GONE);
     }
 
     @Override
@@ -209,7 +226,7 @@ public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> imple
     @Override
     public void commentSuccess(Comment comment) {
         etCommentInput.setText("");
-        commentAdapter.add(commentAdapter.getItemCount(),comment);
+        commentAdapter.add(commentAdapter.getItemCount(), comment);
     }
 
     @Override
@@ -217,10 +234,7 @@ public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> imple
         toastShow(error);
     }
 
-    @Override
-    public void setLikeCount(int count) {
-        tvLikeComment.setText(""+count);
-    }
+
 
     @OnClick({R.id.cv_post_head, R.id.sb_post_like})
     public void onViewClicked(View view) {

@@ -135,7 +135,7 @@
             <LinearLayout
                 android:id="@+id/ll_appointment_images"
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="15dp"
@@ -143,26 +143,23 @@
 
                 <ImageView
                     android:id="@+id/iv_appointment_image1"
-                    android:layout_width="0dp"
+                    android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_marginRight="1dp"
-                    android:layout_weight="1"
                     android:scaleType="centerCrop" />
 
                 <ImageView
                     android:id="@+id/iv_appointment_image2"
-                    android:layout_width="0dp"
+                    android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
-                    android:layout_weight="1"
                     android:scaleType="centerCrop" />
 
                 <RelativeLayout
-                    android:layout_width="0dp"
+                    android:layout_width="110dp"
                     android:layout_height="110dp"
-                    android:layout_marginLeft="1dp"
-                    android:layout_weight="1">
+                    android:layout_marginLeft="1dp">
 
                     <ImageView
                         android:id="@+id/iv_appointment_image3"

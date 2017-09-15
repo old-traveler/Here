@@ -170,10 +170,11 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
     }
 
     @Override
-    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+    public void onLayoutChange(View v, int left, int top, int right, int bottom,
+                               int oldLeft, int oldTop, int oldRight, int oldBottom) {
         //现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
         if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > keyHeight)){
-            if (chatAdapter.getItemCount() > 0){
+            if (chatAdapter.getItemCount() > 0 ){
                 rcView.scrollToPosition(chatAdapter.getItemCount()-1);
             }
             isKeyOpen = true;
@@ -494,4 +495,6 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
         intent.putExtra("background", c.getConversationIcon());
         startActivity(intent);
     }
+
+
 }

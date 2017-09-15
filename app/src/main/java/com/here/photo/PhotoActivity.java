@@ -56,7 +56,6 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
         Glide.with(this)
                 .load(url)
                 .into(photo);
-
     }
 
     @Override
