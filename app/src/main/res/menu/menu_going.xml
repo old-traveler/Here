@@ -4,6 +4,6 @@
     <item
         android:id="@+id/refresh_going"
         android:title="刷新"
-        android:icon="@drawable/map_refresh"
+        android:icon="@drawable/refresh"
         app:showAsAction="always"/>
 </menu>

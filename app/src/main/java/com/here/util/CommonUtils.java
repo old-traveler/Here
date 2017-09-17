@@ -51,6 +51,12 @@ public class CommonUtils {
         return size;
     }
 
+    /**
+     * 作用如上，缩放详情界面的图片
+     * @param width  原始宽度
+     * @param height  原始高度
+     * @return
+     */
     public static int[] zoomImageDetail(int width , int height){
         int[] size = new int[2];
         if (width > height){

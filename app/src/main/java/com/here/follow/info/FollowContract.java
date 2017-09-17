@@ -1,6 +1,7 @@
 package com.here.follow.info;
 
 import com.here.bean.Follow;
+import com.here.bean.User;
 
 import java.util.List;
 
@@ -14,9 +15,9 @@ public interface FollowContract {
 
     void stopLoading();
 
-    void loadMyFans(List<Follow> fans);
+    void loadMyFans(List<User> fans);
 
-    void loadMyFollow(List<Follow> follow);
+    void loadMyFollow(List<User> User);
 
     void loadFail(String error);
 }

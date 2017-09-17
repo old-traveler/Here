@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -58,7 +60,8 @@ public class FollowActivity extends MvpActivity<FollowPresenter> implements Foll
         myFollowAdapter = new MyFollowAdapter(null);
         rvMyFollow.setLayoutManager(new LinearLayoutManager(this));
         rvMyFollow.setAdapter(myFollowAdapter);
-        mvpPresenter.queryMyFollow();
+        mvpPresenter.queryMyFollow(false);
+        mvpPresenter.queryMyFans(false);
         Glide.with(this)
                 .load(BmobUser.getCurrentUser(User.class).getHeadImageUrl())
                 .into(cvFollowHead);
@@ -79,16 +82,35 @@ public class FollowActivity extends MvpActivity<FollowPresenter> implements Foll
                 tvMyFans.setTextColor(getResources().getColor(R.color.color_accent));
                 tvMyFollow.setTextColor(getResources().getColor(R.color.share_text));
                 viewMyFollow.setVisibility(View.GONE);
-                mvpPresenter.queryMyFans();
+                mvpPresenter.queryMyFans(false);
                 break;
             case R.id.rl_my_follow:
                 viewMyFans.setVisibility(View.GONE);
                 tvMyFans.setTextColor(getResources().getColor(R.color.share_text));
                 tvMyFollow.setTextColor(getResources().getColor(R.color.color_accent));
                 viewMyFollow.setVisibility(View.VISIBLE);
-                mvpPresenter.queryMyFollow();
+                mvpPresenter.queryMyFollow(false);
                 break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_going,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.refresh_going){
+            if (viewMyFans.getVisibility() == View.VISIBLE){
+                mvpPresenter.queryMyFans(true);
+            }else {
+                mvpPresenter.queryMyFans(true);
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -102,23 +124,18 @@ public class FollowActivity extends MvpActivity<FollowPresenter> implements Foll
     }
 
     @Override
-    public void loadMyFans(List<Follow> fans) {
-        List<User> users = new ArrayList<>();
-        for (Follow fan : fans) {
-            users.add(fan.getUser());
+    public void loadMyFans(List<User> fans) {
+        if (viewMyFans.getVisibility() == View.VISIBLE){
+            myFollowAdapter.setNewData(fans);
         }
-        myFollowAdapter.setNewData(users);
-        tvFansCount.setText("粉丝："+users.size());
-
+        tvFansCount.setText("粉丝："+fans.size());
     }
 
     @Override
-    public void loadMyFollow(List<Follow> follow) {
-        List<User> users = new ArrayList<>();
-        for (Follow fan : follow) {
-            users.add(fan.getFollowUser());
+    public void loadMyFollow(List<User> users) {
+        if (viewMyFollow.getVisibility() == View.VISIBLE){
+            myFollowAdapter.setNewData(users);
         }
-        myFollowAdapter.setNewData(users);
         tvFollowCount.setText("关注："+users.size());
     }
 

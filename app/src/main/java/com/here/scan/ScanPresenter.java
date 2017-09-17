@@ -15,14 +15,16 @@ public class ScanPresenter extends BasePresenter<ScanContract> {
 
 
     public void follow(String objectId){
-        if (FollowUtil.isFollow(BmobUser.getCurrentUser(User.class).getObjectId(),objectId)){
+        if (FollowUtil.isFollow(BmobUser.getCurrentUser(
+                User.class).getObjectId(),objectId)){
             mvpView.followFail("已关注该用户");
             return;
         }
         mvpView.showLoading();
         User followUser = new User();
         followUser.setObjectId(objectId);
-        FollowUtil.followUser(BmobUser.getCurrentUser(User.class), followUser, new UserUtil.OnDealListener() {
+        FollowUtil.followUser(BmobUser.getCurrentUser(User
+                .class), followUser, new UserUtil.OnDealListener() {
             @Override
             public void success() {
                 mvpView.stopLoading();

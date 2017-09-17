@@ -1,10 +1,14 @@
 package com.here.follow.info;
 
+import android.util.Log;
+
 import com.here.base.BasePresenter;
 import com.here.bean.Follow;
 import com.here.bean.User;
+import com.here.util.DbUtil;
 import com.here.util.FollowUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
@@ -15,54 +19,97 @@ import cn.bmob.v3.BmobUser;
 
 public class FollowPresenter extends BasePresenter<FollowContract> {
 
-    private List<Follow> myFollows;
+    public boolean isLoadFollow = false;
 
-    private List<Follow> myFans;
+    public boolean isLoadFans = false;
 
-    public void queryMyFollow(){
-        if (myFollows == null){
-            mvpView.showLoading();
-            FollowUtil.queryFollows(BmobUser.getCurrentUser(User.class), new FollowUtil.OnFindFollowListener() {
-                @Override
-                public void success(List<Follow> follows) {
-                    mvpView.stopLoading();
-                    myFollows = follows;
-                    mvpView.loadMyFollow(myFollows);
-                }
-
-                @Override
-                public void fail(String error) {
-                    mvpView.stopLoading();
-                    mvpView.loadFail(error);
-                }
-            });
+    public void queryMyFollow(boolean isRefresh){
+        if (!isRefresh){
+            List<User> users = DbUtil.getInstance()
+                    .queryCurrentUserFollowOrFans(true);
+            if (users.size() > 0){
+                mvpView.loadMyFollow(users);
+            }else if (!isLoadFollow){
+                loadMyFollow();
+                isLoadFollow = true;
+            }else if (users.size() == 0){
+                mvpView.loadMyFollow(new ArrayList<User>());
+            }
         }else {
-            mvpView.loadMyFollow(myFollows);
+            loadMyFollow();
         }
     }
 
+    public void loadMyFollow(){
+        mvpView.showLoading();
+        FollowUtil.queryFollows(BmobUser.getCurrentUser(User.class),
+                new FollowUtil.OnFindFollowListener() {
+                    @Override
+                    public void success(List<Follow> follows) {
+                        mvpView.stopLoading();
+                        for (Follow follow : follows) {
+                            DbUtil.getInstance().addFollow(follow.getFollowUser(),true);
+                        }
+                        mvpView.loadMyFollow(DbUtil.getInstance()
+                                .queryCurrentUserFollowOrFans(true));
+                    }
 
-    public void queryMyFans(){
-        if (myFans == null){
-            mvpView.showLoading();
-            FollowUtil.queryFans(BmobUser.getCurrentUser(User.class), new FollowUtil.OnFindFollowListener() {
-                @Override
-                public void success(List<Follow> follows) {
-                    myFans = follows;
-                    mvpView.stopLoading();
-                    mvpView.loadMyFans(myFans);
-                }
+                    @Override
+                    public void fail(String error) {
+                        mvpView.stopLoading();
+                        mvpView.loadFail(error);
+                        List<User> users = DbUtil.getInstance()
+                                .queryCurrentUserFollowOrFans(true);
+                        if (users.size() > 0){
+                            mvpView.loadMyFollow(users);
+                        }
+                    }
+        });
+    }
 
-                @Override
-                public void fail(String error) {
-                    mvpView.stopLoading();
-                    mvpView.loadFail(error);
-                }
-            });
+
+    public void queryMyFans(boolean isRefresh){
+        if (!isRefresh){
+            List<User> users = DbUtil.getInstance()
+                    .queryCurrentUserFollowOrFans(false);
+            if (users.size() > 0){
+                mvpView.loadMyFans(users);
+            }else if (!isLoadFans){
+                loadMyFans();
+                isLoadFans = true;
+            }else if (users.size() == 0){
+                mvpView.loadMyFans(new ArrayList<User>());
+            }
         }else {
-            mvpView.loadMyFans(myFans);
+            loadMyFans();
         }
     }
 
+    public void loadMyFans() {
+        mvpView.showLoading();
+        FollowUtil.queryFans(BmobUser.getCurrentUser(User.class),
+                new FollowUtil.OnFindFollowListener() {
+                    @Override
+                    public void success(List<Follow> follows) {
+                        mvpView.stopLoading();
+                        for (Follow follow : follows) {
+                            DbUtil.getInstance().addFollow(follow.getUser(), false);
+                        }
+                        mvpView.loadMyFans(DbUtil.getInstance()
+                                .queryCurrentUserFollowOrFans(false));
+                    }
+
+                    @Override
+                    public void fail(String error) {
+                        mvpView.stopLoading();
+                        mvpView.loadFail(error);
+                        List<User> users = DbUtil.getInstance()
+                                .queryCurrentUserFollowOrFans(false);
+                        if (users.size() > 0) {
+                            mvpView.loadMyFans(users);
+                        }
+                    }
+        });
+    }
 
 }

@@ -394,7 +394,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 } else if (appointment.getImages().length == 3) {
                     ivAppointmentImage1.setOnClickListener(new MyClickListener(appointment.getImages()[0],ivAppointmentImage1));
                     ivAppointmentImage2.setOnClickListener(new MyClickListener(appointment.getImages()[1],ivAppointmentImage2));
-                    ivAppointmentImage3.setOnClickListener(new MyClickListener(appointment.getImages()[3],ivAppointmentImage3));
+                    ivAppointmentImage3.setOnClickListener(new MyClickListener(appointment.getImages()[2],ivAppointmentImage3));
                     DensityUtil.setViewSize(ivAppointmentImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivAppointmentImage1.setVisibility(View.VISIBLE);
@@ -413,7 +413,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 } else {
                     ivAppointmentImage1.setOnClickListener(new MyClickListener(appointment.getImages()[0],ivAppointmentImage1));
                     ivAppointmentImage2.setOnClickListener(new MyClickListener(appointment.getImages()[1],ivAppointmentImage2));
-                    ivAppointmentImage3.setOnClickListener(new MyClickListener(appointment.getImages()[3],ivAppointmentImage3));
+                    ivAppointmentImage3.setOnClickListener(new MyClickListener(appointment.getImages()[2],ivAppointmentImage3));
                     DensityUtil.setViewSize(ivAppointmentImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivAppointmentImage1.setVisibility(View.VISIBLE);
@@ -660,7 +660,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivMoodImage1.setOnClickListener(new MyClickListener(mood.getImages()[0],ivMoodImage1));
                     ivMoodImage2.setOnClickListener(new MyClickListener(mood.getImages()[1],ivMoodImage2));
-                    ivMoodImage3.setOnClickListener(new MyClickListener(mood.getImages()[3],ivMoodImage3));
+                    ivMoodImage3.setOnClickListener(new MyClickListener(mood.getImages()[2],ivMoodImage3));
                     ivMoodImage1.setVisibility(View.VISIBLE);
                     ivMoodImage2.setVisibility(View.VISIBLE);
                     ivMoodImage3.setVisibility(View.VISIBLE);
@@ -677,7 +677,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 } else {
                     ivMoodImage1.setOnClickListener(new MyClickListener(mood.getImages()[0],ivMoodImage1));
                     ivMoodImage2.setOnClickListener(new MyClickListener(mood.getImages()[1],ivMoodImage2));
-                    ivMoodImage3.setOnClickListener(new MyClickListener(mood.getImages()[3],ivMoodImage3));
+                    ivMoodImage3.setOnClickListener(new MyClickListener(mood.getImages()[2],ivMoodImage3));
                     DensityUtil.setViewSize(ivMoodImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivMoodImage1.setVisibility(View.VISIBLE);
