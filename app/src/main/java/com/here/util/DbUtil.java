@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.here.HereApplication;
 import com.here.bean.ImActivity;
+import com.here.bean.ImageAddress;
 import com.here.bean.Join;
 import com.here.bean.User;
 import com.here.db.MyDatabaseHelper;
@@ -45,11 +46,42 @@ public class DbUtil {
     }
 
     /**
+     * 刷新当前用户的关注与粉丝信息
+     * 如果有新增关注或粉丝信息，则
+     * 对应在本地数据库中添加新增信息
+     * 如果有取消关注的信息减少，则删
+     * 除本地数据库中的对应记录
+     * @param isFollow true 为关注信息，false为粉丝信息
+     * @param users 云端的关注或是是粉丝用户信息
+     */
+    public void refreshRecode(boolean isFollow , List<User> users){
+        List<User> old = queryCurrentUserFollowOrFans(isFollow);
+        Log.i("TAG","删除"+old.size()+" "+users.size()+" "+isFollow);
+        for (User user : old) {
+            boolean isExists = false;
+            for (User user1 : users) {
+                if (user.getObjectId().equals(
+                        user1.getObjectId())){
+                    isExists = true;
+                    break;
+                }
+            }
+            if (!isExists){
+                Log.i("TAG","删除"+user.getObjectId()+" "+isFollow);
+                deleteFollow(user.getObjectId(),isFollow);
+            }
+        }
+        for (User user : users) {
+            addFollow(user,isFollow);
+        }
+    }
+
+    /**
      * 添加一条关注或者粉丝记录
      * @param user   用户信息
      * @param isFollow 是关注还是粉丝
      */
-    public void addFollow(User user , boolean isFollow ){
+    private void addFollow(User user , boolean isFollow ){
         ContentValues values = new ContentValues();
         values.put("user_id" , user.getObjectId());
         values.put("nickname",user.getNickname());
@@ -67,7 +99,8 @@ public class DbUtil {
                 .getCurrentUser().getObjectId());
         values.put("is_follow",isFollow ? 1:0);
         values.put("tips",stringArrayToString(user.getTips()));
-        db.insert("User",null,values);
+        Log.i("TAG","插入用户信息"+db.insert("User",null,values));
+
     }
 
     /**
@@ -102,15 +135,14 @@ public class DbUtil {
     public String stringArrayToString(String[] tips){
         String tip = "";
         if (tips != null && tips.length > 0){
+            if (tips.length == 2){
+                return tips[0] + "&" + tips[1];
+            }
             for (int i = 0; i < tips.length; i++) {
-                if (tips.length == 2){
-                    return tips[0] + "&" + tips[1];
+                if (i == 0){
+                    tip = tip + tips[i];
                 }else {
-                    if ((i == tips.length -1 || i == 0)){
-                        tip = tip + tips[i];
-                    }else {
-                        tip = tip + "&" + tips[i];
-                    }
+                    tip = tip + "&" + tips[i];
                 }
             }
         }
@@ -250,8 +282,45 @@ public class DbUtil {
                 .getCurrentUser().getObjectId());
         values.put("activity_id",join
                 .getImActivity().getObjectId());
-        Log.i("TAG","插入"+db.insert("Joins",null,values) + (join.getImActivity().getObjectId() == null));
+        db.insert("Joins",null,values);
     }
+
+    /**
+     * 更新本地数据库中对应用户的发布记录
+     * 如果有新增记录将存入数据中，如果云端
+     * 记录删除，对应的删除本地数据库中对应的信息
+     * @param user   对应用户
+     * @param imActivities 该用户对应云端发布记录信息
+     */
+    public void refreshUserPublish(User user , List<ImActivity> imActivities){
+        List<ImActivity> old = queryMyPublisher(user);
+        for (ImActivity imActivity : old) {
+            boolean isExists = false;
+            for (ImActivity activity : imActivities) {
+                if (imActivity.getObjectId().equals(
+                        activity.getObjectId())){
+                    isExists = true;
+                    break;
+                }
+            }
+            if (!isExists){
+                deleteImActivity(imActivity.getObjectId());
+            }
+        }
+
+        for (ImActivity imActivity : imActivities) {
+            addAppointment(imActivity);
+        }
+    }
+
+    /**
+     * 根据即时活动的id删除数据库中的记录
+     * @param id 即时活动对应的id
+     */
+    private void deleteImActivity(String id) {
+        db.delete("ImActivity","id = ? ", new String[]{id});
+    }
+
 
     /**
      * 添加一条预约活动记录
@@ -279,6 +348,13 @@ public class DbUtil {
         values.put("number",activity.getNumber());
         values.put("current_time",activity.getCurrentTime());
         values.put("over_time",activity.getOverTime());
+        if (activity.getImages() != null){
+            for (String s : activity.getImages()) {
+                Log.i("TTT",activity.getObjectId()+"   "+s);
+            }
+            Log.i("TTT",stringArrayToString(activity.getImages()));
+        }
+
         db.insert("ImActivity",null,values);
     }
 
@@ -325,6 +401,7 @@ public class DbUtil {
                     imActivity.setOverTime(cursor.getString(
                             cursor.getColumnIndex("over_time")));
                     imActivities.add(imActivity);
+                    Log.i("TAG","即时活动图片"+cursor.getString(cursor.getColumnIndex("images")));
                 }
             }while (cursor.moveToNext());
         }
@@ -385,7 +462,7 @@ public class DbUtil {
     /**
      * 查询用户的参与的活动信息
      * @param user 查询条件用户
-     * @return 该用户所应用参与的所有活动
+     * @return 该用户所对应参与的所有活动
      */
     public List<Join> queryMyJoin(User user){
         List<Join> joins = new ArrayList<>();
@@ -410,6 +487,11 @@ public class DbUtil {
         return joins;
     }
 
+    /**
+     * 查询用户参与的活动信息
+     * @param user 对应用户
+     * @return 该用户所对应参与的所有活动信息
+     */
     public List<ImActivity> queryMyJoinImActivity(User user){
         List<ImActivity> imActivities = new ArrayList<>();
         List<String> activities = new ArrayList<>();
@@ -438,10 +520,30 @@ public class DbUtil {
      * 删除当前用户的粉丝或者关注的人
      * @param isFollow 是否为关注类型的
      */
-    public void deleteFollow(boolean isFollow){
-        db.delete("User","relevant_id = ?  and is_follow = ?"
-                , new String[]{ BmobUser.getCurrentUser()
-                .getObjectId() , ""+(isFollow ? 1: 0)});
+    public void deleteFollow(String uid,boolean isFollow){
+        db.delete("User","user_id = ? and relevant_id = ? and is_follow = ? "
+                , new String[]{ uid,BmobUser.getCurrentUser()
+                .getObjectId() ,""+(isFollow ? 1: 0)});
+    }
+
+    public void addImageAddress(ImageAddress imageAddress){
+        ContentValues values = new ContentValues();
+        values.put("original_address",imageAddress.getOriginalAddress());
+        values.put("compress_address",imageAddress.getCompressAddress());
+        values.put("cloud_address",imageAddress.getCloudAddress());
+        db.insert("Images",null , values);
+    }
+
+    public void queryImageAddress(String originalAddress){
+
+    }
+
+    public void deleteImageAddress(String originalAddress){
+
+    }
+
+    public void updateImageAddress(String originalAddress){
+
     }
 
 }

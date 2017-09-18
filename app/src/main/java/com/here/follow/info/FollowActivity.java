@@ -106,7 +106,7 @@ public class FollowActivity extends MvpActivity<FollowPresenter> implements Foll
             if (viewMyFans.getVisibility() == View.VISIBLE){
                 mvpPresenter.queryMyFans(true);
             }else {
-                mvpPresenter.queryMyFans(true);
+                mvpPresenter.queryMyFollow(true);
             }
             return true;
         }

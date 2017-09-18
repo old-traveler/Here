@@ -62,10 +62,12 @@ public class RecordActivity extends MvpActivity<RecordPresenter> implements Reco
         initHome();
         mvpPresenter.attachView(this);
         adapter = new RecordAdapter(null);
-        rvMyActivity.setLayoutManager(new LinearLayoutManager(this));
+        rvMyActivity.setLayoutManager(new
+                LinearLayoutManager(this));
         rvMyActivity.setAdapter(adapter);
         Glide.with(this)
-                .load(BmobUser.getCurrentUser(User.class).getHeadImageUrl())
+                .load(BmobUser.getCurrentUser(User
+                        .class).getHeadImageUrl())
                 .into(cvActivityHead);
         mvpPresenter.queryMyJoin(false);
         mvpPresenter.queryMyPublish(false);
@@ -134,15 +136,19 @@ public class RecordActivity extends MvpActivity<RecordPresenter> implements Reco
         switch (view.getId()) {
             case R.id.rl_my_activity:
                 viewMyPublish.setVisibility(View.VISIBLE);
-                tvMyPublish.setTextColor(getResources().getColor(R.color.color_accent));
-                tvMyJoin.setTextColor(getResources().getColor(R.color.share_text));
+                tvMyPublish.setTextColor(getResources()
+                        .getColor(R.color.color_accent));
+                tvMyJoin.setTextColor(getResources()
+                        .getColor(R.color.share_text));
                 viewMyJoin.setVisibility(View.GONE);
                 mvpPresenter.queryMyPublish(false);
                 break;
             case R.id.tv_my_join:
                 viewMyPublish.setVisibility(View.GONE);
-                tvMyPublish.setTextColor(getResources().getColor(R.color.share_text));
-                tvMyJoin.setTextColor(getResources().getColor(R.color.color_accent));
+                tvMyPublish.setTextColor(getResources()
+                        .getColor(R.color.share_text));
+                tvMyJoin.setTextColor(getResources()
+                        .getColor(R.color.color_accent));
                 viewMyJoin.setVisibility(View.VISIBLE);
                 mvpPresenter.queryMyJoin(false);
                 break;

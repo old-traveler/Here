@@ -61,23 +61,30 @@ public class FollowPresenter extends BasePresenter<FollowContract> {
                 new FollowUtil.OnFindFollowListener() {
                     @Override
                     public void success(List<Follow> follows) {
-                        mvpView.stopLoading();
-                        for (Follow follow : follows) {
-                            DbUtil.getInstance().addFollow(follow.getFollowUser(),true);
+                        if (mvpView != null){
+                            mvpView.stopLoading();
+                            List<User> users = new ArrayList<>();
+                            for (Follow follow : follows) {
+                                users.add(follow.getFollowUser());
+                            }
+                            DbUtil.getInstance().refreshRecode(true,users);
+                            mvpView.loadMyFollow(DbUtil.getInstance()
+                                    .queryCurrentUserFollowOrFans(true));
                         }
-                        mvpView.loadMyFollow(DbUtil.getInstance()
-                                .queryCurrentUserFollowOrFans(true));
                     }
 
                     @Override
                     public void fail(String error) {
-                        mvpView.stopLoading();
-                        mvpView.loadFail(error);
-                        List<User> users = DbUtil.getInstance()
-                                .queryCurrentUserFollowOrFans(true);
-                        if (users.size() > 0){
-                            mvpView.loadMyFollow(users);
+                        if (mvpView != null){
+                            mvpView.stopLoading();
+                            mvpView.loadFail(error);
+                            List<User> users = DbUtil.getInstance()
+                                    .queryCurrentUserFollowOrFans(true);
+                            if (users.size() > 0){
+                                mvpView.loadMyFollow(users);
+                            }
                         }
+
                     }
         });
     }
@@ -115,23 +122,31 @@ public class FollowPresenter extends BasePresenter<FollowContract> {
                 new FollowUtil.OnFindFollowListener() {
                     @Override
                     public void success(List<Follow> follows) {
-                        mvpView.stopLoading();
-                        for (Follow follow : follows) {
-                            DbUtil.getInstance().addFollow(follow.getUser(), false);
+                        if (mvpView != null){
+                            mvpView.stopLoading();
+                            List<User> users = new ArrayList<>();
+                            for (Follow follow : follows) {
+                                users.add(follow.getUser());
+                            }
+                            DbUtil.getInstance().refreshRecode( false,users);
+                            mvpView.loadMyFans(DbUtil.getInstance()
+                                    .queryCurrentUserFollowOrFans(false));
                         }
-                        mvpView.loadMyFans(DbUtil.getInstance()
-                                .queryCurrentUserFollowOrFans(false));
+
                     }
 
                     @Override
                     public void fail(String error) {
-                        mvpView.stopLoading();
-                        mvpView.loadFail(error);
-                        List<User> users = DbUtil.getInstance()
-                                .queryCurrentUserFollowOrFans(false);
-                        if (users.size() > 0) {
-                            mvpView.loadMyFans(users);
+                        if (mvpView != null){
+                            mvpView.stopLoading();
+                            mvpView.loadFail(error);
+                            List<User> users = DbUtil.getInstance()
+                                    .queryCurrentUserFollowOrFans(false);
+                            if (users.size() > 0) {
+                                mvpView.loadMyFans(users);
+                            }
                         }
+
                     }
         });
     }

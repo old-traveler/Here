@@ -10,15 +10,30 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String CREATE_USER = "create table IF NOT EXISTS User(user_id text,nickname text,sex text," +
-            "age integer,birth text,introduction text,head text,address text,show_number boolean,show_age boolean," +
-            "show_birth boolean,background text,relevant_id text,tips text,is_follow INTEGER,primary key(user_id,relevant_id))";
-
-    public static final String CREATE_IMACTIVITY = "create table if not exists ImActivity(id text primary key," +
-            "uid text,title text,describe text,is_apply boolean,location text,longitude double,latitude double" +
-            ",images text,over_time text,kind text,number integer,current_time integer,publish_time text,publish_date text)";
-
-    public static final String CREATE_JOIN = "create table IF NOT EXISTS Joins(join_id text,activity_id text,primary key(join_id,activity_id))";
+    /**
+     * 建立用户表Sql语句
+     */
+    public static final String CREATE_USER = "create table IF NOT EXISTS User(user_id text," +
+            "nickname text,sex text,age integer,birth text,introduction text,head text," +
+            "address text,show_number boolean,show_age boolean,show_birth boolean,background" +
+            " text,relevant_id text,tips text,is_follow INTEGER,primary key(user_id,relevant_id,is_follow))";
+    /**
+     * 建立即时活动信息表Sql语句
+     */
+    public static final String CREATE_IMACTIVITY = "create table if not exists ImActivity(" +
+            "id text primary key,uid text,title text,describe text,is_apply boolean,location" +
+            " text,longitude double,latitude double,images text,over_time text,kind text," +
+            "number integer,current_time integer,publish_time text,publish_date text)";
+    /**
+     * 建立参与关系表Sql语句
+     */
+    public static final String CREATE_JOIN = "create table IF NOT EXISTS Joins(" +
+            "join_id text,activity_id text,primary key(join_id,activity_id))";
+    /**
+     * 建立图片信息表Sql语句
+     */
+    public static final String CREATE_IMAGE = "create table IF NOT EXISTS Images(" +
+            "original_address text primary key,compress_address text,cloud_address text)";
 
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase
             .CursorFactory factory, int version) {

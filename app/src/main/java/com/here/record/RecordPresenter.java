@@ -45,15 +45,16 @@ public class RecordPresenter extends BasePresenter<RecordContract> {
     }
     public void loadMyPublish(){
         mvpView.showLoading();
-        RecordUtil.queryMyPublish(BmobUser.getCurrentUser(User.class), new RecordUtil.OnQueryListener() {
+        RecordUtil.queryMyPublish(BmobUser.getCurrentUser(User.class),
+                new RecordUtil.OnQueryListener() {
             @Override
             public void success(List<ImActivity> imActivities) {
                 if (mvpView != null){
                     mvpView.stopLoading();
-                    mvpView.loadMyPublish(imActivities);
-                    for (ImActivity imActivity : imActivities) {
-                        DbUtil.getInstance().addAppointment(imActivity);
-                    }
+                    DbUtil.getInstance().refreshUserPublish(BmobUser
+                            .getCurrentUser(User.class),imActivities);
+                    mvpView.loadMyPublish(DbUtil.getInstance().queryMyPublisher
+                            (BmobUser.getCurrentUser(User.class)));
                 }
             }
             @Override
@@ -90,7 +91,8 @@ public class RecordPresenter extends BasePresenter<RecordContract> {
 
     public void loadMyJoin(){
         mvpView.showLoading();
-        RecordUtil.queryMyJoin(BmobUser.getCurrentUser(User.class), new RecordUtil.OnQueryJoinListener() {
+        RecordUtil.queryMyJoin(BmobUser.getCurrentUser(User.class),
+                new RecordUtil.OnQueryJoinListener() {
 
             @Override
             public void success(List<Join> joins) {

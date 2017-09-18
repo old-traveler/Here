@@ -28,7 +28,6 @@ public class JoinAdapter extends BaseQuickAdapter<Join> {
                     .load(R.drawable.invitation)
                     .into((CircleImageView) baseViewHolder.getView(R.id.cv_join_user));
         }else {
-
             if (!TextUtils.isEmpty(user.getJoinUser().getHeadImageUrl())){
                 Glide.with(mContext)
                         .load(user.getJoinUser().getHeadImageUrl())
