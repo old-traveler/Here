@@ -10,13 +10,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String CREATE_USER = "create table IF NOT EXISTS User(user_id text" +
-            ",nickname text,sex text,age integer,birth text," +
-            "introduction text,head text,address text,show_number boolean,show_age" +
-            " boolean,show_birth boolean,background text,relevant_id text,tips text,is_follow INTEGER,primary key(user_id,relevant_id))";
+    public static final String CREATE_USER = "create table IF NOT EXISTS User(user_id text,nickname text,sex text," +
+            "age integer,birth text,introduction text,head text,address text,show_number boolean,show_age boolean," +
+            "show_birth boolean,background text,relevant_id text,tips text,is_follow INTEGER,primary key(user_id,relevant_id))";
 
+    public static final String CREATE_IMACTIVITY = "create table if not exists ImActivity(id text primary key," +
+            "uid text,title text,describe text,is_apply boolean,location text,longitude double,latitude double" +
+            ",images text,over_time text,kind text,number integer,current_time integer,publish_time text,publish_date text)";
 
-
+    public static final String CREATE_JOIN = "create table IF NOT EXISTS Joins(join_id text,activity_id text,primary key(join_id,activity_id))";
 
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase
             .CursorFactory factory, int version) {
@@ -26,6 +28,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USER);
+        db.execSQL(CREATE_IMACTIVITY);
+        db.execSQL(CREATE_JOIN);
     }
 
     @Override

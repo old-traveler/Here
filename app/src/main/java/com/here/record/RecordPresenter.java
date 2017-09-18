@@ -1,10 +1,17 @@
 package com.here.record;
 
+import android.util.Log;
+import android.widget.Toast;
+
+import com.here.HereApplication;
 import com.here.base.BasePresenter;
 import com.here.bean.ImActivity;
+import com.here.bean.Join;
 import com.here.bean.User;
+import com.here.util.DbUtil;
 import com.here.util.RecordUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
@@ -15,61 +22,106 @@ import cn.bmob.v3.BmobUser;
 
 public class RecordPresenter extends BasePresenter<RecordContract> {
 
-    private List<ImActivity> publishs;
+    public boolean isLoadMyPublish = false;
 
-    private List<ImActivity> joins;
+    public boolean isLoadMyJoin = false;
 
-    public void loadMyPublish(){
-        if (publishs == null){
-            mvpView.showLoading();
-            RecordUtil.queryMyPublish(BmobUser.getCurrentUser(User.class), new RecordUtil.OnQueryListener() {
-                @Override
-                public void success(List<ImActivity> imActivities) {
-                    if (mvpView != null){
-                        mvpView.stopLoading();
-                        publishs = imActivities;
-                        mvpView.LoadActivity(imActivities);
-                    }
-                }
 
-                @Override
-                public void fail(String error) {
-                    if (mvpView != null){
-                        mvpView.stopLoading();
-                        mvpView.loadFail(error);
-                    }
-                }
-            });
+    public void queryMyPublish(boolean isRefresh){
+        if (!isRefresh){
+            List<ImActivity> imActivities = DbUtil.getInstance()
+                    .queryMyPublisher(BmobUser.getCurrentUser(User.class));
+            if (imActivities.size() > 0){
+                mvpView.loadMyPublish(imActivities);
+            }else if (!isLoadMyPublish){
+                loadMyPublish();
+                isLoadMyPublish = true;
+            }else if (imActivities.size() == 0){
+                mvpView.loadMyPublish(new ArrayList<ImActivity>());
+            }
         }else {
-            mvpView.LoadActivity(publishs);
+            loadMyPublish();
         }
+    }
+    public void loadMyPublish(){
+        mvpView.showLoading();
+        RecordUtil.queryMyPublish(BmobUser.getCurrentUser(User.class), new RecordUtil.OnQueryListener() {
+            @Override
+            public void success(List<ImActivity> imActivities) {
+                if (mvpView != null){
+                    mvpView.stopLoading();
+                    mvpView.loadMyPublish(imActivities);
+                    for (ImActivity imActivity : imActivities) {
+                        DbUtil.getInstance().addAppointment(imActivity);
+                    }
+                }
+            }
+            @Override
+            public void fail(String error) {
+                if (mvpView != null){
+                    mvpView.stopLoading();
+                    mvpView.loadFail(error);
+                }
+                List<ImActivity> imActivities = DbUtil.getInstance()
+                        .queryMyPublisher(BmobUser.getCurrentUser(User.class));
+                if (imActivities.size() > 0){
+                    mvpView.loadMyPublish(imActivities);
+                }
+            }
+        });
+    }
 
+    public void queryMyJoin(boolean isRefresh){
+        if (!isRefresh){
+            List<ImActivity> imActivities = DbUtil.getInstance()
+                    .queryMyJoinImActivity(BmobUser.getCurrentUser(User.class));
+            if (imActivities.size() > 0){
+                mvpView.loadMyJoin(imActivities);
+            }else if (!isLoadMyJoin){
+                loadMyJoin();
+                isLoadMyJoin = true;
+            }else if (imActivities.size() == 0){
+                mvpView.loadMyJoin(new ArrayList<ImActivity>());
+            }
+        }else {
+            loadMyJoin();
+        }
     }
 
     public void loadMyJoin(){
-        if (joins == null){
-            mvpView.showLoading();
-            RecordUtil.queryMyJoin(BmobUser.getCurrentUser(User.class), new RecordUtil.OnQueryListener() {
-                @Override
-                public void success(List<ImActivity> imActivities) {
-                    if (mvpView != null){
-                        mvpView.stopLoading();
-                        joins = imActivities;
-                        mvpView.LoadActivity(imActivities);
-                    }
-                }
+        mvpView.showLoading();
+        RecordUtil.queryMyJoin(BmobUser.getCurrentUser(User.class), new RecordUtil.OnQueryJoinListener() {
 
-                @Override
-                public void fail(String error) {
-                    if (mvpView != null){
-                        mvpView.stopLoading();
-                        mvpView.loadFail(error);
+            @Override
+            public void success(List<Join> joins) {
+                if (mvpView != null){
+                    mvpView.stopLoading();
+                    for (Join join : joins) {
+                        Log.i("TAG","活动Id"+(join.getImActivity().getObjectId() == null));
                     }
+                    for (Join join : joins) {
+                        DbUtil.getInstance().addJoin(join);
+                    }
+                    mvpView.loadMyJoin(DbUtil.getInstance()
+                            .queryMyJoinImActivity(BmobUser
+                                    .getCurrentUser(User.class)));
                 }
-            });
-        }else {
-            mvpView.LoadActivity(joins);
-        }
+            }
+
+            @Override
+            public void fail(String error) {
+                if (mvpView != null){
+                    mvpView.stopLoading();
+                    mvpView.loadFail(error);
+                    List<ImActivity> imActivities = DbUtil.getInstance()
+                            .queryMyJoinImActivity(BmobUser.getCurrentUser(User.class));
+                    if (imActivities.size() > 0){
+                        mvpView.loadMyJoin(imActivities);
+                    }
+                    Log.i("TAG",error);
+                }
+            }
+        });
 
     }
 

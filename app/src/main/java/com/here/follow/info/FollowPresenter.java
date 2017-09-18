@@ -19,10 +19,22 @@ import cn.bmob.v3.BmobUser;
 
 public class FollowPresenter extends BasePresenter<FollowContract> {
 
+    /**
+     * 记录是否加载过云端关注记录
+     */
     public boolean isLoadFollow = false;
-
+    /**
+     * 记录是否加载过云端粉丝信息
+     */
     public boolean isLoadFans = false;
 
+    /**
+     * 查询当前用户关注的用户用户信息
+     * 默认加载本地数据库中的信息
+     * 弱请求刷新或数据为0时会请求云端信息
+     * @param isRefresh true 刷新关注信息
+     *  false加载本地数据库中的信息
+     */
     public void queryMyFollow(boolean isRefresh){
         if (!isRefresh){
             List<User> users = DbUtil.getInstance()
@@ -40,6 +52,9 @@ public class FollowPresenter extends BasePresenter<FollowContract> {
         }
     }
 
+    /**
+     * 加载当前用户云端的关注用户信息，并存入本地数据库
+     */
     public void loadMyFollow(){
         mvpView.showLoading();
         FollowUtil.queryFollows(BmobUser.getCurrentUser(User.class),
@@ -67,7 +82,13 @@ public class FollowPresenter extends BasePresenter<FollowContract> {
         });
     }
 
-
+    /**
+     * 查询当前用户所有粉丝的用户信息
+     * 默认加载本地数据库中的信息
+     * 弱请求刷新或数据为0时会请求云端信息
+     * @param isRefresh true 刷新关注信息
+     *  false加载本地数据库中的信息
+     */
     public void queryMyFans(boolean isRefresh){
         if (!isRefresh){
             List<User> users = DbUtil.getInstance()
@@ -85,6 +106,9 @@ public class FollowPresenter extends BasePresenter<FollowContract> {
         }
     }
 
+    /**
+     * 加载当前用户云端的粉丝用户信息，并存入本地数据库
+     */
     public void loadMyFans() {
         mvpView.showLoading();
         FollowUtil.queryFans(BmobUser.getCurrentUser(User.class),

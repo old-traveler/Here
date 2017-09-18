@@ -1,5 +1,7 @@
 package com.here.record;
 
+import android.app.Activity;
+
 import com.here.bean.ImActivity;
 
 import java.util.List;
@@ -16,6 +18,8 @@ public interface RecordContract {
 
     void loadFail(String error);
 
-    void LoadActivity(List<ImActivity> imActivities);
+    void loadMyPublish(List<ImActivity> activities);
+
+    void loadMyJoin(List<ImActivity> activities);
 
 }

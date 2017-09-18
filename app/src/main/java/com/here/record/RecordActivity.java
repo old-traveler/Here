@@ -1,9 +1,12 @@
 package com.here.record;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -64,8 +67,28 @@ public class RecordActivity extends MvpActivity<RecordPresenter> implements Reco
         Glide.with(this)
                 .load(BmobUser.getCurrentUser(User.class).getHeadImageUrl())
                 .into(cvActivityHead);
-        mvpPresenter.loadMyPublish();
+        mvpPresenter.queryMyJoin(false);
+        mvpPresenter.queryMyPublish(false);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_going,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.refresh_going){
+            if (viewMyPublish.getVisibility() == View.VISIBLE){
+                mvpPresenter.queryMyPublish(true);
+            }else {
+                mvpPresenter.queryMyJoin(true);
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -89,9 +112,22 @@ public class RecordActivity extends MvpActivity<RecordPresenter> implements Reco
     }
 
     @Override
-    public void LoadActivity(List<ImActivity> imActivities) {
-        adapter.setNewData(imActivities);
+    public void loadMyPublish(List<ImActivity> activities) {
+        if (viewMyPublish.getVisibility() == View.VISIBLE){
+            adapter.setNewData(activities);
+        }
+        tvPublishCount.setText("我的发布："+activities.size());
     }
+
+    @Override
+    public void loadMyJoin(List<ImActivity> activities) {
+        if (viewMyJoin.getVisibility() == View.VISIBLE){
+            adapter.setNewData(activities);
+        }
+        tvJoinCount.setText("我的参与："+activities.size());
+    }
+
+
 
     @OnClick({R.id.rl_my_activity, R.id.tv_my_join})
     public void onViewClicked(View view) {
@@ -101,14 +137,14 @@ public class RecordActivity extends MvpActivity<RecordPresenter> implements Reco
                 tvMyPublish.setTextColor(getResources().getColor(R.color.color_accent));
                 tvMyJoin.setTextColor(getResources().getColor(R.color.share_text));
                 viewMyJoin.setVisibility(View.GONE);
-                mvpPresenter.loadMyPublish();
+                mvpPresenter.queryMyPublish(false);
                 break;
             case R.id.tv_my_join:
                 viewMyPublish.setVisibility(View.GONE);
                 tvMyPublish.setTextColor(getResources().getColor(R.color.share_text));
                 tvMyJoin.setTextColor(getResources().getColor(R.color.color_accent));
                 viewMyJoin.setVisibility(View.VISIBLE);
-                mvpPresenter.loadMyJoin();
+                mvpPresenter.queryMyJoin(false);
                 break;
         }
     }

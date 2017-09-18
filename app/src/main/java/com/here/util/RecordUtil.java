@@ -24,6 +24,12 @@ public class RecordUtil  {
         void fail(String error);
     }
 
+    public interface OnQueryJoinListener{
+        void success(List<Join> imActivities);
+        void fail(String error);
+    }
+
+
     public static void queryMyPublish(User user , final OnQueryListener listener){
         BmobQuery<ImActivity> query = new BmobQuery<>();
         query.addWhereEqualTo("publisher",user);
@@ -48,7 +54,7 @@ public class RecordUtil  {
 
     }
 
-    public static void queryMyJoin(User user , final OnQueryListener listener){
+    public static void queryMyJoin(User user , final OnQueryJoinListener listener){
         BmobQuery<Join> query = new BmobQuery<>();
         query.addWhereEqualTo("joinUser",user);
         query.include("imActivity");
@@ -56,11 +62,10 @@ public class RecordUtil  {
             @Override
             public void done(List<Join> list, BmobException e) {
                 if (e == null){
-                    List<ImActivity> imActivities = new ArrayList<>();
                     for (Join join : list) {
-                        imActivities.add(join.getImActivity());
+                        join.setJoinUser(BmobUser.getCurrentUser(User.class));
                     }
-                    listener.success(imActivities);
+                    listener.success(list);
                 }else {
                     if (e.getErrorCode() == 9016){
                         listener.fail(HereApplication.getContext()
