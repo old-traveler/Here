@@ -45,6 +45,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_USER);
         db.execSQL(CREATE_IMACTIVITY);
         db.execSQL(CREATE_JOIN);
+        db.execSQL(CREATE_IMAGE);
     }
 
     @Override

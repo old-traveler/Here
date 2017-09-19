@@ -56,7 +56,6 @@ public class DbUtil {
      */
     public void refreshRecode(boolean isFollow , List<User> users){
         List<User> old = queryCurrentUserFollowOrFans(isFollow);
-        Log.i("TAG","删除"+old.size()+" "+users.size()+" "+isFollow);
         for (User user : old) {
             boolean isExists = false;
             for (User user1 : users) {
@@ -67,7 +66,6 @@ public class DbUtil {
                 }
             }
             if (!isExists){
-                Log.i("TAG","删除"+user.getObjectId()+" "+isFollow);
                 deleteFollow(user.getObjectId(),isFollow);
             }
         }
@@ -99,7 +97,6 @@ public class DbUtil {
                 .getCurrentUser().getObjectId());
         values.put("is_follow",isFollow ? 1:0);
         values.put("tips",stringArrayToString(user.getTips()));
-        Log.i("TAG","插入用户信息"+db.insert("User",null,values));
 
     }
 
@@ -292,7 +289,7 @@ public class DbUtil {
      * @param user   对应用户
      * @param imActivities 该用户对应云端发布记录信息
      */
-    public void refreshUserPublish(User user , List<ImActivity> imActivities){
+    public void refreshUserPublish(User user, List<ImActivity> imActivities){
         List<ImActivity> old = queryMyPublisher(user);
         for (ImActivity imActivity : old) {
             boolean isExists = false;
@@ -348,13 +345,6 @@ public class DbUtil {
         values.put("number",activity.getNumber());
         values.put("current_time",activity.getCurrentTime());
         values.put("over_time",activity.getOverTime());
-        if (activity.getImages() != null){
-            for (String s : activity.getImages()) {
-                Log.i("TTT",activity.getObjectId()+"   "+s);
-            }
-            Log.i("TTT",stringArrayToString(activity.getImages()));
-        }
-
         db.insert("ImActivity",null,values);
     }
 
@@ -502,8 +492,6 @@ public class DbUtil {
                         ("join_id")).equals(user.getObjectId())){
                     activities.add(cursor.getString(cursor
                             .getColumnIndex("activity_id")));
-                    Log.i("TAG",cursor.getString(cursor
-                            .getColumnIndex("activity_id")));
                 }
             }while (cursor.moveToNext());
         }
@@ -526,6 +514,10 @@ public class DbUtil {
                 .getObjectId() ,""+(isFollow ? 1: 0)});
     }
 
+    /**
+     * 添加一条图片存储地址信息
+     * @param imageAddress 图片地址存储对象
+     */
     public void addImageAddress(ImageAddress imageAddress){
         ContentValues values = new ContentValues();
         values.put("original_address",imageAddress.getOriginalAddress());
@@ -534,16 +526,79 @@ public class DbUtil {
         db.insert("Images",null , values);
     }
 
-    public void queryImageAddress(String originalAddress){
+    /**
+     * 根据图片的原始地址，查询该图片的所有存储地址信息
+     * @param originalAddress 原始图片地址
+     * @return   图片存储地址信息 返回null则为未查询到改图片信息
+     */
+    public ImageAddress queryImageAddress(String originalAddress){
+        Cursor cursor = db.query("Images",null,"original_address = ?"
+                ,new String[]{originalAddress},null,null,null,"1");
+        if (cursor.moveToFirst()){
+            ImageAddress address = new ImageAddress();
+            address.setOriginalAddress(cursor.getString(
+                    cursor.getColumnIndex("original_address")));
+            address.setCompressAddress(cursor.getString(
+                    cursor.getColumnIndex("compress_address")));
+            address.setCloudAddress(cursor.getString(
+                    cursor.getColumnIndex("cloud_address")));
+            return address;
+        }
+        return null;
 
     }
 
+    public ImageAddress queryImageAddressByCompressAddress(String compressAddress){
+        Cursor cursor = db.query("Images",null,"compress_address = ?"
+                ,new String[]{compressAddress},null,null,null,"1");
+        if (cursor.moveToFirst()){
+            ImageAddress address = new ImageAddress();
+            address.setOriginalAddress(cursor.getString(
+                    cursor.getColumnIndex("original_address")));
+            address.setCompressAddress(cursor.getString(
+                    cursor.getColumnIndex("compress_address")));
+            address.setCloudAddress(cursor.getString(
+                    cursor.getColumnIndex("cloud_address")));
+            return address;
+        }
+        return null;
+    }
+
+    /**
+     * 根据图片原始地址删除图片的信息记录
+     * @param originalAddress 图片的原始地址
+     */
     public void deleteImageAddress(String originalAddress){
-
+        db.delete("Images","original_address = ?"
+                ,new String[]{originalAddress});
     }
 
-    public void updateImageAddress(String originalAddress){
+    /**
+     * 更新Images信息表中图片存储地址
+     * @param originalAddress 原始地址  作为更新的标识符
+     * @param compressAddress 需更新图片压缩后的地址，如果为null则不更新
+     * @param cloudAddress    需更新的图片云端地址，如果为null则不更新
+     */
+    public void updateImageAddress(String originalAddress
+            , String compressAddress , String cloudAddress){
+        ContentValues values = new ContentValues();
+        if (!TextUtils.isEmpty(compressAddress)){
+            values.put("compress_address",compressAddress);
+        }
+        if (!TextUtils.isEmpty(cloudAddress)){
+            values.put("cloud_address",cloudAddress);
+        }
+        db.update("Images",values,"original_address = ?"
+                ,new String[]{originalAddress});
+    }
 
+    public void updateImageAddress(String compressAddress , String cloudAddress){
+        if (!TextUtils.isEmpty(cloudAddress)){
+            ContentValues values = new ContentValues();
+            values.put("cloud_address",cloudAddress);
+            db.update("Images",values,"compress_address = ?",
+                    new String[]{compressAddress});
+        }
     }
 
 }

@@ -1,9 +1,11 @@
 package com.here.util;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.here.HereApplication;
 import com.here.R;
+import com.here.bean.ImageAddress;
 import com.here.bean.User;
 
 import java.io.File;
@@ -236,6 +238,7 @@ public class UserUtil {
             @Override
             public void done(BmobException e) {
                 if (e == null) {
+
                     User newUser = new User();
                     newUser.setHeadImageUrl(bmobFile.getUrl());
                     User user = BmobUser.getCurrentUser(User.class);
@@ -246,7 +249,8 @@ public class UserUtil {
                                 listener.success(bmobFile.getFileUrl());
                             } else {
                                 if (e.getErrorCode() == 9016){
-                                    listener.fail(HereApplication.getContext().getString(R.string.err_no_net));
+                                    listener.fail(HereApplication.getContext()
+                                            .getString(R.string.err_no_net));
                                 }else {
                                     listener.fail(e.getMessage());
                                 }
@@ -255,7 +259,8 @@ public class UserUtil {
                     });
                 } else {
                     if (e.getErrorCode() == 9016){
-                        listener.fail(HereApplication.getContext().getString(R.string.err_no_net));
+                        listener.fail(HereApplication.getContext()
+                                .getString(R.string.err_no_net));
                     }else {
                         listener.fail(e.getMessage());
                     }
@@ -275,6 +280,7 @@ public class UserUtil {
             @Override
             public void done(BmobException e) {
                 if (e == null) {
+
                     User newUser = new User();
                     newUser.setBackgroundUrl(bmobFile.getUrl());
                     User user = BmobUser.getCurrentUser(User.class);
@@ -285,7 +291,8 @@ public class UserUtil {
                                 listener.success(bmobFile.getFileUrl());
                             } else {
                                 if (e.getErrorCode() == 9016){
-                                    listener.fail(HereApplication.getContext().getString(R.string.err_no_net));
+                                    listener.fail(HereApplication.getContext()
+                                            .getString(R.string.err_no_net));
                                 }else {
                                     listener.fail(e.getMessage());
                                 }
@@ -294,7 +301,8 @@ public class UserUtil {
                     });
                 } else {
                     if (e.getErrorCode() == 9016){
-                        listener.fail(HereApplication.getContext().getString(R.string.err_no_net));
+                        listener.fail(HereApplication.getContext()
+                                .getString(R.string.err_no_net));
                     }else {
                         listener.fail(e.getMessage());
                     }
