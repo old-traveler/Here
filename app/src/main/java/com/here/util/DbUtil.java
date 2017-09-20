@@ -592,6 +592,11 @@ public class DbUtil {
                 ,new String[]{originalAddress});
     }
 
+    /**
+     * 通过压缩地址更新图片的云端地址
+     * @param compressAddress 图片压缩后的缓存地址
+     * @param cloudAddress    云端地址
+     */
     public void updateImageAddress(String compressAddress , String cloudAddress){
         if (!TextUtils.isEmpty(cloudAddress)){
             ContentValues values = new ContentValues();
@@ -599,6 +604,20 @@ public class DbUtil {
             db.update("Images",values,"compress_address = ?",
                     new String[]{compressAddress});
         }
+    }
+
+    /**
+     * 通过图片的压缩地址查询图片的云端地址
+     * @param compressAddress 压缩地址
+     * @return  图片的云端地址   未查询到云端地址返回null
+     */
+    public String queryImageCloudAddress(String compressAddress){
+        Cursor cursor = db.query("Images",null,"compress_address = ?"
+                ,new String[]{compressAddress},null,null,null,"1");
+        if (cursor.moveToFirst()){
+            return cursor.getString(cursor.getColumnIndex("cloud_address"));
+        }
+        return null;
     }
 
 }

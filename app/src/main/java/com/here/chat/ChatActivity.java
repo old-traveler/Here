@@ -424,13 +424,15 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
     @Override
     public void sendImageMessage() {
-        SImagePicker
-                .from(ChatActivity.this)
-                .maxCount(1)
-                .rowCount(3)
-                .showCamera(true)
-                .pickMode(SImagePicker.MODE_IMAGE)
-                .forResult(REQUEST_CODE_IMAGE);
+        if (getStorage() && getCcamra()){
+            SImagePicker
+                    .from(ChatActivity.this)
+                    .maxCount(1)
+                    .rowCount(3)
+                    .showCamera(true)
+                    .pickMode(SImagePicker.MODE_IMAGE)
+                    .forResult(REQUEST_CODE_IMAGE);
+        }
     }
 
     @Override

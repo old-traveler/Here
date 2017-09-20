@@ -141,8 +141,10 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
         rvPersonalTips.setLayoutManager(new MyGridLayoutManager(this, 4));
 
         List<Tip> tips = new ArrayList<>();
-        String[] tips_slogan = HereApplication.getContext().getResources().getStringArray(R.array.tip_slogan);
-        int[] bg = HereApplication.getContext().getResources().getIntArray(R.array.tips_bg);
+        String[] tips_slogan = HereApplication.getContext()
+                .getResources().getStringArray(R.array.tip_slogan);
+        int[] bg = HereApplication.getContext()
+                .getResources().getIntArray(R.array.tips_bg);
         User user = User.getCurrentUser(User.class);
         if (user.getTips()!=null){
             for (int i = 0; i < user.getTips().length; i++) {
@@ -166,8 +168,10 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
 
     public void initTips(){
         List<Tip> tips = new ArrayList<>();
-        String[] tips_slogan = HereApplication.getContext().getResources().getStringArray(R.array.tip_slogan);
-        int[] bg = HereApplication.getContext().getResources().getIntArray(R.array.tips_bg);
+        String[] tips_slogan = HereApplication.getContext()
+                .getResources().getStringArray(R.array.tip_slogan);
+        int[] bg = HereApplication.getContext()
+                .getResources().getIntArray(R.array.tips_bg);
         User user = User.getCurrentUser(User.class);
         if (user.getTips()!=null){
             for (int i = 0; i < user.getTips().length; i++) {
@@ -225,7 +229,8 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
             tvPhone.setText(R.string.no_bind);
         }
         if (!TextUtils.isEmpty(user.getEmail())) {
-            tvEmail.setText(user.getEmail() + (user.getEmailVerified() ? " (已认证)" : " (未认证)"));
+            tvEmail.setText(user.getEmail() + (user
+                    .getEmailVerified() ? " (已认证)" : " (未认证)"));
         } else {
             tvEmail.setText(R.string.no_bind);
         }
@@ -258,25 +263,31 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
 
     @Override
     public void startImagePicker() {
-        SImagePicker
-                .from(PersonalActivity.this)
-                .pickMode(SImagePicker.MODE_AVATAR)
-                .showCamera(true)
-                .cropFilePath(
-                        CacheManager.getInstance().getImageInnerCache()
-                                .getAbsolutePath(AVATAR_FILE_NAME))
-                .forResult(REQUEST_CODE_AVATAR);
+        if (getStorage() && getCcamra()){
+            SImagePicker
+                    .from(PersonalActivity.this)
+                    .pickMode(SImagePicker.MODE_AVATAR)
+                    .showCamera(true)
+                    .cropFilePath(
+                            CacheManager.getInstance().getImageInnerCache()
+                                    .getAbsolutePath(AVATAR_FILE_NAME))
+                    .forResult(REQUEST_CODE_AVATAR);
+        }
+
     }
 
     @Override
     public void showTheBigHead() {
-        PhotoPresenter.imageUrl = BmobUser.getCurrentUser(User.class).getHeadImageUrl();
+        PhotoPresenter.imageUrl = BmobUser.getCurrentUser(
+                User.class).getHeadImageUrl();
         startActivity(new Intent(this, PhotoActivity.class));
     }
 
     @Override
     public void background() {
-        new AlertView("背景图", null, "取消", new String[]{"更换背景"}, new String[]{"查看大图"}, this, AlertView.Style.ActionSheet, new OnItemClickListener() {
+        new AlertView("背景图", null, "取消", new String[]{"更换背景"}
+                , new String[]{"查看大图"}, this, AlertView
+                .Style.ActionSheet, new OnItemClickListener() {
             @Override
             public void onItemClick(Object o, int position) {
                 if (position == 0) {
@@ -291,12 +302,15 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
 
     @Override
     public void showTheBigBg() {
-        PhotoPresenter.imageUrl = BmobUser.getCurrentUser(User.class).getBackgroundUrl();
+        PhotoPresenter.imageUrl = BmobUser.getCurrentUser(
+                User.class).getBackgroundUrl();
         startActivity(new Intent(this, PhotoActivity.class));
     }
 
     public void choiceOfHead() {
-        new AlertView("头像管理", null, "取消", new String[]{"更换头像"}, new String[]{"查看大图"}, this, AlertView.Style.ActionSheet, new OnItemClickListener() {
+        new AlertView("头像管理", null, "取消", new String[]{"更换头像"}
+                , new String[]{"查看大图"}, this, AlertView
+                .Style.ActionSheet, new OnItemClickListener() {
             @Override
             public void onItemClick(Object o, int position) {
                 if (position == 0) {
@@ -359,11 +373,13 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
         for (int i = 0; i < 100; i++) {
             data.add("" + i);
         }
-        DataPickerDialog dialog = builder.setUnit("岁").setData(data).setSelection(1).setTitle("年龄")
+        DataPickerDialog dialog = builder.setUnit("岁")
+                .setData(data).setSelection(1).setTitle("年龄")
                 .setOnDataSelectedListener(new DataPickerDialog.OnDataSelectedListener() {
                     @Override
                     public void onDataSelected(String itemValue) {
-                        mvpPresenter.updateAge(Integer.parseInt(itemValue));
+                        mvpPresenter.updateAge(Integer
+                                .parseInt(itemValue));
 
                     }
                 }).create();
@@ -377,7 +393,8 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
         List<String> data = new ArrayList<>();
         data.add("男");
         data.add("女");
-        DataPickerDialog dialog = builder.setUnit("").setData(data).setSelection(1).setTitle("性别")
+        DataPickerDialog dialog = builder.setUnit("")
+                .setData(data).setSelection(1).setTitle("性别")
                 .setOnDataSelectedListener(new DataPickerDialog.OnDataSelectedListener() {
                     @Override
                     public void onDataSelected(String itemValue) {
@@ -457,13 +474,12 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
 
     @Override
     public void updateBackground() {
-        if (getStorage()){
+        if (getStorage() && getCcamra()){
             SImagePicker
                     .from(PersonalActivity.this)
                     .pickMode(SImagePicker.MODE_AVATAR)
                     .showCamera(true)
-                    .cropFilePath(
-                            CacheManager.getInstance().getImageInnerCache()
+                    .cropFilePath(CacheManager.getInstance().getImageInnerCache()
                                     .getAbsolutePath(AVATAR_FILE_NAME))
                     .forResult(REQUEST_CODE_IMAGE);
         }

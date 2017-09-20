@@ -120,14 +120,15 @@ public class NewImmediateActivity extends MvpActivity<NewImmediatePresenter> imp
 
     @Override
     public void choicePic() {
-
-        SImagePicker
-                .from(NewImmediateActivity.this)
-                .maxCount(9)
-                .rowCount(3)
-                .showCamera(true)
-                .pickMode(SImagePicker.MODE_IMAGE)
-                .forResult(REQUEST_CODE_IMAGE);
+        if (getStorage() && getCcamra()){
+            SImagePicker
+                    .from(NewImmediateActivity.this)
+                    .maxCount(9)
+                    .rowCount(3)
+                    .showCamera(true)
+                    .pickMode(SImagePicker.MODE_IMAGE)
+                    .forResult(REQUEST_CODE_IMAGE);
+        }
     }
 
     @Override

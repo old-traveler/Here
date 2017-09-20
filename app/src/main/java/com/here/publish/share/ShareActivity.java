@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
@@ -108,13 +109,19 @@ public class ShareActivity extends MvpActivity<SharePresenter> implements ShareC
             toastShow("最多选择9张图片");
             return;
         }
-        SImagePicker
-                .from(this)
-                .maxCount(10 - adapter.getData().size())
-                .rowCount(3)
-                .showCamera(true)
-                .pickMode(SImagePicker.MODE_IMAGE)
-                .forResult(REQUEST_CODE_IMAGE);
+
+        if (getStorage() && getCcamra()){
+            SImagePicker
+                    .from(this)
+                    .maxCount(10 - adapter.getData().size())
+                    .rowCount(3)
+                    .showCamera(true)
+                    .pickMode(SImagePicker.MODE_IMAGE)
+                    .forResult(REQUEST_CODE_IMAGE);
+        }else {
+            Toast.makeText(mActivity, "请给与读取本地相册权限", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override

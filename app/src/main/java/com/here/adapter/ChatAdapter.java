@@ -28,6 +28,7 @@ import com.here.photo.PhotoActivity;
 import com.here.photo.PhotoPresenter;
 import com.here.util.CommentUtil;
 import com.here.util.CommonUtils;
+import com.here.util.DbUtil;
 import com.here.util.DensityUtil;
 import com.here.util.NetworkState;
 import java.io.IOException;
@@ -132,6 +133,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             final String url ;
             if (bmobIMMessages.get(position).getContent().indexOf("&") != -1){
                 url = bmobIMMessages.get(position).getContent().split("&")[0];
+                String cloudAddress = bmobIMMessages.get(position).getContent().split("&")[1];
+                DbUtil.getInstance().updateImageAddress(url,cloudAddress);
             }else {
                 url = bmobIMMessages.get(position).getContent();
             }

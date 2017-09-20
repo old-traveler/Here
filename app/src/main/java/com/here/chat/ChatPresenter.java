@@ -1,10 +1,14 @@
 package com.here.chat;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.here.base.BasePresenter;
 import com.here.bean.CallMessage;
+import com.here.bean.ImageMessage;
 import com.here.bean.User;
+import com.here.util.DbUtil;
+import com.here.util.FileUtil;
 import com.here.util.TinyUtil;
 
 import java.util.ArrayList;
@@ -63,15 +67,38 @@ public class ChatPresenter extends BasePresenter<ChatContract>  {
         TinyUtil.compressChatImage(path, new TinyUtil.OnCompressListener() {
             @Override
             public void success(final String out) {
-                BmobIMImageMessage image =new BmobIMImageMessage(out);
-                image.setFromId(BmobUser.getCurrentUser(User.class).getObjectId());
-                final int position = mvpView.sendTextMessage(image);
-                mvpView.getConversation().sendMessage(image, new MessageSendListener(){
-                    @Override
-                    public void done(BmobIMMessage bmobIMMessage, BmobException e) {
-                        mvpView.sendSuccess(position);
-                    }
-                });
+                String address = DbUtil.getInstance().queryImageCloudAddress(out);
+                if (!TextUtils.isEmpty(address)){
+                    ImageMessage image =new ImageMessage();
+                    image.setExtraMap(FileUtil.getFileInfo(out));
+                    image.setContent(address);
+                    image.setFromId(BmobUser.getCurrentUser(User.class).getObjectId());
+                    final int position = mvpView.sendTextMessage(image);
+                    mvpView.getConversation().sendMessage(image, new MessageSendListener(){
+                        @Override
+                        public void done(BmobIMMessage bmobIMMessage, BmobException e) {
+                            mvpView.sendSuccess(position);
+                            if (e!=null){
+                                Log.i("错误",e.getMessage());
+                            }
+                        }
+                    });
+                }else {
+                    BmobIMImageMessage image;
+                    image = new BmobIMImageMessage(out);
+                    image.setFromId(BmobUser.getCurrentUser(User.class).getObjectId());
+                    final int position = mvpView.sendTextMessage(image);
+                    mvpView.getConversation().sendMessage(image, new MessageSendListener(){
+                        @Override
+                        public void done(BmobIMMessage bmobIMMessage, BmobException e) {
+                            mvpView.sendSuccess(position);
+                            if (e!=null){
+                                Log.i("错误",e.getMessage());
+                            }
+                        }
+                    });
+                }
+
             }
 
             @Override

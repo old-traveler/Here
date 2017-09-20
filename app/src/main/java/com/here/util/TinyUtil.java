@@ -71,7 +71,13 @@ public class TinyUtil {
         }
     }
 
-    public static void compress(final String path, final OnCompressListener listener){
+    /**
+     * 压缩头像和背景图片
+     * @param path 图片存储路径
+     * @param listener 压缩监听
+     */
+    public static void compress(final String path
+            , final OnCompressListener listener){
         Tiny.FileCompressOptions options = new Tiny
                 .FileCompressOptions();
         options.width = 300;
@@ -90,7 +96,13 @@ public class TinyUtil {
 
     }
 
-    public static void compressChatImage(final String path, final OnCompressListener listener){
+    /**
+     * 压缩聊天图片，压缩过的不再重复压缩
+     * @param path  图片存储路径
+     * @param listener
+     */
+    public static void compressChatImage(final String path
+            , final OnCompressListener listener){
         String compressAddress = isCompress(path);
         if (!TextUtils.isEmpty(compressAddress)){
             listener.success(compressAddress);
@@ -116,7 +128,14 @@ public class TinyUtil {
         });
     }
 
-    public static void batchCompress(String[] source, final OnBatchCompressListener lister){
+
+    /**
+     * 批量压缩图片
+     * @param source  图片地址
+     * @param lister  压缩监听
+     */
+    public static void batchCompress(String[] source
+            , final OnBatchCompressListener lister){
         final List<String> data = new ArrayList<>();
         List<String> needCompress = new ArrayList<>();
         for (String s : source) {
@@ -136,7 +155,8 @@ public class TinyUtil {
 
             Tiny.FileCompressOptions options = new Tiny.FileCompressOptions();
             options.quality=50;
-            Tiny.getInstance().source(compressSource).batchAsFile().withOptions(options)
+            Tiny.getInstance().source(compressSource)
+                    .batchAsFile().withOptions(options)
                     .batchCompress(new FileBatchCallback() {
                         @Override
                         public void callback(boolean isSuccess, String[] outfile) {
@@ -166,9 +186,6 @@ public class TinyUtil {
             }
             lister.success(completeAddress);
         }
-        
-        
-
 
     }
 
