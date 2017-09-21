@@ -38,6 +38,7 @@ import com.here.bean.User;
 import com.here.community.details.CommunityDetailsActivity;
 import com.here.details.PostDetailsActivity;
 import com.here.login.LoginActivity;
+import com.here.personal.PersonalActivity;
 import com.here.personal.other.OtherInfoActivity;
 import com.here.phone.PhoneActivity;
 import com.here.photo.PhotoActivity;
@@ -336,11 +337,18 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             cvAppointmentHead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context.get(), OtherInfoActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("other",appointment.getPublisher());
-                    intent.putExtras(bundle);
-                    context.get().startActivity(intent);
+                    if (appointment.getPublisher().getObjectId()
+                            .equals(BmobUser.getCurrentUser().getObjectId())){
+                        Intent intent = new Intent(context.get(), PersonalActivity.class);
+                        context.get().startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(context.get(), OtherInfoActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("other",appointment.getPublisher());
+                        intent.putExtras(bundle);
+                        context.get().startActivity(intent);
+                    }
+
                 }
             });
             tvAppointmentNickname.setText(appointment.getPublisher().getNickname());
@@ -603,11 +611,18 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             cvMoodHead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context.get(), OtherInfoActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("other",mood.getPublisher());
-                    intent.putExtras(bundle);
-                    context.get().startActivity(intent);
+                    if (mood.getPublisher().getObjectId().equals(BmobUser
+                            .getCurrentUser().getObjectId())){
+                        Intent intent = new Intent(context.get(),PersonalActivity.class);
+                        context.get().startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(context.get(), OtherInfoActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("other",mood.getPublisher());
+                        intent.putExtras(bundle);
+                        context.get().startActivity(intent);
+                    }
+
                 }
             });
             tvMoodNickname.setText(mood.getPublisher().getNickname());

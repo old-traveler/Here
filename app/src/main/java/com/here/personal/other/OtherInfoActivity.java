@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.bumptech.glide.Glide;
 import com.here.HereApplication;
 import com.here.R;
@@ -17,6 +21,8 @@ import com.here.adapter.ShowTipsAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.Tip;
 import com.here.bean.User;
+import com.here.util.FollowUtil;
+import com.here.util.UserUtil;
 import com.here.view.MyGridLayoutManager;
 import com.here.view.UnfoldAndZoomScrollView;
 
@@ -26,7 +32,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
+import qiu.niorgai.StatusBarCompat;
 
 public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implements OtherInfoContract {
 
@@ -67,10 +75,12 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
     @Bind(R.id.btn_contract_other)
     Button btnContractOther;
     private ShowTipsAdapter showTipsAdapter;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarCompat.translucentStatusBar(this);
         setContentView(R.layout.activity_other_info);
         mvpPresenter.attachView(this);
         ButterKnife.bind(this);
@@ -84,9 +94,11 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
                 rlToolBar.getBackground().setAlpha((int) (distance * 255));
                 if (distance > 0.5f) {
                     getSupportActionBar().setHomeAsUpIndicator(R.drawable.black_back);
+                    menu.findItem(R.id.more).setIcon(R.drawable.info_more);
                     tvOtherTitle.setTextColor(Color.BLACK);
                 } else {
                     getSupportActionBar().setHomeAsUpIndicator(R.drawable.white_back);
+                    menu.findItem(R.id.more).setIcon(R.drawable.white_info_more);
                     tvOtherTitle.setTextColor(Color.WHITE);
                 }
             }
@@ -94,6 +106,41 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
         rvOtherTips.setLayoutManager(new MyGridLayoutManager(this, 4));
         mvpPresenter.load();
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_personal, menu);
+        this.menu = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.more) {
+            selectMore();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void selectMore() {
+        new AlertView("更多操作", null, "取消", new String[]{"举报","加入黑名单"}
+                , new String[]{"关注"}, this, AlertView
+                .Style.ActionSheet, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                if (position == 0) {
+                    //
+                } else if (position == 1) {
+                    mvpPresenter.joinBlackList();
+                }else if (position == 2){
+                    mvpPresenter.followUser();
+                }
+            }
+        }).show();
+    }
+
 
     @Override
     protected OtherInfoPresenter createPresenter() {
@@ -154,14 +201,18 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
         tvOtherBirthday.setText(user.getDateOfBirth());
         tvOtherIntroduction.setText(user.getIntroduction());
         if (!TextUtils.isEmpty(user.getMobilePhoneNumber())) {
-            tvOtherPhone.setText(user.getMobilePhoneNumber().substring(0, 3) + "****" + user.getMobilePhoneNumber().substring(7));
+            tvOtherPhone.setText(user.getMobilePhoneNumber()
+                    .substring(0, 3) + "****" + user
+                    .getMobilePhoneNumber().substring(7));
         }
         if (!TextUtils.isEmpty(user.getEmail())){
             tvOtherEmail.setText(user.getEmail());
         }
         List<Tip> tips = new ArrayList<>();
-        String[] tips_slogan = HereApplication.getContext().getResources().getStringArray(R.array.tip_slogan);
-        int[] bg = HereApplication.getContext().getResources().getIntArray(R.array.tips_bg);
+        String[] tips_slogan = HereApplication.getContext()
+                .getResources().getStringArray(R.array.tip_slogan);
+        int[] bg = HereApplication.getContext()
+                .getResources().getIntArray(R.array.tips_bg);
         if (user.getTips() != null) {
             for (int i = 0; i < user.getTips().length; i++) {
                 Tip tip = new Tip();
@@ -175,6 +226,28 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
         showTipsAdapter = new ShowTipsAdapter(tips);
         rvOtherTips.setAdapter(showTipsAdapter);
 
+    }
+
+    @Override
+    public void followSuccess() {
+        new AlertView("提示", "关注成功", "确定", null, null, this,
+                AlertView.Style.Alert, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+
+            }
+        }).show();
+    }
+
+    @Override
+    public void blacklistSuccess() {
+        new AlertView("提示", "已加入黑名单", "确定", null, null, this,
+                AlertView.Style.Alert, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+
+            }
+        }).show();
     }
 
 

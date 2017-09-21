@@ -23,6 +23,7 @@ import com.here.bean.Appointment;
 import com.here.bean.Community;
 import com.here.bean.Mood;
 import com.here.details.PostDetailsActivity;
+import com.here.personal.PersonalActivity;
 import com.here.personal.other.OtherInfoActivity;
 import com.here.photo.PhotoActivity;
 import com.here.photo.PhotoPresenter;
@@ -32,6 +33,8 @@ import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+
+import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -178,11 +181,17 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
             cvAppointmentHead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context.get(), OtherInfoActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("other",appointment.getPublisher());
-                    intent.putExtras(bundle);
-                    context.get().startActivity(intent);
+                    if (appointment.getPublisher().getObjectId()
+                            .equals(BmobUser.getCurrentUser().getObjectId())){
+                        Intent intent = new Intent(context.get(), PersonalActivity.class);
+                        context.get().startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(context.get(), OtherInfoActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("other",appointment.getPublisher());
+                        intent.putExtras(bundle);
+                        context.get().startActivity(intent);
+                    }
                 }
             });
             tvAppointmentNickname.setText(appointment.getPublisher().getNickname());
@@ -339,11 +348,17 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
             cvMoodHead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context.get(), OtherInfoActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("other",mood.getPublisher());
-                    intent.putExtras(bundle);
-                    context.get().startActivity(intent);
+                    if (mood.getPublisher().getObjectId().equals(BmobUser
+                            .getCurrentUser().getObjectId())){
+                        Intent intent = new Intent(context.get(),PersonalActivity.class);
+                        context.get().startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(context.get(), OtherInfoActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("other",mood.getPublisher());
+                        intent.putExtras(bundle);
+                        context.get().startActivity(intent);
+                    }
                 }
             });
             tvMoodNickname.setText(mood.getPublisher().getNickname());

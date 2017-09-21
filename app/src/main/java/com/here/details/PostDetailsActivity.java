@@ -22,6 +22,7 @@ import com.here.base.MvpActivity;
 import com.here.bean.Appointment;
 import com.here.bean.Comment;
 import com.here.bean.Mood;
+import com.here.personal.PersonalActivity;
 import com.here.personal.other.OtherInfoActivity;
 import com.here.view.MyGridLayoutManager;
 import com.sackcentury.shinebuttonlib.ShineButton;
@@ -32,6 +33,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> implements PostDetailsContract {
@@ -134,11 +136,20 @@ public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> imple
         cvPostHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PostDetailsActivity.this, OtherInfoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("other",mood.getPublisher());
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (mood.getPublisher().getObjectId().equals(BmobUser
+                        .getCurrentUser().getObjectId())){
+                    Intent intent = new Intent(PostDetailsActivity
+                            .this, PersonalActivity.class);
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(PostDetailsActivity
+                            .this, OtherInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("other",mood.getPublisher());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+
             }
         });
         tvPostNickname.setText(mood.getPublisher().getNickname());
@@ -168,10 +179,28 @@ public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> imple
     }
 
     @Override
-    public void setAppointment(Appointment appointment) {
+    public void setAppointment(final Appointment appointment) {
         Glide.with(this)
                 .load(appointment.getPublisher().getHeadImageUrl())
                 .into(cvPostHead);
+        cvPostHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(appointment.getPublisher().getObjectId()
+                        .equals(BmobUser.getCurrentUser().getObjectId())){
+                    Intent intent = new Intent(PostDetailsActivity
+                            .this,PersonalActivity.class);
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(PostDetailsActivity
+                            .this, OtherInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("other",appointment.getPublisher());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            }
+        });
         tvPostNickname.setText(appointment.getPublisher().getNickname());
         tvPostTime.setText(appointment.getPublishDate());
         tvPostTitle.setText(appointment.getTitle());

@@ -62,6 +62,7 @@ public class FollowPresenter extends BasePresenter<FollowContract> {
                     @Override
                     public void success(List<Follow> follows) {
                         if (mvpView != null){
+                            Log.i("TAG","关注"+follows.size());
                             mvpView.stopLoading();
                             List<User> users = new ArrayList<>();
                             for (Follow follow : follows) {

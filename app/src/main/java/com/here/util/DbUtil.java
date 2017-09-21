@@ -70,6 +70,7 @@ public class DbUtil {
             }
         }
         for (User user : users) {
+
             addFollow(user,isFollow);
         }
     }
@@ -97,7 +98,7 @@ public class DbUtil {
                 .getCurrentUser().getObjectId());
         values.put("is_follow",isFollow ? 1:0);
         values.put("tips",stringArrayToString(user.getTips()));
-
+        db.insert("User",null,values);
     }
 
     /**
@@ -153,7 +154,7 @@ public class DbUtil {
      * @return 查询到的用户信息
      */
     public List<User> queryCurrentUserFollowOrFans(boolean isFollow){
-        List<User> users = null;
+        List<User> users ;
         try {
             users = new ArrayList<>();
             Cursor cursor = db.query("User",null, null

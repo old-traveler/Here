@@ -17,6 +17,7 @@ import com.here.R;
 import com.here.adapter.DetailsImageAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.ImActivity;
+import com.here.personal.PersonalActivity;
 import com.here.personal.other.OtherInfoActivity;
 import com.here.view.MyGridLayoutManager;
 
@@ -26,6 +27,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implements ImDetailsContract {
@@ -75,19 +77,7 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
         return new ImDetailsPresenter();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_im_details, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.im_details_share) {
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public ImActivity getImActivity() {
@@ -175,12 +165,19 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
                 mvpPresenter.apply();
                 break;
             case R.id.cv_details_head:
-                Intent intent = new Intent(this , OtherInfoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("other",getImActivity().getPublisher());
-                intent.putExtras(bundle);
-                startActivity(intent);
-                finish();
+                if (getImActivity().getPublisher().getObjectId()
+                        .equals(BmobUser.getCurrentUser().getObjectId())){
+                    Intent intent = new Intent(this, PersonalActivity.class);
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(this , OtherInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("other",getImActivity().getPublisher());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
+                }
+
                 break;
         }
     }

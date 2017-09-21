@@ -18,4 +18,8 @@ public interface OtherInfoContract {
 
     void setUserInfo(User user);
 
+    void followSuccess();
+
+    void blacklistSuccess();
+
 }

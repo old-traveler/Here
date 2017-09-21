@@ -6,8 +6,10 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -60,8 +62,8 @@
         <activity android:name=".password.PasswordActivity" />
         <activity android:name=".account.AccountActivity" />
         <activity
-            android:theme="@style/Transparent"
-            android:name=".photo.PhotoActivity" />
+            android:name=".photo.PhotoActivity"
+            android:theme="@style/Transparent" />
         <activity
             android:name=".immediate.NewImmediateActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -87,7 +89,8 @@
         <service android:name="cn.bmob.newim.core.service.ReConnectService" />
         <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
 
-        <activity android:name=".chat.ChatActivity"
+        <activity
+            android:name=".chat.ChatActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity android:name=".message.MessageActivity" />
         <activity android:name=".search.SearchActivity" />
@@ -99,8 +102,8 @@
         <activity android:name=".follow.info.FollowActivity" />
         <activity android:name=".record.RecordActivity" />
         <activity android:name=".personal.other.OtherInfoActivity" />
-        <activity android:name=".voice.VoiceChatViewActivity"/>
-        <activity android:name=".voice.CallActivity"/>
+        <activity android:name=".voice.VoiceChatViewActivity" />
+        <activity android:name=".voice.CallActivity" />
         <activity
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
@@ -124,8 +127,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".binding.BindInfoActivity" />
-        <service
-            android:name=".server.ChatInfoUpdateServer"/>
+
+        <service android:name=".server.ChatInfoUpdateServer" />
+
+        <activity android:name=".blacklist.BlacklistActivity"></activity>
     </application>
 
 </manifest>

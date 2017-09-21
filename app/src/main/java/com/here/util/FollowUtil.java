@@ -47,7 +47,7 @@ public class FollowUtil {
                     followId.setFollowUserId(followUser.getObjectId());
                     followId.setFollowId(s);
                     followId.setUserId(user.getObjectId());
-                    Log.i("TAG","关注是否成功"+followId.save());
+                    followId.save();
                     listener.success();
                 }else {
                     if (e.getErrorCode() == 9016){

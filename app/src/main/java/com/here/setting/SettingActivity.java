@@ -15,6 +15,7 @@ import com.here.R;
 import com.here.account.AccountActivity;
 import com.here.base.MvpActivity;
 import com.here.bean.User;
+import com.here.blacklist.BlacklistActivity;
 import com.here.login.LoginActivity;
 import com.here.notice.NoticeActivity;
 import com.here.password.PasswordActivity;
@@ -80,6 +81,7 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
                 startActivity(new Intent(this, NoticeActivity.class));
                 break;
             case R.id.rl_black_list:
+                startActivity(new Intent(this, BlacklistActivity.class));
                 break;
             case R.id.rl_current_version:
                 break;

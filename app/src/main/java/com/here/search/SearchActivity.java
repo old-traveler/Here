@@ -12,11 +12,13 @@ import com.bumptech.glide.Glide;
 import com.here.R;
 import com.here.base.MvpActivity;
 import com.here.bean.User;
+import com.here.personal.PersonalActivity;
 import com.here.personal.other.OtherInfoActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SearchActivity extends MvpActivity<SearchPresenter> implements SearchContract {
@@ -56,12 +58,19 @@ public class SearchActivity extends MvpActivity<SearchPresenter> implements Sear
                 mvpPresenter.searchUser();
                 break;
             case R.id.rl_search_info:
-                Intent intent =new Intent(this,OtherInfoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("other",user);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                finish();
+                if (BmobUser.getCurrentUser().getObjectId()
+                        .equals(user.getObjectId())){
+                    Intent intent = new Intent(SearchActivity.this, PersonalActivity.class);
+                    startActivity(intent);
+                }else {
+                    Intent intent =new Intent(this,OtherInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("other",user);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
+                }
+
                 break;
         }
     }

@@ -6,7 +6,7 @@
     tools:context="com.here.imdetails.ImDetailsActivity"
     android:orientation="vertical">
     <android.support.v7.widget.Toolbar
-        android:background="@color/theme_color"
+        android:background="@color/white"
         android:id="@+id/tb_im_details"
         android:paddingBottom="7dp"
         android:elevation="7dp"
@@ -28,10 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/part_linear_color"/>
+
             <RelativeLayout
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
