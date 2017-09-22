@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -45,7 +43,7 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
     @Bind(R.id.tv_details_nickname)
     TextView tvDetailsNickname;
     @Bind(R.id.tv_details_follow)
-    TextView tvDetailsFollow;
+    Button tvDetailsFollow;
     @Bind(R.id.tv_details_address)
     TextView tvDetailsAddress;
     @Bind(R.id.tv_details_kind)
@@ -70,13 +68,13 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
         initHome();
         mvpPresenter.attachView(this);
         mvpPresenter.loadingData();
+        mvpPresenter.isFollow();
     }
 
     @Override
     protected ImDetailsPresenter createPresenter() {
         return new ImDetailsPresenter();
     }
-
 
 
     @Override
@@ -155,32 +153,48 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
         toastShow(error);
     }
 
+    @Override
+    public void followSuccess() {
+        new AlertView("提示", "关注成功！", null
+                , new String[]{"确定"}, null, this, AlertView.Style.Alert, null).show();
+        tvDetailsFollow.setText("已关注");
+        tvDetailsFollow.setClickable(false);
+    }
 
-    @OnClick({R.id.tv_details_follow, R.id.btn_details_apply,R.id.cv_details_head})
+    @Override
+    public void hadFollowed() {
+        tvDetailsFollow.setText("已关注");
+        tvDetailsFollow.setClickable(false);
+    }
+
+
+    @OnClick({R.id.btn_details_apply, R.id.cv_details_head,R.id.tv_details_follow})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_details_follow:
+                mvpPresenter.followUser();
                 break;
             case R.id.btn_details_apply:
                 mvpPresenter.apply();
                 break;
             case R.id.cv_details_head:
                 if (getImActivity().getPublisher().getObjectId()
-                        .equals(BmobUser.getCurrentUser().getObjectId())){
+                        .equals(BmobUser.getCurrentUser().getObjectId())) {
                     Intent intent = new Intent(this, PersonalActivity.class);
                     startActivity(intent);
-                }else {
-                    Intent intent = new Intent(this , OtherInfoActivity.class);
+                } else {
+                    Intent intent = new Intent(this, OtherInfoActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("other",getImActivity().getPublisher());
+                    bundle.putSerializable("other", getImActivity().getPublisher());
                     intent.putExtras(bundle);
                     startActivity(intent);
                     finish();
                 }
-
                 break;
+
         }
     }
+
 
 
 }

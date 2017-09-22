@@ -33,6 +33,7 @@ public class CommunityDetailsActivity extends MvpActivity<CommunityDetailsPresen
     PullToRefreshView pullToRefresh;
     @Bind(R.id.iv_community_background)
     ImageView ivCommunityBackground;
+    private int page;
 
 
     @Override
@@ -46,11 +47,12 @@ public class CommunityDetailsActivity extends MvpActivity<CommunityDetailsPresen
         pullToRefresh.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
             public void onRefresh() {
-              mvpPresenter.loadCommunityData(true);
+              mvpPresenter.loadCommunityData(0,true);
+                page = 1 ;
             }
         });
         initCommunityDetails();
-        mvpPresenter.loadCommunityData(false);
+        mvpPresenter.loadCommunityData(page++,false);
         communityDetailsAdapter.setCommunity(true);
     }
 

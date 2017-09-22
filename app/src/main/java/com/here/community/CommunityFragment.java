@@ -1,5 +1,6 @@
 package com.here.community;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,9 @@ import com.here.bean.Community;
 import com.here.bean.Propaganda;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -37,13 +41,11 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
     SmartRefreshLayout slCommunity;
     CommunityAdapter communityAdapter;
     private boolean isLoad = false;
-
-    private boolean isRefresh =false;
-
-    private RefreshLayout refreshLayout1;
+    private int page = 0;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup
+            container, @Nullable Bundle savedInstanceState) {
         mvpPresenter = createPresenter();
         View view = inflater.inflate(R.layout.fragment_community, container, false);
         ButterKnife.bind(this, view);
@@ -98,18 +100,23 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         slCommunity.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                mvpPresenter.loadCommunityData(true);
-                isRefresh = true;
-                refreshLayout1 = refreshlayout;
+                mvpPresenter.loadCommunityData(0);
+                slCommunity.setLoadmoreFinished(false);
+                page = 1;
             }
         });
 
         slCommunity.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                refreshlayout.finishLoadmore(2000);
+                mvpPresenter.loadCommunityData(page++);
             }
         });
+        slCommunity.setRefreshHeader(new ClassicsHeader(getContext()));
+        BallPulseFooter ballPulseFooter=new BallPulseFooter(
+                getContext()).setSpinnerStyle(SpinnerStyle.Scale);
+        ballPulseFooter.setPrimaryColors(Color.parseColor("#108de8"));
+        slCommunity.setRefreshFooter(ballPulseFooter);
 
 
 
@@ -127,30 +134,31 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
     }
 
     @Override
-    public void showLoading() {
-        showProgressDialog();
-    }
-
-    @Override
-    public void stopLoading() {
-        dissmiss();
-    }
-
-    @Override
     public void setRecommend(List<Community> communities) {
-        communityAdapter.addData(communities);
-        if (isRefresh){
-            isRefresh = false;
-            refreshLayout1.finishRefresh();
+        if (communityAdapter.getItemCount() > 3){
+            communityAdapter.restore();
         }
+        communityAdapter.setData(communities);
+        slCommunity.finishRefresh();
     }
 
     @Override
     public void fail(String error) {
-        if (isRefresh){
-            isRefresh = false;
-            refreshLayout1.finishRefresh();
+        if (slCommunity.isRefreshing()){
+            slCommunity.finishRefresh();
+        }else if (slCommunity.isLoading()){
+            slCommunity.finishLoadmore();
         }
         toastShow(error);
+    }
+
+    @Override
+    public void addRecommend(List<Community> communities) {
+        if (communities.size() > 0){
+            communityAdapter.addData(communities);
+        }else {
+            slCommunity.setLoadmoreFinished(true);
+        }
+        slCommunity.finishLoadmore();
     }
 }

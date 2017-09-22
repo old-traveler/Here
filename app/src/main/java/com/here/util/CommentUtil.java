@@ -27,7 +27,8 @@ public class CommentUtil {
      * @param comment
      * @param listener
      */
-    public static void uploadComment(Comment comment , final UserUtil.OnDealListener listener){
+    public static void uploadComment(Comment comment
+            , final UserUtil.OnDealListener listener){
         comment.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {
@@ -50,7 +51,8 @@ public class CommentUtil {
      * @param publishId   发布帖子的Id
      * @param listener
      */
-    public static void queryCommentOfPost(String publishId , final OnQueryCommentListener listener){
+    public static void queryCommentOfPost(String publishId
+            , final OnQueryCommentListener listener){
         BmobQuery<Comment> query = new BmobQuery<>();
         query.addWhereEqualTo("publish",publishId);
         query.include("user");

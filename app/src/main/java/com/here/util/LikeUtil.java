@@ -43,7 +43,8 @@ public class LikeUtil {
      * @param objectId  帖子
      * @param listener  监听
      */
-    public static void likePost(final User user, final String objectId, final OnLikeListener listener){
+    public static void likePost(final User user
+            , final String objectId, final OnLikeListener listener){
         final Like like = new Like();
         like.setUser(user);
         like.setPublish(objectId);
@@ -72,7 +73,9 @@ public class LikeUtil {
     public static void deletePost(final Like like , final OnLikeListener listener){
         LikeId likeid = null;
         for (LikeId likeId : DataSupport.findAll(LikeId.class)) {
-            if (likeId.getUserId().equals(like.getUser().getObjectId()) && likeId.getPublishId().equals(like.getPublish())){
+            if (likeId.getUserId().equals(like.getUser()
+                    .getObjectId()) && likeId.getPublishId()
+                    .equals(like.getPublish())){
                 like.setObjectId(likeId.getLikeId());
                 likeid = likeId;
                 break;

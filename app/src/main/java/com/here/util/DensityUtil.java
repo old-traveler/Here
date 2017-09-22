@@ -15,7 +15,8 @@ public class DensityUtil {
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */
     public static int dip2px(float dpValue) {
-        final float scale = HereApplication.getContext().getResources().getDisplayMetrics().density;
+        final float scale = HereApplication.getContext()
+                .getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
@@ -23,7 +24,8 @@ public class DensityUtil {
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
      */
     public static int px2dip(float pxValue) {
-        final float scale = HereApplication.getContext().getResources().getDisplayMetrics().density;
+        final float scale = HereApplication.getContext()
+                .getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 
@@ -38,7 +40,8 @@ public class DensityUtil {
      * @param bottom 下边距
      * @return
      */
-    public static ViewGroup.LayoutParams setViewMargin(View view, boolean isDp, int left, int right, int top, int bottom) {
+    public static ViewGroup.LayoutParams setViewMargin(View view
+            , boolean isDp, int left, int right, int top, int bottom) {
         if (view == null) {
             return null;
         }

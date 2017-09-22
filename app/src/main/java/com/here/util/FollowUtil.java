@@ -35,7 +35,8 @@ public class FollowUtil {
      * @param followUser
      * @param listener
      */
-    public static void followUser(final User user , final User followUser, final UserUtil.OnDealListener listener){
+    public static void followUser(final User user , final User followUser
+            , final UserUtil.OnDealListener listener){
         Follow follow = new Follow();
         follow.setUser(user);
         follow.setFollowUser(followUser);
@@ -68,7 +69,8 @@ public class FollowUtil {
      */
     public static boolean isFollow(String userId , String followUserId){
         for (FollowId followId : DataSupport.findAll(FollowId.class)) {
-            if (followId.getUserId().equals(userId) && followId.getFollowUserId().equals(followUserId)){
+            if (followId.getUserId().equals(userId) && followId
+                    .getFollowUserId().equals(followUserId)){
                 return true;
             }
         }

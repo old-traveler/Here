@@ -1,6 +1,5 @@
 package com.here.util;
 
-import android.util.Log;
 
 /**
  * Created by hyc on 2017/7/5 22:26
@@ -9,8 +8,9 @@ import android.util.Log;
 public class TimeUtil {
 
     public static int countMinute(String start,String over){
-        Log.i("测试",start+"  "+over);
-        return (Integer.parseInt(over.split(":")[0])-Integer.parseInt(start.split(":")[0]))*60+(Integer.parseInt(over.split(":")[1])-Integer.parseInt(start.split(":")[1]));
+        return (Integer.parseInt(over.split(":")[0])-Integer
+                .parseInt(start.split(":")[0]))*60+(Integer
+                .parseInt(over.split(":")[1])-Integer.parseInt(start.split(":")[1]));
     }
 
 

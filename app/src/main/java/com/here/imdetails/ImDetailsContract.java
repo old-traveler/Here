@@ -24,4 +24,8 @@ public interface ImDetailsContract {
 
     void joinFail(String error);
 
+    void followSuccess();
+
+    void hadFollowed();
+
 }

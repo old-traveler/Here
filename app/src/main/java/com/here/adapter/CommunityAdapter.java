@@ -106,11 +106,19 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
+    public void restore(){
+        while (communities.size() > 3){
+            int i = communities.size() - 1;
+            communities.remove(i);
+            notifyItemRemoved(i);
+        }
+    }
+
     private List<Community> communities;
 
     private boolean isLoading = false;
 
-    public void addData(List<Community> communityList){
+    public void setData(List<Community> communityList){
         communityList.add(0,communities.get(0));
         communityList.add(1,communities.get(1));
         communityList.add(2,communities.get(2));
@@ -176,6 +184,12 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return communities.size();
     }
 
+    public void addData(List<Community> communities) {
+        for (Community community : communities) {
+            this.communities.add(community);
+            notifyItemInserted(this.communities.size()-1);
+        }
+    }
 
 
     class ViewPageHolder extends RecyclerView.ViewHolder {

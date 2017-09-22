@@ -160,7 +160,9 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
                 marker.remove();
             }
         }
+
         rcvNear.setVisibility(View.VISIBLE);
+        downTheDetail();
         if (adapter != null ){
             rcvNear.setAdapter(adapter);
             adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
@@ -371,13 +373,14 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
 
     @Override
     public void downTheDetail() {
-        rlImActivity.setVisibility(View.GONE);
-        android.view.animation.Animation operatingAnim = AnimationUtils
-                .loadAnimation(getActivity(), R.anim.tip);
-        LinearInterpolator lin = new LinearInterpolator();
-        operatingAnim.setInterpolator(lin);
-        rlImActivity.startAnimation(operatingAnim);
-
+        if (rlImActivity.getVisibility() == View.VISIBLE){
+            rlImActivity.setVisibility(View.GONE);
+            android.view.animation.Animation operatingAnim = AnimationUtils
+                    .loadAnimation(getActivity(), R.anim.tip);
+            LinearInterpolator lin = new LinearInterpolator();
+            operatingAnim.setInterpolator(lin);
+            rlImActivity.startAnimation(operatingAnim);
+        }
     }
 
     @Override

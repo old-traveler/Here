@@ -10,13 +10,12 @@ import java.util.List;
 
 public interface CommunityContract {
 
-    void showLoading();
-
-    void stopLoading();
 
     void setRecommend(List<Community> communities);
 
     void fail(String error);
+
+    void addRecommend(List<Community> communities);
 
 
 

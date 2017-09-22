@@ -1,278 +1,290 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:background="@color/white"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
-    android:layout_height="180dp">
+    android:layout_marginRight="10dp"
+    app:cardElevation="10dp"
+    android:layout_marginTop="10dp"
+    android:paddingBottom="10dp"
+    app:cardBackgroundColor="@color/white"
+    android:layout_marginLeft="10dp"
+    android:layout_height="190dp">
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_weight="1"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
-        <RelativeLayout
-            android:id="@+id/rl_item_sport"
-            android:clickable="true"
-            android:background="@drawable/item_message_selector"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:src="@drawable/community_1"
-                android:layout_centerHorizontal="true"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
-            <TextView
-                android:text="运动"
-                android:layout_marginTop="40dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/share_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_item_shopping"
-            android:clickable="true"
-            android:background="@drawable/item_message_selector"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <RelativeLayout
+                android:id="@+id/rl_item_sport"
+                android:clickable="true"
+                android:background="@drawable/item_message_selector"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/community_1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:text="运动"
+                    android:layout_marginTop="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_item_shopping"
+                android:clickable="true"
+                android:background="@drawable/item_message_selector"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/community_2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:text="购物"
+                    android:layout_marginTop="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_item_sing"
+                android:clickable="true"
+                android:background="@drawable/item_message_selector"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/community_3"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:text="K歌"
+                    android:layout_marginTop="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_item_movie"
+                android:clickable="true"
+                android:background="@drawable/item_message_selector"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/community_4"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:text="电影"
+                    android:layout_marginTop="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:src="@drawable/community_2"
-                android:layout_centerHorizontal="true"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
-            <TextView
-                android:text="购物"
-                android:layout_marginTop="40dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/share_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_item_sing"
-            android:clickable="true"
-            android:background="@drawable/item_message_selector"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <RelativeLayout
+                android:id="@+id/rl_item_camping"
+                android:clickable="true"
+                android:background="@drawable/item_message_selector"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/community_5"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:text="户外"
+                    android:layout_marginTop="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_item_bar"
+                android:clickable="true"
+                android:background="@drawable/item_message_selector"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/community_6"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:text="酒吧"
+                    android:layout_marginTop="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_item_beauty"
+                android:clickable="true"
+                android:background="@drawable/item_message_selector"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/community_7"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:text="美容"
+                    android:layout_marginTop="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_item_delicious"
+                android:clickable="true"
+                android:background="@drawable/item_message_selector"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/community_8"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:text="美食"
+                    android:layout_marginTop="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:src="@drawable/community_3"
-                android:layout_centerHorizontal="true"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
-            <TextView
-                android:text="K歌"
-                android:layout_marginTop="40dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/share_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_item_movie"
-            android:clickable="true"
-            android:background="@drawable/item_message_selector"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:src="@drawable/community_4"
-                android:layout_centerHorizontal="true"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
-            <TextView
-                android:text="电影"
-                android:layout_marginTop="40dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/share_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <RelativeLayout
+                android:id="@+id/rl_item_chess"
+                android:clickable="true"
+                android:background="@drawable/item_message_selector"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/community_9"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:text="棋牌"
+                    android:layout_marginTop="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_item_game"
+                android:clickable="true"
+                android:background="@drawable/item_message_selector"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/community_10"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:text="游戏"
+                    android:layout_marginTop="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_item_role"
+                android:clickable="true"
+                android:background="@drawable/item_message_selector"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/community_11"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:text="桌游"
+                    android:layout_marginTop="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_item_other"
+                android:clickable="true"
+                android:background="@drawable/item_message_selector"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/community_12"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:text="其他"
+                    android:layout_marginTop="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-        <RelativeLayout
-            android:id="@+id/rl_item_camping"
-            android:clickable="true"
-            android:background="@drawable/item_message_selector"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:src="@drawable/community_5"
-                android:layout_centerHorizontal="true"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
-            <TextView
-                android:text="户外"
-                android:layout_marginTop="40dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/share_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_item_bar"
-            android:clickable="true"
-            android:background="@drawable/item_message_selector"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:src="@drawable/community_6"
-                android:layout_centerHorizontal="true"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
-            <TextView
-                android:text="酒吧"
-                android:layout_marginTop="40dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/share_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_item_beauty"
-            android:clickable="true"
-            android:background="@drawable/item_message_selector"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:src="@drawable/community_7"
-                android:layout_centerHorizontal="true"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
-            <TextView
-                android:text="美容"
-                android:layout_marginTop="40dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/share_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_item_delicious"
-            android:clickable="true"
-            android:background="@drawable/item_message_selector"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:src="@drawable/community_8"
-                android:layout_centerHorizontal="true"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
-            <TextView
-                android:text="美食"
-                android:layout_marginTop="40dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/share_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-        <RelativeLayout
-            android:id="@+id/rl_item_chess"
-            android:clickable="true"
-            android:background="@drawable/item_message_selector"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:src="@drawable/community_9"
-                android:layout_centerHorizontal="true"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
-            <TextView
-                android:text="棋牌"
-                android:layout_marginTop="40dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/share_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_item_game"
-            android:clickable="true"
-            android:background="@drawable/item_message_selector"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:src="@drawable/community_10"
-                android:layout_centerHorizontal="true"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
-            <TextView
-                android:text="游戏"
-                android:layout_marginTop="40dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/share_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_item_role"
-            android:clickable="true"
-            android:background="@drawable/item_message_selector"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:src="@drawable/community_11"
-                android:layout_centerHorizontal="true"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
-            <TextView
-                android:text="桌游"
-                android:layout_marginTop="40dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/share_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_item_other"
-            android:clickable="true"
-            android:background="@drawable/item_message_selector"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:src="@drawable/community_12"
-                android:layout_centerHorizontal="true"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
-            <TextView
-                android:text="其他"
-                android:layout_marginTop="40dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/share_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-    </LinearLayout>
-</LinearLayout>
+
+</android.support.v7.widget.CardView>

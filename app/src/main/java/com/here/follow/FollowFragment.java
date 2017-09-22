@@ -1,6 +1,7 @@
 package com.here.follow;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +23,9 @@ import com.here.publish.share.ShareActivity;
 import com.here.util.CommunityUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -54,6 +58,11 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
         View view = inflater.inflate(R.layout.fragment_follow, container, false);
         ButterKnife.bind(this, view);
         mvpPresenter.attachView(this);
+        slFollow.setRefreshHeader(new ClassicsHeader(getContext()));
+        BallPulseFooter ballPulseFooter=new BallPulseFooter(
+                getContext()).setSpinnerStyle(SpinnerStyle.Scale);
+        ballPulseFooter.setPrimaryColors(Color.parseColor("#108de8"));
+        slFollow.setRefreshFooter(ballPulseFooter);
         if (isLoad){
             adapter = new CommunityDetailsAdapter(new ArrayList<Community>(), getActivity());
             initView();
@@ -86,6 +95,7 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
                 refreshlayout.finishRefresh(2000);
             }
         });
+
 
         adapter = new CommunityDetailsAdapter(new ArrayList<Community>(), getActivity());
         rvFollow.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -138,4 +148,6 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
     public void loadFail(String error) {
         toastShow(error);
     }
+
+
 }

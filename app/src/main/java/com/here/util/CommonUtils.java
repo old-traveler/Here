@@ -17,7 +17,8 @@ public class CommonUtils {
      * @return
      */
     public static int dipToPx(int dpValue) {
-        final float scale = HereApplication.getContext().getResources().getDisplayMetrics().density;
+        final float scale = HereApplication.getContext()
+                .getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 

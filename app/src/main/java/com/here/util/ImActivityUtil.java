@@ -119,11 +119,16 @@ public class ImActivityUtil {
 
     public static ImActivity getImActivityInfo(User user){
         ImActivity imActivity = null;
-        SharedPreferences preferences=HereApplication.getContext().getSharedPreferences("imActivity", Context.MODE_PRIVATE);
-        Log.i("缓存",preferences.getString("publisherid","")+"  "+user.getObjectId()+"  "+JoinUtil.getTime()+"  "+preferences.getString("overTime","")+"  "+JoinUtil.getApplyUserId()+"  "+BmobUser.getCurrentUser(User.class).getObjectId());
+        SharedPreferences preferences=HereApplication.getContext()
+                .getSharedPreferences("imActivity", Context.MODE_PRIVATE);
+        Log.i("缓存",preferences.getString("publisherid","")+"  "
+                +user.getObjectId()+"  "+JoinUtil.getTime()+"  "+preferences
+                .getString("overTime","")+"  "+JoinUtil.getApplyUserId()
+                +"  "+BmobUser.getCurrentUser(User.class).getObjectId());
         if (!TextUtils.isEmpty(preferences.getString("objectid",""))){
             if (preferences.getString("publisherid","").equals(user.getObjectId())
-                    ||! TextUtils.isEmpty(JoinUtil.getTime())&& preferences.getString("overTime","").equals(JoinUtil.getTime())
+                    ||! TextUtils.isEmpty(JoinUtil.getTime())&&
+                    preferences.getString("overTime","").equals(JoinUtil.getTime())
                     && ! TextUtils.isEmpty(JoinUtil.getApplyUserId())
                     &&JoinUtil.getApplyUserId().equals(BmobUser.getCurrentUser(User.class).getObjectId())){
                 imActivity = new ImActivity();
@@ -174,7 +179,8 @@ public class ImActivityUtil {
      * @param longitude
      * @param listener
      */
-    public static void getNearByImActivity(double latitude,double longitude,String kind, final OnGetNearByListener listener){
+    public static void getNearByImActivity(double latitude,double longitude
+            ,String kind, final OnGetNearByListener listener){
         double minLatitude = latitude - 0.09f;
         double maxLatitude = latitude + 0.09f;
         double minLongitude = longitude - 0.1016f;
@@ -196,7 +202,8 @@ public class ImActivityUtil {
         BmobQuery<ImActivity> query_5 = new BmobQuery();
         query_5.addWhereLessThanOrEqualTo("latitude",maxLatitude);
         BmobQuery<ImActivity> query_6 = new BmobQuery();
-        query_6.addWhereEqualTo("publishDate",now.get(Calendar.YEAR)+"-"+(now.get(Calendar.MONTH)+1)+"-"+now.get(Calendar.DAY_OF_MONTH));
+        query_6.addWhereEqualTo("publishDate",now.get(Calendar.YEAR)
+                +"-"+(now.get(Calendar.MONTH)+1)+"-"+now.get(Calendar.DAY_OF_MONTH));
         BmobQuery<ImActivity> query_7 = new BmobQuery();
         query_7.addWhereEqualTo("kind",kind);
         attrQuery.add(query_1);
@@ -226,7 +233,8 @@ public class ImActivityUtil {
 
     }
 
-    public static void sendImActivityApply(User user,User user1,final UserUtil.OnDealListener listener){
+    public static void sendImActivityApply(User user,User user1
+            ,final UserUtil.OnDealListener listener){
         BmobIMUserInfo info = new BmobIMUserInfo();
         if (TextUtils.isEmpty(user.getNickname())){
             info.setName(user.getUsername());
@@ -240,8 +248,10 @@ public class ImActivityUtil {
             info.setAvatar("dsaodaso");
         }
 
-        BmobIMConversation c = BmobIM.getInstance().startPrivateConversation(info, true,null);
-        BmobIMConversation conversation = BmobIMConversation.obtain(BmobIMClient.getInstance(), c);
+        BmobIMConversation c = BmobIM.getInstance()
+                .startPrivateConversation(info, true,null);
+        BmobIMConversation conversation = BmobIMConversation
+                .obtain(BmobIMClient.getInstance(), c);
         ApplyMessage msg = new ApplyMessage();
         msg.setContent(user1.getObjectId());
         msg.setMsgType("apply");
@@ -262,10 +272,13 @@ public class ImActivityUtil {
     }
 
 
-    public static void respondApply(BmobIMUserInfo info,String objectId, final UserUtil.OnDealListener listener){
+    public static void respondApply(BmobIMUserInfo info
+            ,String objectId, final UserUtil.OnDealListener listener){
         Log.i("测试",info.getUserId()+"  "+info.getName()+"  "+info.getAvatar());
-        BmobIMConversation c = BmobIM.getInstance().startPrivateConversation(info,true,null);
-        BmobIMConversation conversation = BmobIMConversation.obtain(BmobIMClient.getInstance(), c);
+        BmobIMConversation c = BmobIM.getInstance()
+                .startPrivateConversation(info,true,null);
+        BmobIMConversation conversation = BmobIMConversation
+                .obtain(BmobIMClient.getInstance(), c);
         ApplyMessage msg = new ApplyMessage();
         msg.setContent(objectId);
         msg.setMsgType("response");
@@ -291,7 +304,8 @@ public class ImActivityUtil {
      * @param objectId
      * @param listener
      */
-    public static void queryOneImActivity(String objectId, final OnGetOneImActivityListener listener){
+    public static void queryOneImActivity(String objectId
+            , final OnGetOneImActivityListener listener){
         BmobQuery<ImActivity> query = new BmobQuery<>();
         query.getObject(objectId, new QueryListener<ImActivity>() {
             @Override
@@ -309,7 +323,8 @@ public class ImActivityUtil {
         });
     }
 
-    public static void deleteImActivity(ImActivity imActivity, final UserUtil.OnDealListener listener){
+    public static void deleteImActivity(ImActivity imActivity
+            , final UserUtil.OnDealListener listener){
         imActivity.delete(new UpdateListener() {
             @Override
             public void done(BmobException e) {

@@ -41,10 +41,14 @@ public class CommunityUtil {
      * @param kind
      * @param listener
      */
-    public static void queryMoodByKind(String kind, final CommunitySearchListener listener){
+    public static void queryMoodByKind(String kind
+            ,int page, final CommunitySearchListener listener){
         BmobQuery<Mood> moodBmobQuery = new BmobQuery<>();
         moodBmobQuery.addWhereEqualTo("kind",kind);
         moodBmobQuery.include("publisher");
+        moodBmobQuery.setLimit(20);
+        moodBmobQuery.setSkip(page * 20);
+        moodBmobQuery.order("-createdAt");
         moodBmobQuery.findObjects(new FindListener<Mood>() {
             @Override
             public void done(List<Mood> list, BmobException e) {
@@ -73,10 +77,13 @@ public class CommunityUtil {
      * @param kind
      * @param listener
      */
-    public static void queryAppointmentByKind(String kind, final CommunitySearchListener listener){
+    public static void queryAppointmentByKind(String kind
+            ,int page, final CommunitySearchListener listener){
         BmobQuery<Appointment> query = new BmobQuery<>();
         query.addWhereEqualTo("kind",kind);
-        query.setLimit(50);
+        query.setLimit(20);
+        query.setSkip(page * 20);
+        query.order("-createdAt");
         query.include("publisher");
         query.findObjects(new FindListener<Appointment>() {
             @Override
@@ -105,9 +112,11 @@ public class CommunityUtil {
      * 查询心情分享
      * @param listener
      */
-    public static void queryMood(final CommunitySearchListener listener){
+    public static void queryMood(int page,final CommunitySearchListener listener){
         BmobQuery<Mood> query = new BmobQuery<>();
-        query.setLimit(100);
+        query.setLimit(20);
+        query.setSkip(page * 20);
+        query.order("-createdAt");
         query.include("publisher");
         query.findObjects(new FindListener<Mood>() {
             @Override
@@ -136,9 +145,11 @@ public class CommunityUtil {
      * 查询预约活动
      * @param listener
      */
-    public static void queryAppointment(final CommunitySearchListener listener){
+    public static void queryAppointment(int page,final CommunitySearchListener listener){
         BmobQuery<Appointment> query = new BmobQuery<>();
-        query.setLimit(50);
+        query.setLimit(20);
+        query.setSkip(page * 20);
+        query.order("-createdAt");
         query.include("publisher");
         query.findObjects(new FindListener<Appointment>() {
             @Override

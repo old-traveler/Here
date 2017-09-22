@@ -4,7 +4,7 @@
     android:background="@color/white"
     android:layout_height="wrap_content">
     <View
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/going_unfinsh_color"/>

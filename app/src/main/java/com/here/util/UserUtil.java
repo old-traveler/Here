@@ -158,7 +158,8 @@ public class UserUtil {
      * @param listener  发送监听
      */
     public static void verifyPhoneNumber(String number  , final OnDealListener listener){
-        BmobSMS.requestSMSCode(number, "【这儿】 您的验证码是`%smscode%`，有效期为`%ttl%`分钟。若非您本人操作，请勿略此短信", new QueryListener<Integer>() {
+        BmobSMS.requestSMSCode(number, "【这儿】 您的验证码是`%smscode%`，" +
+                "有效期为`%ttl%`分钟。若非您本人操作，请勿略此短信", new QueryListener<Integer>() {
             @Override
             public void done(Integer integer, BmobException e) {
                 if (e==null){

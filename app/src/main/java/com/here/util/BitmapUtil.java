@@ -35,16 +35,19 @@ public class BitmapUtil {
         canvas.drawBitmap(source,0,0,paint);
         source= Bitmap.createScaledBitmap(source,min,min,true);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.blue,null),min,min,true), 0, 0, paint);
+        canvas.drawBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                context.getResources(), R.drawable.blue,null),min,min,true), 0, 0, paint);
         source.recycle();
 
         return target;
     }
 
 
-    public static void drawMark(final ImActivity imActivity, final int min, final boolean isWhite, final OnGetMapHeadListener listener) {
+    public static void drawMark(final ImActivity imActivity, final int min
+            , final boolean isWhite, final OnGetMapHeadListener listener) {
 
-        Glide.with(HereApplication.getContext()).load(imActivity.getPublisher().getHeadImageUrl()).asBitmap().into(new SimpleTarget<Bitmap>() {
+        Glide.with(HereApplication.getContext()).load(imActivity.getPublisher()
+                .getHeadImageUrl()).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 if (resource != null){

@@ -11,7 +11,8 @@ import org.litepal.tablemanager.Connector;
 
 public class AccountUtil {
 
-    public static void addAccount(String name,String username,String password,String imageUrl,boolean isThird){
+    public static void addAccount(String name,String username
+            ,String password,String imageUrl,boolean isThird){
         Connector.getDatabase();
         for (Account account : DataSupport.findAll(Account.class)) {
             if (account.getUsername().equals(username)){

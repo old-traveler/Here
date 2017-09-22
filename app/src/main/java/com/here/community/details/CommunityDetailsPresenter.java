@@ -15,18 +15,24 @@ public class CommunityDetailsPresenter  extends BasePresenter<CommunityDetailsCo
     /**
      * 加载社区数据
      */
-    public void loadCommunityData(final boolean isRefresh){
+    public void loadCommunityData(int page,final boolean isRefresh){
         if (!isRefresh){
             mvpView.showLoading();
         }
 
-        CommunityUtil.queryAppointmentByKind(mvpView.getKind(), new CommunityUtil.CommunitySearchListener() {
+        CommunityUtil.queryAppointmentByKind(mvpView.getKind(), page,new CommunityUtil.CommunitySearchListener() {
             @Override
             public void success(List<Community> communities) {
                 if (mvpView == null){
                     return;
                 }
-                loadMoodData(communities,isRefresh);
+
+                mvpView.loadSuccess(communities);
+                if (!isRefresh){
+                    mvpView.stopLoading();
+                }else {
+                    mvpView.stopRefreshing();
+                }
             }
 
             @Override
@@ -47,19 +53,17 @@ public class CommunityDetailsPresenter  extends BasePresenter<CommunityDetailsCo
 
     /**
      * 加载心情分享数据
-     * @param communityList
+
      */
-    public void loadMoodData(final List<Community> communityList, final boolean isRefresh){
-        CommunityUtil.queryMoodByKind(mvpView.getKind(), new CommunityUtil.CommunitySearchListener() {
+    public void loadMoodData(int page, final boolean isRefresh){
+        CommunityUtil.queryMoodByKind(mvpView.getKind(),page, new CommunityUtil.CommunitySearchListener() {
             @Override
             public void success(List<Community> communities) {
                 if (mvpView == null){
                     return;
                 }
-                for (Community community : communityList) {
-                    communities.add(community);
-                }
-                mvpView.loadSuccess(CommunityUtil.sortByTime(communities));
+
+                mvpView.loadSuccess(communities);
                 if (!isRefresh){
                     mvpView.stopLoading();
                 }else {
@@ -73,7 +77,6 @@ public class CommunityDetailsPresenter  extends BasePresenter<CommunityDetailsCo
                 if (mvpView == null){
                     return;
                 }
-                mvpView.loadSuccess(CommunityUtil.sortByTime(communityList));
                 if (!isRefresh){
                     mvpView.stopLoading();
                 }else {

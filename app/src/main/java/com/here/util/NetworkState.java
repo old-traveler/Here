@@ -14,7 +14,8 @@ public class NetworkState {
 
     public static boolean networkConnected(Context context){
         if (context != null){
-            ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager manager = (ConnectivityManager)
+                    context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo info = manager.getActiveNetworkInfo();
             if (info != null)
                 return info.isAvailable();
@@ -27,7 +28,8 @@ public class NetworkState {
     // if wifi connect
     public static boolean wifiConnected(Context context){
         if (context != null){
-            ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager manager = (ConnectivityManager)
+                    context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo info = manager.getActiveNetworkInfo();
             if (info != null){
                 if (info.getType() == ConnectivityManager.TYPE_WIFI)
@@ -41,7 +43,8 @@ public class NetworkState {
     // if mobile data connect
     public static boolean mobileDataConnected(Context context){
         if (context != null){
-            ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager manager = (ConnectivityManager)
+                    context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo info = manager.getActiveNetworkInfo();
             if (info != null){
                 if (info.getType() == ConnectivityManager.TYPE_MOBILE)

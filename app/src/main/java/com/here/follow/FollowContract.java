@@ -17,4 +17,6 @@ public interface FollowContract {
     void loadSuccess(List<Community> communities);
 
     void loadFail(String error);
+
+
 }

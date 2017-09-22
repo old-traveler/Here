@@ -24,12 +24,14 @@ public class NotificationUtil {
      * @param title 通知标题
      * @param content  通知内容
      */
-    public static void showNewNotification(String title, String content,boolean isJump,Intent intent){
+    public static void showNewNotification(String title
+            , String content,boolean isJump,Intent intent){
         NotificationManager manager = (NotificationManager) HereApplication
                 .getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = null;
         if (isJump){
-            PendingIntent pi = PendingIntent.getActivity(HereApplication.getContext(),0,intent,0);
+            PendingIntent pi = PendingIntent.getActivity(
+                    HereApplication.getContext(),0,intent,0);
             notification = new NotificationCompat
                     .Builder(HereApplication.getContext())
                     .setContentTitle(title)

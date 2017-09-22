@@ -6,6 +6,7 @@ import com.here.base.BasePresenter;
 import com.here.bean.Join;
 import com.here.bean.User;
 import com.here.nearby.NearbyPresenter;
+import com.here.util.FollowUtil;
 import com.here.util.ImActivityUtil;
 import com.here.util.ImUtil;
 import com.here.util.JoinUtil;
@@ -92,6 +93,40 @@ public class ImDetailsPresenter extends BasePresenter<ImDetailsContract> {
 
 
         }
+    }
+
+    public void isFollow(){
+        if (FollowUtil.isFollow(BmobUser.getCurrentUser().getObjectId()
+                ,mvpView.getImActivity().getPublisher().getObjectId())){
+            mvpView.hadFollowed();
+        }
+    }
+
+    public void followUser(){
+        User currentUser = BmobUser.getCurrentUser(User.class);
+        User user = mvpView.getImActivity().getPublisher();
+        if (FollowUtil.isFollow(user.getObjectId(),user.getObjectId())){
+            mvpView.hadFollowed();
+            return;
+        }
+        mvpView.showLoading();
+        FollowUtil.followUser(user,currentUser,new UserUtil.OnDealListener() {
+            @Override
+            public void success() {
+                if (mvpView!=null){
+                    mvpView.stopLoading();
+                    mvpView.followSuccess();
+                }
+            }
+
+            @Override
+            public void fail(String error) {
+                if (mvpView!=null){
+                    mvpView.stopLoading();
+                    mvpView.fail(error);
+                }
+            }
+        });
     }
 
 
