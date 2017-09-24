@@ -1,6 +1,7 @@
 package com.here.follow;
 
 import com.here.bean.Community;
+import com.here.bean.FindImage;
 
 import java.util.List;
 
@@ -10,13 +11,13 @@ import java.util.List;
 
 public interface FollowContract {
 
-    void showLoading();
-
-    void stopLoading();
-
-    void loadSuccess(List<Community> communities);
 
     void loadFail(String error);
 
+    void reminderJoin();
+
+    void refreshData(List<FindImage> images);
+
+    void addData(List<FindImage> images);
 
 }

@@ -99,10 +99,12 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
     TextView tvMainCommunity;
     @Bind(R.id.tv_main_follow)
     TextView tvMainFollow;
+    private CommunityFragment communityFragment;
 
     private FragmentAdapter adapter;
 
     private ConnectionChangeReceiver receiver;
+    private int currentPosition = 0;
     /**
      * 记录ViewPage当前的选中界面
      */
@@ -249,9 +251,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
 
     private void initViewPage() {
         List<Fragment> fragments = new ArrayList<>();
-
+        communityFragment = new CommunityFragment();
         fragments.add(new NearbyFragment());
-        fragments.add(new CommunityFragment());
+        fragments.add(communityFragment);
         fragments.add(new FollowFragment());
         adapter = new FragmentAdapter(getSupportFragmentManager(), fragments);
         vpMain.setAdapter(adapter);
@@ -268,16 +270,19 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
+                        currentPosition = 0;
                         tvMainNear.setTextColor(Color.parseColor("#108de8"));
                         tvMainCommunity.setTextColor(Color.BLACK);
                         tvMainFollow.setTextColor(Color.BLACK);
                         break;
                     case 1:
+                        currentPosition = 1;
                         tvMainNear.setTextColor(Color.BLACK);
                         tvMainFollow.setTextColor(Color.BLACK);
                         tvMainCommunity.setTextColor(Color.parseColor("#108de8"));
                         break;
                     case 2:
+                        currentPosition = 2;
                         tvMainNear.setTextColor(Color.BLACK);
                         tvMainCommunity.setTextColor(Color.BLACK);
                         tvMainFollow.setTextColor(Color.parseColor("#108de8"));
@@ -357,7 +362,11 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
                 vpMain.setCurrentItem(0);
                 break;
             case R.id.tv_main_community:
-                vpMain.setCurrentItem(1);
+                if(currentPosition == 1){
+                    communityFragment.slideToTop();
+                }else {
+                    vpMain.setCurrentItem(1);
+                }
                 break;
             case R.id.tv_main_follow:
                 vpMain.setCurrentItem(2);

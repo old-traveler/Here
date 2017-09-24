@@ -65,6 +65,7 @@ dependencies {
     compile 'org.litepal.android:core:1.5.1'
     compile 'com.github.martin90s:ImagePicker:v1.3.2'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
+    compile 'com.dingmouren.paletteimageview:paletteimageview:1.0.7'
     compile 'com.github.lzyzsd:circleprogress:1.2.1'
     compile 'cn.bmob.android:bmob-im:2.0.6@aar'
     compile 'com.sackcentury:shinebutton:0.1.9'

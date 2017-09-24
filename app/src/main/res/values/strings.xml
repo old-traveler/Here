@@ -110,6 +110,7 @@
     <string name="cancel">取消</string>
     <string name="user_deal">   完善用户信息是为了更好的保证用户的安全，身份证等重要信息只作为线下活动安全性的保障，并不会外泄，若要安全性问题发生，可提供出事用户的信息。免责声明：本软件只做线上活动组团，线下活动完全由用户自行组织。选择线下活动时请先确认其真实性，保障自身安全。一旦出现任何问题，本软件不承担任何责任。</string>
     <string name="bind_success">绑定成功</string>
+    <string name="find_tips">发现：一个发现附近好友的地方，在这里你可以上传一张图片，作为您的简介，让周围的好友认识你。同理，你也可以在这里寻找到附近的好友。快来加入发现吧！！！</string>
     <array name="tip_name">
         <item>美女</item>
         <item>帅哥</item>

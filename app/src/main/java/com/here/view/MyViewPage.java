@@ -40,7 +40,7 @@ public class MyViewPage extends ViewPager {
     }
 
     public void setRightDistance(int distance){
-        this.rightDistance = distance*19/20;
+        this.rightDistance = distance*12/13;
     }
 
 }

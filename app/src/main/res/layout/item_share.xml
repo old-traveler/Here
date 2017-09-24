@@ -51,7 +51,7 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@color/share_text"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="55dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -67,8 +67,8 @@
                 android:id="@+id/tv_mood_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
                 android:ellipsize="end"
                 android:maxLines="4"/>
 

@@ -1,19 +1,25 @@
 package com.here.community;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.here.R;
 import com.here.adapter.CommunityAdapter;
 import com.here.base.MvpFragment;
 import com.here.bean.Community;
 import com.here.bean.Propaganda;
+import com.here.publish.appointment.AppointmentActivity;
+import com.here.publish.share.ShareActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -27,6 +33,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by hyc on 2017/6/21 14:59
@@ -39,6 +46,8 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
     RecyclerView rvCommunity;
     @Bind(R.id.sl_community)
     SmartRefreshLayout slCommunity;
+    @Bind(R.id.fb_add_activity)
+    FloatingActionButton fbAddActivity;
     CommunityAdapter communityAdapter;
     private boolean isLoad = false;
     private int page = 0;
@@ -62,6 +71,7 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
+
 
     private void initView() {
         List<Community> list =new ArrayList<>();
@@ -102,14 +112,13 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
             public void onRefresh(RefreshLayout refreshlayout) {
                 mvpPresenter.loadCommunityData(0);
                 slCommunity.setLoadmoreFinished(false);
-                page = 1;
             }
         });
 
         slCommunity.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                mvpPresenter.loadCommunityData(page++);
+                mvpPresenter.loadCommunityData(page);
             }
         });
         slCommunity.setRefreshHeader(new ClassicsHeader(getContext()));
@@ -140,6 +149,7 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         }
         communityAdapter.setData(communities);
         slCommunity.finishRefresh();
+        page = 1;
     }
 
     @Override
@@ -159,6 +169,28 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         }else {
             slCommunity.setLoadmoreFinished(true);
         }
+        page++;
         slCommunity.finishLoadmore();
+    }
+
+    public void slideToTop(){
+        if (rvCommunity != null){
+            rvCommunity.scrollToPosition(0);
+        }
+    }
+
+    @OnClick(R.id.fb_add_activity)
+    public void onViewClicked() {
+        new AlertView("发布", null, "取消", new String[]{"发布心情"}, new String[]{"发布预约活动"},
+                getActivity(), AlertView.Style.ActionSheet, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                if (position == 0) {
+                    startActivity(new Intent(getActivity(), ShareActivity.class));
+                } else if (position == 1) {
+                    startActivity(new Intent(getActivity(), AppointmentActivity.class));
+                }
+            }
+        }).show();
     }
 }

@@ -69,6 +69,7 @@ public class User  extends BmobUser implements Serializable{
      */
     private String idCard;
 
+
     public String getNickname() {
         return nickname;
     }

@@ -543,8 +543,10 @@ public class DbUtil {
                     cursor.getColumnIndex("compress_address")));
             address.setCloudAddress(cursor.getString(
                     cursor.getColumnIndex("cloud_address")));
+            cursor.close();
             return address;
         }
+        cursor.close();
         return null;
 
     }
@@ -560,8 +562,10 @@ public class DbUtil {
                     cursor.getColumnIndex("compress_address")));
             address.setCloudAddress(cursor.getString(
                     cursor.getColumnIndex("cloud_address")));
+            cursor.close();
             return address;
         }
+        cursor.close();
         return null;
     }
 
@@ -616,8 +620,12 @@ public class DbUtil {
         Cursor cursor = db.query("Images",null,"compress_address = ?"
                 ,new String[]{compressAddress},null,null,null,"1");
         if (cursor.moveToFirst()){
-            return cursor.getString(cursor.getColumnIndex("cloud_address"));
+            String address = cursor.getString(cursor
+                    .getColumnIndex("cloud_address"));
+            cursor.close();
+            return address;
         }
+        cursor.close();
         return null;
     }
 
