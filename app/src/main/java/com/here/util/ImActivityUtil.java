@@ -323,6 +323,34 @@ public class ImActivityUtil {
         });
     }
 
+    public static void queryUserImActivityRecord(final User user
+            , int page , final OnGetNearByListener listener){
+        BmobQuery<ImActivity> query = new BmobQuery<>();
+        query.addWhereEqualTo("publisher",user);
+        query.setLimit(20);
+        query.setSkip(page * 20);
+        query.order("-createdAt");
+        query.findObjects(new FindListener<ImActivity>() {
+            @Override
+            public void done(List<ImActivity> list, BmobException e) {
+                if (e==null){
+                    for (ImActivity imActivity : list) {
+                        imActivity.setPublisher(user);
+                    }
+                    listener.success(list);
+                }else {
+                    if (e.getErrorCode() == 9016){
+                        listener.fail(HereApplication.getContext()
+                                .getString(R.string.err_no_net));
+                    }else {
+                        listener.fail(e.getMessage());
+                    }
+                }
+            }
+        });
+
+    }
+
     public static void deleteImActivity(ImActivity imActivity
             , final UserUtil.OnDealListener listener){
         imActivity.delete(new UpdateListener() {

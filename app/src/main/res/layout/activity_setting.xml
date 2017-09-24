@@ -10,7 +10,7 @@
         android:paddingBottom="7dp"
         android:elevation="7dp"
         android:id="@+id/tb_setting"
-        android:background="@color/theme_color"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height">
         <TextView
@@ -27,7 +27,8 @@
 
     <RelativeLayout
         android:id="@+id/rl_account_manage"
-        android:background="@color/white"
+        android:clickable="true"
+        android:background="@drawable/item_message_selector"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_item_height">
         <TextView
@@ -52,8 +53,9 @@
         android:layout_height="1px"
         android:background="@color/part_linear_color"/>
     <RelativeLayout
+        android:clickable="true"
+        android:background="@drawable/item_message_selector"
         android:id="@+id/rl_phone_number"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_item_height">
         <TextView
@@ -85,8 +87,9 @@
         android:layout_height="1px"
         android:background="@color/part_linear_color"/>
     <RelativeLayout
+        android:clickable="true"
+        android:background="@drawable/item_message_selector"
         android:id="@+id/rl_update_password"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_item_height">
         <TextView
@@ -116,10 +119,11 @@
         android:background="@color/part_linear_color"/>
 
     <RelativeLayout
+        android:clickable="true"
+        android:background="@drawable/item_message_selector"
         android:id="@+id/rl_message_notice"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_item_height"
-        android:background="@color/white">
+        android:layout_height="@dimen/setting_item_height">
 
         <TextView
             android:layout_width="wrap_content"
@@ -144,8 +148,37 @@
         android:layout_height="1px"
         android:background="@color/part_linear_color"/>
     <RelativeLayout
+        android:id="@+id/rl_find_setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height"
+        android:clickable="true"
+        android:background="@drawable/item_message_selector">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/setting_margin_left"
+            android:text="发现设置"
+            android:textColor="@color/share_text" />
+
+        <ImageView
+            android:layout_width="@dimen/setting_ic_length"
+            android:layout_height="@dimen/setting_ic_length"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_margin_left"
+            android:src="@drawable/setting_right" />
+    </RelativeLayout>
+    <View
+        android:layout_marginLeft="@dimen/setting_margin_left"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/part_linear_color"/>
+    <RelativeLayout
         android:id="@+id/rl_black_list"
-        android:background="@color/white"
+        android:clickable="true"
+        android:background="@drawable/item_message_selector"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_item_height">
         <TextView
@@ -176,7 +209,8 @@
 
     <RelativeLayout
         android:id="@+id/rl_current_version"
-        android:background="@color/white"
+        android:clickable="true"
+        android:background="@drawable/item_message_selector"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_item_height">
         <TextView
@@ -201,7 +235,8 @@
         android:background="@color/part_linear_color"/>
     <RelativeLayout
         android:id="@+id/rl_version_update"
-        android:background="@color/white"
+        android:clickable="true"
+        android:background="@drawable/item_message_selector"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_item_height">
         <TextView
@@ -230,8 +265,9 @@
         android:layout_height="1px"
         android:background="@color/part_linear_color"/>
     <TextView
+        android:clickable="true"
+        android:background="@drawable/item_message_selector"
         android:id="@+id/tv_exit_login"
-        android:background="@color/white"
         android:gravity="center"
         android:textColor="@color/exit_login_text"
         android:text="@string/exit_login"

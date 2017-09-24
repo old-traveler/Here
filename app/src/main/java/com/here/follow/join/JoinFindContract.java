@@ -16,4 +16,8 @@ public interface JoinFindContract {
 
     void selectImage();
 
+    void hadJoin();
+
+    void hadNoJoin();
+
 }

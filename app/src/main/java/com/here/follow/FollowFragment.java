@@ -41,8 +41,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING;
@@ -65,7 +63,8 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup
+            container, @Nullable Bundle savedInstanceState) {
         mvpPresenter = createPresenter();
         View view = inflater.inflate(R.layout.fragment_follow, container, false);
         ButterKnife.bind(this, view);
@@ -111,7 +110,8 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
 
         adapter = new FindAdapter(null);
         adapter.setWidth(dm.widthPixels);
-        rvFollow.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        rvFollow.setLayoutManager(new StaggeredGridLayoutManager(
+                2,StaggeredGridLayoutManager.VERTICAL));
         rvFollow.setAdapter(adapter);
         slFollow.autoRefresh();
         rvFollow.addOnScrollListener(new RecyclerView.OnScrollListener() {

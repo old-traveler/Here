@@ -22,4 +22,5 @@ public interface RecordContract {
 
     void loadMyJoin(List<ImActivity> activities);
 
+
 }

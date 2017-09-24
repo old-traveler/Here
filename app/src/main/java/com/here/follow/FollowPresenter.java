@@ -11,6 +11,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.List;
 
+import cn.bmob.v3.BmobUser;
+
 /**
  * Created by hyc on 2017/6/21 14:56
  */
@@ -41,7 +43,7 @@ public class FollowPresenter extends BasePresenter<FollowContract> {
 
     public void refuse() {
         hadJoin = 1;
-        FindUtil.addRecordCache("","refuse");
+        FindUtil.addRecordCache(BmobUser.getCurrentUser().getObjectId(),"refuse");
     }
 
     public void load(final int page){

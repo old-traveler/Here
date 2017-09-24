@@ -58,8 +58,14 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
 
+
     public List<Community> getData() {
         return communities;
+    }
+
+    public void setData(List<Community> list){
+        this.communities = list;
+        notifyDataSetChanged();
     }
 
     public void addData(List<Community> list) {
@@ -70,6 +76,13 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
         communities = null;
         communities = list;
         notifyDataSetChanged();
+    }
+
+    public void addRecord(List<Community> list){
+        for (Community community : list) {
+            communities.add(community);
+            notifyItemInserted(communities.size()-1);
+        }
     }
 
     public CommunityDetailsAdapter(List<Community> communities,Activity context) {
@@ -92,11 +105,14 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == DESCRIBE) {
-            return new DescribeHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_describe, parent, false));
+            return new DescribeHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_describe, parent, false));
         } else if (viewType == SHARE) {
-            return new ShareHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_share, parent, false));
+            return new ShareHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_share, parent, false));
         } else if (viewType == APPOINTMENT) {
-            return new AppointmentHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_appointment, parent, false));
+            return new AppointmentHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_appointment, parent, false));
         }
         return null;
     }
@@ -117,7 +133,7 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemCount() {
-        return communities.size();
+        return communities == null ? 0 : communities.size();
     }
 
 
@@ -223,10 +239,13 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ivAppointmentImage2.setVisibility(View.GONE);
                     ivAppointmentImage3.setVisibility(View.GONE);
                     tvAppointmentPicCount.setVisibility(View.GONE);
-                    ivAppointmentImage1.setOnClickListener(new MyClickListener(appointment.getImages()[0],ivAppointmentImage1));
+                    ivAppointmentImage1.setOnClickListener(new MyClickListener(
+                            appointment.getImages()[0],ivAppointmentImage1));
                 } else if (appointment.getImages().length == 2) {
-                    ivAppointmentImage1.setOnClickListener(new MyClickListener(appointment.getImages()[0],ivAppointmentImage1));
-                    ivAppointmentImage2.setOnClickListener(new MyClickListener(appointment.getImages()[1],ivAppointmentImage2));
+                    ivAppointmentImage1.setOnClickListener(new MyClickListener(
+                            appointment.getImages()[0],ivAppointmentImage1));
+                    ivAppointmentImage2.setOnClickListener(new MyClickListener(
+                            appointment.getImages()[1],ivAppointmentImage2));
                     DensityUtil.setViewSize(ivAppointmentImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivAppointmentImage1.setVisibility(View.VISIBLE);
@@ -240,9 +259,12 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ivAppointmentImage3.setVisibility(View.GONE);
                     tvAppointmentPicCount.setVisibility(View.GONE);
                 } else if (appointment.getImages().length == 3) {
-                    ivAppointmentImage1.setOnClickListener(new MyClickListener(appointment.getImages()[0],ivAppointmentImage1));
-                    ivAppointmentImage2.setOnClickListener(new MyClickListener(appointment.getImages()[1],ivAppointmentImage2));
-                    ivAppointmentImage3.setOnClickListener(new MyClickListener(appointment.getImages()[2],ivAppointmentImage3));
+                    ivAppointmentImage1.setOnClickListener(new MyClickListener(
+                            appointment.getImages()[0],ivAppointmentImage1));
+                    ivAppointmentImage2.setOnClickListener(new MyClickListener(
+                            appointment.getImages()[1],ivAppointmentImage2));
+                    ivAppointmentImage3.setOnClickListener(new MyClickListener(
+                            appointment.getImages()[2],ivAppointmentImage3));
                     DensityUtil.setViewSize(ivAppointmentImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivAppointmentImage1.setVisibility(View.VISIBLE);
@@ -259,9 +281,12 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                             .into(ivAppointmentImage3);
                     tvAppointmentPicCount.setVisibility(View.GONE);
                 } else {
-                    ivAppointmentImage1.setOnClickListener(new MyClickListener(appointment.getImages()[0],ivAppointmentImage1));
-                    ivAppointmentImage2.setOnClickListener(new MyClickListener(appointment.getImages()[1],ivAppointmentImage2));
-                    ivAppointmentImage3.setOnClickListener(new MyClickListener(appointment.getImages()[2],ivAppointmentImage3));
+                    ivAppointmentImage1.setOnClickListener(new MyClickListener(
+                            appointment.getImages()[0],ivAppointmentImage1));
+                    ivAppointmentImage2.setOnClickListener(new MyClickListener(
+                            appointment.getImages()[1],ivAppointmentImage2));
+                    ivAppointmentImage3.setOnClickListener(new MyClickListener(
+                            appointment.getImages()[2],ivAppointmentImage3));
                     DensityUtil.setViewSize(ivAppointmentImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivAppointmentImage1.setVisibility(View.VISIBLE);
@@ -389,10 +414,13 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ivMoodImage2.setVisibility(View.GONE);
                     ivMoodImage3.setVisibility(View.GONE);
                     ivMoodPicCount.setVisibility(View.GONE);
-                    ivMoodImage1.setOnClickListener(new MyClickListener(mood.getImages()[0],ivMoodImage1));
+                    ivMoodImage1.setOnClickListener(new MyClickListener(
+                            mood.getImages()[0],ivMoodImage1));
                 } else if (mood.getImages().length == 2) {
-                    ivMoodImage1.setOnClickListener(new MyClickListener(mood.getImages()[0],ivMoodImage1));
-                    ivMoodImage2.setOnClickListener(new MyClickListener(mood.getImages()[1],ivMoodImage2));
+                    ivMoodImage1.setOnClickListener(new MyClickListener(
+                            mood.getImages()[0],ivMoodImage1));
+                    ivMoodImage2.setOnClickListener(new MyClickListener(
+                            mood.getImages()[1],ivMoodImage2));
                     DensityUtil.setViewSize(ivMoodImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivMoodImage1.setVisibility(View.VISIBLE);
@@ -406,9 +434,12 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ivMoodImage3.setVisibility(View.GONE);
                     ivMoodPicCount.setVisibility(View.GONE);
                 } else if (mood.getImages().length == 3) {
-                    ivMoodImage1.setOnClickListener(new MyClickListener(mood.getImages()[0],ivMoodImage1));
-                    ivMoodImage2.setOnClickListener(new MyClickListener(mood.getImages()[1],ivMoodImage2));
-                    ivMoodImage3.setOnClickListener(new MyClickListener(mood.getImages()[2],ivMoodImage3));
+                    ivMoodImage1.setOnClickListener(new MyClickListener(
+                            mood.getImages()[0],ivMoodImage1));
+                    ivMoodImage2.setOnClickListener(new MyClickListener(
+                            mood.getImages()[1],ivMoodImage2));
+                    ivMoodImage3.setOnClickListener(new MyClickListener(
+                            mood.getImages()[2],ivMoodImage3));
                     DensityUtil.setViewSize(ivMoodImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivMoodImage1.setVisibility(View.VISIBLE);
@@ -425,9 +456,12 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                             .into(ivMoodImage3);
                     ivMoodPicCount.setVisibility(View.GONE);
                 } else {
-                    ivMoodImage1.setOnClickListener(new MyClickListener(mood.getImages()[0],ivMoodImage1));
-                    ivMoodImage2.setOnClickListener(new MyClickListener(mood.getImages()[1],ivMoodImage2));
-                    ivMoodImage3.setOnClickListener(new MyClickListener(mood.getImages()[2],ivMoodImage3));
+                    ivMoodImage1.setOnClickListener(new MyClickListener(
+                            mood.getImages()[0],ivMoodImage1));
+                    ivMoodImage2.setOnClickListener(new MyClickListener(
+                            mood.getImages()[1],ivMoodImage2));
+                    ivMoodImage3.setOnClickListener(new MyClickListener(
+                            mood.getImages()[2],ivMoodImage3));
                     DensityUtil.setViewSize(ivMoodImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivMoodImage1.setVisibility(View.VISIBLE);
@@ -459,7 +493,8 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
             rlMoodComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context.get(),PostDetailsActivity.class);
+                    Intent intent = new Intent(context
+                            .get(),PostDetailsActivity.class);
                     intent.putExtra("type","mood");
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("mood",mood);

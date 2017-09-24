@@ -142,6 +142,44 @@ public class CommunityUtil {
     }
 
     /**
+     * 查询用户的心情分享的记录
+     * @param user 用户
+     * @param page 页码
+     * @param listener 查询监听
+     */
+    public static void queryUserMoodRecord(final User user
+            , int page, final CommunitySearchListener listener){
+        BmobQuery<Mood> query = new BmobQuery<>();
+        query.setLimit(20);
+        query.setSkip(page * 20);
+        query.order("-createdAt");
+        query.addWhereEqualTo("publisher",user);
+        query.findObjects(new FindListener<Mood>() {
+            @Override
+            public void done(List<Mood> list, BmobException e) {
+                if (e == null){
+                    List<Community> communities = new ArrayList<>();
+                    for (Mood mood : list) {
+                        mood.setPublisher(user);
+                        Community community = new Community();
+                        community.setType(Community.TYPE_SHARE);
+                        community.setMood(mood);
+                        communities.add(community);
+                    }
+                    listener.success(communities);
+                }else {
+                    if (e.getErrorCode() == 9016){
+                        listener.fail(HereApplication.getContext()
+                                .getString(R.string.err_no_net));
+                    }else {
+                        listener.fail(e.getMessage());
+                    }
+                }
+            }
+        });
+    }
+
+    /**
      * 查询预约活动
      * @param listener
      */
@@ -166,6 +204,44 @@ public class CommunityUtil {
                 }else {
                     if (e.getErrorCode() == 9016){
                         listener.fail(HereApplication.getContext().getString(R.string.err_no_net));
+                    }else {
+                        listener.fail(e.getMessage());
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 查询用户发布预约活动的记录
+     * @param user 用户
+     * @param page 页码
+     * @param listener 查询监听
+     */
+    public static void queryUserAppointmentRecord(final User user
+            , int page, final CommunitySearchListener listener){
+        BmobQuery<Appointment> query = new BmobQuery<>();
+        query.setLimit(20);
+        query.setSkip(page * 20);
+        query.order("-createdAt");
+        query.addWhereEqualTo("publisher",user);
+        query.findObjects(new FindListener<Appointment>() {
+            @Override
+            public void done(List<Appointment> list, BmobException e) {
+                if (e == null){
+                    List<Community> communities = new ArrayList<>();
+                    for (Appointment appointment : list) {
+                        appointment.setPublisher(user);
+                        Community community = new Community();
+                        community.setType(Community.TYPE_APPOINTMENT);
+                        community.setAppointment(appointment);
+                        communities.add(community);
+                    }
+                    listener.success(communities);
+                }else {
+                    if (e.getErrorCode() == 9016){
+                        listener.fail(HereApplication.getContext()
+                                .getString(R.string.err_no_net));
                     }else {
                         listener.fail(e.getMessage());
                     }

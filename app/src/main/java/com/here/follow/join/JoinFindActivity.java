@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 import com.bigkoo.alertview.AlertView;
 import com.bumptech.glide.Glide;
@@ -17,6 +18,8 @@ import com.here.util.FindUtil;
 import com.imnjh.imagepicker.SImagePicker;
 import com.imnjh.imagepicker.activity.PhotoPickerActivity;
 import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,8 +38,12 @@ public class JoinFindActivity extends MvpActivity<JoinFindPresenter> implements 
         setToolBar(R.id.tb_join_find);
         initHome();
         String url = FindUtil.getRecordUrlCache();
-        if (!TextUtils.isEmpty(url)){
+        if (!TextUtils.isEmpty(url) && !url.equals("refuse") && !url.equals("no")){
             loadImage(url);
+        }else if (TextUtils.isEmpty(url)){
+            mvpPresenter.queryIsJoin();
+        }else {
+            loadImage(R.drawable.add_image);
         }
     }
 
@@ -82,6 +89,16 @@ public class JoinFindActivity extends MvpActivity<JoinFindPresenter> implements 
         }
     }
 
+    @Override
+    public void hadJoin() {
+        loadImage(FindUtil.getRecordUrlCache());
+    }
+
+    @Override
+    public void hadNoJoin() {
+        loadImage(R.drawable.add_image);
+    }
+
     private void loadImage(String path){
         Glide.with(this).load(path).asBitmap()
                 .into(new SimpleTarget<Bitmap>() {
@@ -91,6 +108,17 @@ public class JoinFindActivity extends MvpActivity<JoinFindPresenter> implements 
                 palette.setBitmap(resource);
             }
         });
+    }
+
+    private void loadImage(int path){
+        Glide.with(this).load(path).asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource
+                            , GlideAnimation<? super Bitmap> glideAnimation) {
+                        palette.setBitmap(resource);
+                    }
+                });
     }
 
     @Override

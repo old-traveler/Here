@@ -37,7 +37,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:palettePadding="20dp"
-        app:paletteSrc="@drawable/add_image"
         app:paletteOffsetX="15dp"
         app:paletteOffsetY="15dp"
         />

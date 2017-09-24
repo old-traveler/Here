@@ -55,6 +55,7 @@ public class FindUtil {
                             addRecordCache(list.get(0).getObjectId(),list.get(0).getUrl());
                         }else {
                             listener.noJoin();
+                            addRecordCache(BmobUser.getCurrentUser().getObjectId(),"no");
                         }
                     }else {
                         if (e.getErrorCode() == 101){
@@ -64,8 +65,10 @@ public class FindUtil {
                     }
                 }
             });
-        }else if (!getRecordUrlCache().equals("refuse")){
+        }else if (!getRecordUrlCache().equals("refuse") && !getRecordIdCache().equals("no")){
             listener.hadJoin();
+        }else if (!getRecordUrlCache().equals("refuse")){
+            listener.noJoin();
         }
 
     }

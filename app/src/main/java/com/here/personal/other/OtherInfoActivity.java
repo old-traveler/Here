@@ -1,12 +1,13 @@
 package com.here.personal.other;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -21,8 +22,7 @@ import com.here.adapter.ShowTipsAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.Tip;
 import com.here.bean.User;
-import com.here.util.FollowUtil;
-import com.here.util.UserUtil;
+import com.here.record.publish.PublishRecordActivity;
 import com.here.view.MyGridLayoutManager;
 import com.here.view.UnfoldAndZoomScrollView;
 
@@ -32,7 +32,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 import qiu.niorgai.StatusBarCompat;
 
@@ -125,7 +124,7 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
     }
 
     private void selectMore() {
-        new AlertView("更多操作", null, "取消", new String[]{"举报","加入黑名单"}
+        new AlertView("更多操作", null, "取消", new String[]{"举报", "加入黑名单"}
                 , new String[]{"关注"}, this, AlertView
                 .Style.ActionSheet, new OnItemClickListener() {
             @Override
@@ -134,7 +133,7 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
                     //
                 } else if (position == 1) {
                     mvpPresenter.joinBlackList();
-                }else if (position == 2){
+                } else if (position == 2) {
                     mvpPresenter.followUser();
                 }
             }
@@ -193,7 +192,7 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
         tvOtherAge.setText(user.getAge() + "岁");
         if (user.getSex() != null && user.getSex().equals("男")) {
             ivOtherSex.setImageResource(R.drawable.man);
-        } else if (user.getSex() != null){
+        } else if (user.getSex() != null) {
             ivOtherSex.setImageResource(R.drawable.woman);
         }
 
@@ -205,7 +204,7 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
                     .substring(0, 3) + "****" + user
                     .getMobilePhoneNumber().substring(7));
         }
-        if (!TextUtils.isEmpty(user.getEmail())){
+        if (!TextUtils.isEmpty(user.getEmail())) {
             tvOtherEmail.setText(user.getEmail());
         }
         List<Tip> tips = new ArrayList<>();
@@ -251,9 +250,22 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
     }
 
 
-    @OnClick(R.id.btn_contract_other)
-    public void onViewClicked() {
-        openNewConversation(getUserInfo());
-        finish();
+    @OnClick({R.id.btn_contract_other, R.id.rl_publisher_cord})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_contract_other:
+                openNewConversation(getUserInfo());
+                finish();
+                break;
+            case R.id.rl_publisher_cord:
+                Intent intent = new Intent(this
+                        , PublishRecordActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("publisher",getUserInfo());
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
+        }
     }
+
 }

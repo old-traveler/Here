@@ -16,6 +16,7 @@ import com.here.account.AccountActivity;
 import com.here.base.MvpActivity;
 import com.here.bean.User;
 import com.here.blacklist.BlacklistActivity;
+import com.here.follow.join.JoinFindActivity;
 import com.here.login.LoginActivity;
 import com.here.notice.NoticeActivity;
 import com.here.password.PasswordActivity;
@@ -66,7 +67,7 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
         return new SettingPresenter();
     }
 
-    @OnClick({R.id.rl_account_manage, R.id.rl_phone_number, R.id.rl_message_notice,R.id.rl_update_password, R.id.rl_black_list, R.id.rl_current_version, R.id.rl_version_update, R.id.tv_exit_login})
+    @OnClick({R.id.rl_account_manage, R.id.rl_phone_number, R.id.rl_message_notice,R.id.rl_find_setting, R.id.rl_update_password, R.id.rl_black_list, R.id.rl_current_version, R.id.rl_version_update, R.id.tv_exit_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_account_manage:
@@ -103,6 +104,10 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
                     }
                 }).show();
                 break;
+            case R.id.rl_find_setting:
+                Intent intent = new Intent(this, JoinFindActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -115,6 +120,7 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
             tvUserNumber.setText(R.string.no_bind);
         }
     }
+
 
 
 }

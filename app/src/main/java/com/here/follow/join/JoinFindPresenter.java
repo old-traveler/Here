@@ -1,6 +1,7 @@
 package com.here.follow.join;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.here.base.BasePresenter;
 import com.here.util.FileUtil;
@@ -59,6 +60,32 @@ public class JoinFindPresenter extends BasePresenter<JoinFindContract> {
                 if (mvpView != null){
                     mvpView.stopLoading();
                     mvpView.showTip(error);
+                }
+            }
+        });
+    }
+
+    /**
+     * 查询用户是否加入发现
+     */
+    public void queryIsJoin(){
+        mvpView.showLoading();
+        FindUtil.isJoinFind(new FindUtil.OnFindListener() {
+            @Override
+            public void hadJoin() {
+                if (mvpView != null){
+                    mvpView.stopLoading();
+                    mvpView.hadJoin();
+                }
+
+            }
+
+            @Override
+            public void noJoin() {
+                if (mvpView != null){
+                    mvpView.stopLoading();
+                    mvpView.hadNoJoin();
+                    Log.i("TAG","查询不到Join");
                 }
             }
         });
