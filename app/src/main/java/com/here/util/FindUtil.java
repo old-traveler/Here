@@ -9,6 +9,8 @@ import com.here.HereApplication;
 import com.here.R;
 import com.here.bean.FindImage;
 import com.here.bean.User;
+
+import java.util.ArrayList;
 import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
@@ -135,6 +137,10 @@ public class FindUtil {
         return preferences.getString("objectId","");
     }
 
+    /**
+     * 更新发现图片地址
+     * @param url 图片地址
+     */
     public static void updateUrlRecordCache(String url){
         SharedPreferences find = HereApplication.getContext()
                 .getSharedPreferences("find", Context.MODE_PRIVATE);
@@ -171,6 +177,11 @@ public class FindUtil {
         });
     }
 
+    /**
+     * 查询附近发现，同时过滤掉忽略对象
+     * @param page 页码
+     * @param listener  查询监听
+     */
     public static void queryFinds(int page, final OnQueryListener listener){
         BmobQuery<FindImage> query = new BmobQuery<>();
         query.setLimit(20);
@@ -181,7 +192,17 @@ public class FindUtil {
             @Override
             public void done(List<FindImage> list, BmobException e) {
                 if (e == null){
-                    listener.onSuccess(list);
+                    List<String> ignoreList = DbUtil.getInstance()
+                            .queryIgnoreRecord(BmobUser
+                                    .getCurrentUser().getObjectId());
+                    List<FindImage> finds = new ArrayList<>();
+                    for (FindImage findImage : list) {
+                        if (!ignoreList.contains(findImage.getObjectId())){
+                            finds.add(findImage);
+                        }
+                    }
+                    list = null;
+                    listener.onSuccess(finds);
                 }else {
                     if (e.getErrorCode() == 9016){
                         listener.onError("网络不给力");

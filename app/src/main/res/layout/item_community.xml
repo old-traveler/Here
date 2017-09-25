@@ -274,8 +274,8 @@
                     android:layout_marginTop="5dp"
                     android:src="@drawable/community_12"
                     android:layout_centerHorizontal="true"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp" />
+                    android:layout_width="33dp"
+                    android:layout_height="33dp" />
                 <TextView
                     android:text="其他"
                     android:layout_marginTop="40dp"

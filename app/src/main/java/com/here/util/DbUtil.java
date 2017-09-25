@@ -551,6 +551,11 @@ public class DbUtil {
 
     }
 
+    /**
+     * 通过图片的压缩地址查询图片地址信息
+     * @param compressAddress 图片的压缩地址
+     * @return 图片存储地址信息对象
+     */
     public ImageAddress queryImageAddressByCompressAddress(String compressAddress){
         Cursor cursor = db.query("Images",null,"compress_address = ?"
                 ,new String[]{compressAddress},null,null,null,"1");
@@ -627,6 +632,37 @@ public class DbUtil {
         }
         cursor.close();
         return null;
+    }
+
+    /**
+     * 添加一条忽略记录
+     * @param owner  操作用户
+     * @param findId 忽略发现对象的id
+     */
+    public void addIgnoreRecord(String owner,String findId){
+        ContentValues values = new ContentValues();
+        values.put("owner",owner);
+        values.put("find_id",findId);
+        db.insert("Ignore",null,values);
+    }
+
+    /**
+     * 查询用户忽略发现的记录
+     * @param owner 操作对象
+     * @return  忽略的发现的记录数据
+     */
+    public List<String> queryIgnoreRecord(String owner){
+        List<String> record = new ArrayList<>();
+        Cursor cursor = db.query("Ignore",null,"owner = ?"
+                ,new String[]{owner},null,null,null);
+        if (cursor.moveToFirst()){
+            do {
+                record.add(cursor.getString(cursor
+                        .getColumnIndex("find_id")));
+            }while (cursor.moveToNext());
+        }
+
+        return record;
     }
 
 }

@@ -6,33 +6,22 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.dingmouren.paletteimageview.PaletteImageView;
 import com.here.R;
 import com.here.bean.FindImage;
 import com.here.personal.PersonalActivity;
 import com.here.personal.other.OtherInfoActivity;
-import com.here.util.BitmapUtil;
+import com.here.util.DbUtil;
 import com.here.util.DensityUtil;
-
-
 import java.util.List;
 import java.util.Random;
-
 import cn.bmob.v3.BmobUser;
 
 /**
@@ -72,6 +61,12 @@ public class FindAdapter extends RecyclerView.Adapter<FindAdapter.FindViewHolder
         return findImages;
     }
 
+    public void ignoreFind(int position){
+        DbUtil.getInstance().addIgnoreRecord(BmobUser.getCurrentUser()
+                .getObjectId(), findImages.get(position).getObjectId());
+        findImages.remove(position);
+    }
+
     public void setFindImages(List<FindImage> findImages) {
         this.findImages = findImages;
         notifyDataSetChanged();
@@ -105,12 +100,9 @@ public class FindAdapter extends RecyclerView.Adapter<FindAdapter.FindViewHolder
         }
 
         public void load(final int position){
-            int imageWidth = width - DensityUtil.dip2px(14);
-            int imageHeight = imageWidth*findImages.get(position)
+            final int imageWidth = width - DensityUtil.dip2px(14);
+            final int imageHeight = imageWidth*findImages.get(position)
                     .getHeight()/findImages.get(position).getWidth();
-            int marginTop = width*findImages.get(position)
-                    .getHeight()/findImages.get(position).getWidth() - imageHeight;
-//            marginTop = marginTop > DensityUtil.dip2px(4) ? 4:marginTop/2;
             StaggeredGridLayoutManager.LayoutParams layoutParams = (
                     StaggeredGridLayoutManager.LayoutParams)itemView.getLayoutParams();
             layoutParams.height = imageHeight + 10;
@@ -152,7 +144,6 @@ public class FindAdapter extends RecyclerView.Adapter<FindAdapter.FindViewHolder
 
                 }
             });
-
             Glide.with(mContext).load(findImages.get(position).getUrl())
                     .override(imageWidth ,imageHeight).priority(Priority.IMMEDIATE)
                     .into(paletteImageView);

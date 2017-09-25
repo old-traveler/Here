@@ -35,6 +35,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String CREATE_IMAGE = "create table IF NOT EXISTS Images(" +
             "original_address text primary key,compress_address text,cloud_address text)";
 
+
+    public static final String CREATE_IGNORE_FIND = "create table IF NOT EXISTS " +
+            "Ignore(owner text,find_id text,primary key(owner,find_id))";
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase
             .CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -46,6 +49,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_IMACTIVITY);
         db.execSQL(CREATE_JOIN);
         db.execSQL(CREATE_IMAGE);
+        db.execSQL(CREATE_IGNORE_FIND);
     }
 
     @Override

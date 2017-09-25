@@ -433,9 +433,12 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             .into(ivAppointmentImage3);
                     tvAppointmentPicCount.setVisibility(View.GONE);
                 } else {
-                    ivAppointmentImage1.setOnClickListener(new MyClickListener(appointment.getImages()[0],ivAppointmentImage1));
-                    ivAppointmentImage2.setOnClickListener(new MyClickListener(appointment.getImages()[1],ivAppointmentImage2));
-                    ivAppointmentImage3.setOnClickListener(new MyClickListener(appointment.getImages()[2],ivAppointmentImage3));
+                    ivAppointmentImage1.setOnClickListener(new MyClickListener(
+                            appointment.getImages()[0],ivAppointmentImage1));
+                    ivAppointmentImage2.setOnClickListener(new MyClickListener(
+                            appointment.getImages()[1],ivAppointmentImage2));
+                    ivAppointmentImage3.setOnClickListener(new MyClickListener(
+                            appointment.getImages()[2],ivAppointmentImage3));
                     DensityUtil.setViewSize(ivAppointmentImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivAppointmentImage1.setVisibility(View.VISIBLE);
@@ -533,7 +536,8 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             rl_share_appointment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertView("分享", null, "取消", new String[]{"分享到QQ好友"}, new String[]{"分享到QQ空间"}, context.get(), AlertView.Style.ActionSheet, new OnItemClickListener() {
+                    new AlertView("分享", null, "取消", new String[]{"分享到QQ好友"}, new String[]{"分享到QQ空间"}
+                            , context.get(), AlertView.Style.ActionSheet, new OnItemClickListener() {
                         @Override
                         public void onItemClick(Object o, int position) {
                             final Bundle params = new Bundle();
@@ -549,7 +553,8 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                             appointment.getImages()[0]);
                                 }else {
                                     params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
-                                            "https://avatars1.githubusercontent.com/u/22116148?v=4&u=48ec6f70dce731dcc8f3cbf66231f5ca651e9953&s=40");
+                                            "https://avatars1.githubusercontent.com/u/22116148?v=4&u=48ec6f70dc" +
+                                                    "e731dcc8f3cbf66231f5ca651e9953&s=40");
                                 }
                                 params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "来here一起玩吧");
                                 params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "与附近的人一起活动吧");
@@ -558,14 +563,16 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE,QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
                                 params.putString(QzoneShare.SHARE_TO_QQ_TITLE, appointment.getTitle());
                                 params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, appointment.getDescribe());
-                                params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL,"https://github.com/old-traveler/Here/blob/master/app/app-release.apk");
+                                params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL,"https://github.com/old-travele" +
+                                        "r/Here/blob/master/app/app-release.apk");
                                 ArrayList<String> imgUrlList = new ArrayList<>();
                                 if (appointment.getImages()!= null && appointment.getImages().length>0){
                                     for (String s : appointment.getImages()) {
                                         imgUrlList.add(s);
                                     }
                                 }else {
-                                    imgUrlList.add( "https://avatars1.githubusercontent.com/u/22116148?v=4&u=48ec6f70dce731dcc8f3cbf66231f5ca651e9953&s=40");
+                                    imgUrlList.add( "https://avatars1.githubusercontent.com/u/22116148?v=4&u=48ec6f7" +
+                                            "0dce731dcc8f3cbf66231f5ca651e9953&s=40");
                                 }
                                 params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL,imgUrlList);
                                 mTencent.shareToQzone(context.get(), params, new BaseUiListener1());

@@ -87,8 +87,8 @@ public class TipsActivity extends MvpActivity<TipsPresenter> implements TipsCont
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home){
-            new AlertView("温馨提示", "是否修改隐私设置", "确定", new String[]{"取消"}, null, this,
-                    AlertView.Style.Alert, new OnItemClickListener() {
+            new AlertView("温馨提示", "是否修改隐私设置", "确定", new String[]{
+                    "取消"}, null, this, AlertView.Style.Alert, new OnItemClickListener() {
                 @Override
                 public void onItemClick(Object o, int position) {
                     if (position==-1){
