@@ -13,9 +13,9 @@ import java.util.List;
 public class CommunityPresenter extends BasePresenter<CommunityContract> {
 
     /**
-     * 加载社区数据
+     * 加载心情分享数据
      */
-    public void loadCommunityData(final int page){
+    public void loadMoodData(final int page){
         CommunityUtil.queryMood(page, new CommunityUtil
                 .CommunitySearchListener() {
             @Override
@@ -39,13 +39,15 @@ public class CommunityPresenter extends BasePresenter<CommunityContract> {
     /**
      * 加载心情分享数据
      */
-    public void loadMoodData(int page){
+    public void loadCommunityData(final int page){
         CommunityUtil.queryAppointment(page, new CommunityUtil
                 .CommunitySearchListener() {
             @Override
             public void success(List<Community> communities) {
-                if (mvpView != null){
+                if (mvpView!=null && page == 0){
                     mvpView.setRecommend(communities);
+                }else if (mvpView != null){
+                    mvpView.addRecommend(communities);
                 }
 
             }

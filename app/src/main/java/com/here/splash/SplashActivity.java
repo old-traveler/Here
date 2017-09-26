@@ -49,7 +49,7 @@ public class SplashActivity extends MvpActivity<SplashPresenter> implements Spla
             public void run() {
                 isLogin();
             }
-        }, 3000);
+        }, 1500);
     }
 
     @Override

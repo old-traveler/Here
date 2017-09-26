@@ -63,7 +63,8 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup
             container, @Nullable Bundle savedInstanceState) {
         mvpPresenter = createPresenter();
-        View view = inflater.inflate(R.layout.fragment_follow, container, false);
+        View view = inflater.inflate(R.layout
+                .fragment_follow, container, false);
         ButterKnife.bind(this, view);
         mvpPresenter.attachView(this);
         return view;
@@ -224,6 +225,11 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
             slFollow.setLoadmoreFinished(true);
         }
         slFollow.finishLoadmore();
+    }
+
+
+    public void slideToTop(){
+        rvFollow.scrollToPosition(0);
     }
 
 

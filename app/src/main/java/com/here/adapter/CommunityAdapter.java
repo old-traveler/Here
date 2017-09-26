@@ -77,6 +77,8 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private boolean isLikeing = false;
 
+    private boolean isShare = true;
+
     private Tencent mTencent;
 
     public CommunityAdapter(List<Community> communities,Activity context) {
@@ -169,6 +171,9 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }else if (holder instanceof AppointmentHolder){
             AppointmentHolder appointmentHolder = (AppointmentHolder) holder;
             appointmentHolder.load(communities.get(position).getAppointment(),position);
+        }else if (holder instanceof TipsHolder){
+            TipsHolder tipsHolder = (TipsHolder) holder;
+            tipsHolder.load();
         }
     }
 
@@ -182,6 +187,14 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             this.communities.add(community);
             notifyItemInserted(this.communities.size()-1);
         }
+    }
+
+    public OnSwitchChangeListener getListener() {
+        return listener;
+    }
+
+    public void setListener(OnSwitchChangeListener listener) {
+        this.listener = listener;
     }
 
 
@@ -893,8 +906,44 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     class TipsHolder extends RecyclerView.ViewHolder {
+        private TextView tips;
+        private ImageView change;
         public TipsHolder(View itemView) {
             super(itemView);
+            tips = (TextView) itemView.findViewById(R.id.tv_recommend_tip);
+            change = (ImageView) itemView.findViewById(R.id.iv_change);
         }
+        public void load(){
+            if (!isShare){
+                tips.setText("预约活动");
+            }else {
+                tips.setText("心情分享");
+            }
+            change.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isShare){
+                        tips.setText("预约活动");
+                        listener.onChange(false);
+                        isShare = false;
+                    }else {
+                        tips.setText("心情分享");
+                        listener.onChange(true);
+                        isShare = true;
+                    }
+                }
+            });
+        }
+    }
+
+    public void switchFail(boolean isShare){
+        this.isShare = isShare;
+        notifyItemChanged(2);
+    }
+
+    private OnSwitchChangeListener listener;
+
+    public interface OnSwitchChangeListener{
+        void onChange(boolean isShare);
     }
 }

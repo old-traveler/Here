@@ -117,9 +117,11 @@ public class PublishRecordActivity extends MvpActivity<PublishRecordPresenter> i
             @Override
             public void onItemClick(Object o, int position) {
                 if (position > -1){
-                    kind = position;
-                    rvPublishRecord.removeAllViews();
-                    slPublishRecord.autoRefresh();
+                    if (kind != position){
+                        kind = position;
+                        rvPublishRecord.removeAllViews();
+                        slPublishRecord.autoRefresh();
+                    }
                 }
             }
         }).show();

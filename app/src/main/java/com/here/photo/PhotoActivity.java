@@ -55,6 +55,7 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
 
 
     private void initView() {
+        vpLists.get(getPosition()).setTransitionName("image");
         vpPhoto.setAdapter(new ViewPagerAdapter());
         vpPhoto.setCurrentItem(getPosition());
     }
@@ -67,8 +68,6 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
 
     @Override
     public void onBackPressed() {
-
-
         super.onBackPressed();
     }
 
@@ -105,15 +104,11 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
             });
             Glide.with(this).load(imagesUrl.get(i))
                     .dontAnimate().into(photoView);
-            if (i==getPosition()){
-                photoView.setTransitionName("image");
-            }
             vpLists.add(photoView);
 
 
 
         }
-        vpPhoto.setCurrentItem(getPosition());
     }
 
     @Override
@@ -134,9 +129,7 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            int newPosition = position % vpLists.size();
-            PhotoView iv = vpLists.get(newPosition);
-
+            PhotoView iv = vpLists.get(position);
             container.addView(iv);
             return iv;
         }

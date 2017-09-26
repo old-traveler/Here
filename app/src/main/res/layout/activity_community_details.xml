@@ -41,9 +41,9 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <com.yalantis.phoenix.PullToRefreshView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/sl_community_details"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/pull_to_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -53,22 +53,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    </com.yalantis.phoenix.PullToRefreshView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 
 
 
 
-    <com.sackcentury.shinebuttonlib.ShineButton
-        android:src="@android:color/darker_gray"
-        app:btn_color="@android:color/darker_gray"
-        app:btn_fill_color="@android:color/holo_blue_dark"
-        app:allow_random_color="true"
-        app:siShape="@raw/star"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="16dp"
-        app:layout_anchor="@id/appBar"
-        android:id="@+id/fab_movie"
-        app:layout_anchorGravity="bottom|end" />
 </android.support.design.widget.CoordinatorLayout>

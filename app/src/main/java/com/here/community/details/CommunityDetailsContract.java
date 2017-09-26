@@ -14,12 +14,16 @@ public interface CommunityDetailsContract {
 
     void stopLoading();
 
-    void loadSuccess(List<Community> communities);
+    void setShare(List<Community> communities);
+
+    void setAppointment(List<Community> communities);
+
+    void addShare(List<Community> communities);
+
+    void addAppointment(List<Community> communities);
 
     void fail(String error);
 
     String getKind();
-
-    void stopRefreshing();
 
 }

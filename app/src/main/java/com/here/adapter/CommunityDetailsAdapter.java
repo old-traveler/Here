@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -23,7 +28,10 @@ import com.here.HereApplication;
 import com.here.R;
 import com.here.bean.Appointment;
 import com.here.bean.Community;
+import com.here.bean.Like;
+import com.here.bean.LikeId;
 import com.here.bean.Mood;
+import com.here.bean.User;
 import com.here.details.PostDetailsActivity;
 import com.here.personal.PersonalActivity;
 import com.here.personal.other.OtherInfoActivity;
@@ -31,11 +39,20 @@ import com.here.photo.PhotoActivity;
 import com.here.photo.PhotoPresenter;
 import com.here.util.CommonUtils;
 import com.here.util.DensityUtil;
+import com.here.util.LikeUtil;
 import com.sackcentury.shinebuttonlib.ShineButton;
+import com.tencent.connect.share.QQShare;
+import com.tencent.connect.share.QzoneShare;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
+
+import org.litepal.crud.DataSupport;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -49,36 +66,54 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
     public static int DESCRIBE = 0x45;
     public static int SHARE = 0x24;
     public static int APPOINTMENT = 0x23;
+    private int[] colors;
+    private static final String APP_ID = "1106163416";
 
     List<Community> communities;
 
-    private boolean isCommunity = false;
+    private List<String> postIds;
 
     private WeakReference<Activity> context;
 
-    public void setCommunity(boolean isCommunity){
-        this.isCommunity = isCommunity;
+    private Tencent mTencent;
+
+    private boolean isLikeing = false;
+
+
+    public CommunityDetailsAdapter(List<Community> communities,Activity context) {
+        this.communities = communities;
+        this.context = new WeakReference<Activity>(context);
+        refresh();
+        mTencent = Tencent.createInstance(APP_ID,HereApplication.getContext());
+        colors = HereApplication.getContext().getResources().getIntArray(R.array.tips_bg);
     }
+    public void refresh(){
+        postIds = new ArrayList<>();
+        List<LikeId> likes = DataSupport.findAll(LikeId.class);
+        String userId = BmobUser.getCurrentUser(User.class).getObjectId();
+        for (LikeId like : likes) {
+            if (like.getUserId().equals(userId)){
+                postIds.add(like.getPublishId());
+            }
+        }
 
-
+    }
 
     public List<Community> getData() {
         return communities;
     }
 
     public void setData(List<Community> list){
+        list.add(0,communities.get(0));
         this.communities = list;
         notifyDataSetChanged();
     }
 
     public void addData(List<Community> list) {
-        if (isCommunity){
-            Community c = communities.get(0);
-            list.add(0, c);
+        for (Community community : list) {
+            communities.add(community);
+            notifyItemInserted(getItemCount() - 1);
         }
-        communities = null;
-        communities = list;
-        notifyDataSetChanged();
     }
 
     public void addRecord(List<Community> list){
@@ -88,10 +123,7 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    public CommunityDetailsAdapter(List<Community> communities,Activity context) {
-        this.communities = communities;
-        this.context = new WeakReference<Activity>(context);
-    }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -127,10 +159,10 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
             describeHolder.load(communities.get(position).getDescribe());
         }else if (holder instanceof ShareHolder){
             ShareHolder shareHolder = (ShareHolder) holder;
-            shareHolder.load(communities.get(position).getMood());
+            shareHolder.load(communities.get(position).getMood(),position);
         }else if (holder instanceof AppointmentHolder){
             AppointmentHolder aHolder = (AppointmentHolder) holder;
-            aHolder.load(communities.get(position).getAppointment());
+            aHolder.load(communities.get(position).getAppointment(),position);
         }
     }
 
@@ -154,7 +186,7 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     }
 
-    class AppointmentHolder extends RecyclerView.ViewHolder {
+    class AppointmentHolder extends RecyclerView.ViewHolder{
         CircleImageView cvAppointmentHead;
         TextView tvAppointmentNickname;
         TextView tvAppointmentTime;
@@ -172,6 +204,7 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
         ShineButton sbAppointmentLike;
         LinearLayout ll_appointment_images;
         RelativeLayout rl_appointment_comment;
+        RelativeLayout rl_share_appointment;
         public AppointmentHolder(View itemView) {
             super(itemView);
             cvAppointmentHead = (CircleImageView) itemView.findViewById(R.id.cv_appointment_head);
@@ -191,9 +224,10 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
             sbAppointmentLike = (ShineButton) itemView.findViewById(R.id.sb_appointment_like);
             ll_appointment_images = (LinearLayout) itemView.findViewById(R.id.ll_appointment_images);
             rl_appointment_comment = (RelativeLayout) itemView.findViewById(R.id.rl_appointment_comment);
+            rl_share_appointment = (RelativeLayout) itemView.findViewById(R.id.rl_share_appointment);
         }
 
-        public void load(final Appointment appointment) {
+        public void load(final Appointment appointment, final int position) {
             Glide.with(HereApplication.getContext())
                     .load(appointment.getPublisher().getHeadImageUrl())
                     .into(cvAppointmentHead);
@@ -211,6 +245,7 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                         intent.putExtras(bundle);
                         context.get().startActivity(intent);
                     }
+
                 }
             });
             tvAppointmentNickname.setText(appointment.getPublisher().getNickname());
@@ -221,7 +256,9 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
             tvAppointmentTitle.setText(appointment.getTitle());
             tvAppointmentNumber.setText("参与人数："+appointment.getJoinNumber());
             tvAppointmentContent.setText(appointment.getDescribe());
+            cvAppointmentTips.setCardBackgroundColor(colors[new Random().nextInt(23)]);
             if (appointment.getImages() != null && appointment.getImages().length > 0) {
+                ll_appointment_images.setVisibility(View.VISIBLE);
                 if (appointment.getImages().length == 1) {
                     ivAppointmentImage1.setVisibility(View.VISIBLE);
                     Glide.with(HereApplication.getContext())
@@ -239,16 +276,14 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                                             .into(ivAppointmentImage1);
                                 }
                             });
+                    ivAppointmentImage1.setOnClickListener(new MyClickListener(appointment.getImages(),0));
                     ivAppointmentImage2.setVisibility(View.GONE);
                     ivAppointmentImage3.setVisibility(View.GONE);
                     tvAppointmentPicCount.setVisibility(View.GONE);
-                    ivAppointmentImage1.setOnClickListener(new MyClickListener(
-                            appointment.getImages(),0));
+
                 } else if (appointment.getImages().length == 2) {
-                    ivAppointmentImage1.setOnClickListener(new MyClickListener(
-                            appointment.getImages(),0));
-                    ivAppointmentImage2.setOnClickListener(new MyClickListener(
-                            appointment.getImages(),1));
+                    ivAppointmentImage1.setOnClickListener(new MyClickListener(appointment.getImages(),1));
+                    ivAppointmentImage2.setOnClickListener(new MyClickListener(appointment.getImages(),2));
                     DensityUtil.setViewSize(ivAppointmentImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivAppointmentImage1.setVisibility(View.VISIBLE);
@@ -262,12 +297,9 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ivAppointmentImage3.setVisibility(View.GONE);
                     tvAppointmentPicCount.setVisibility(View.GONE);
                 } else if (appointment.getImages().length == 3) {
-                    ivAppointmentImage1.setOnClickListener(new
-                            MyClickListener(appointment.getImages(),0));
-                    ivAppointmentImage2.setOnClickListener(new
-                            MyClickListener(appointment.getImages(),1));
-                    ivAppointmentImage3.setOnClickListener(new
-                            MyClickListener(appointment.getImages(),2));
+                    ivAppointmentImage1.setOnClickListener(new MyClickListener(appointment.getImages(),0));
+                    ivAppointmentImage2.setOnClickListener(new MyClickListener(appointment.getImages(),1));
+                    ivAppointmentImage3.setOnClickListener(new MyClickListener(appointment.getImages(),2));
                     DensityUtil.setViewSize(ivAppointmentImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivAppointmentImage1.setVisibility(View.VISIBLE);
@@ -284,12 +316,9 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                             .into(ivAppointmentImage3);
                     tvAppointmentPicCount.setVisibility(View.GONE);
                 } else {
-                    ivAppointmentImage1.setOnClickListener(new MyClickListener(
-                            appointment.getImages(),0));
-                    ivAppointmentImage2.setOnClickListener(new MyClickListener(
-                            appointment.getImages(),1));
-                    ivAppointmentImage3.setOnClickListener(new MyClickListener(
-                            appointment.getImages(),2));
+                    ivAppointmentImage1.setOnClickListener(new MyClickListener(appointment.getImages(),0));
+                    ivAppointmentImage2.setOnClickListener(new MyClickListener(appointment.getImages(),1));
+                    ivAppointmentImage3.setOnClickListener(new MyClickListener(appointment.getImages(),2));
                     DensityUtil.setViewSize(ivAppointmentImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivAppointmentImage1.setVisibility(View.VISIBLE);
@@ -317,6 +346,61 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                 tvAppointmentPicCount.setVisibility(View.GONE);
                 ll_appointment_images.setVisibility(View.GONE);
             }
+
+            if (postIds.contains(appointment.getObjectId())) {
+                sbAppointmentLike.setChecked(true);
+            }else {
+                sbAppointmentLike.setChecked(false);
+            }
+
+            sbAppointmentLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isLikeing) {
+                        return;
+                    }
+                    isLikeing = true;
+                    if (postIds.contains(appointment.getObjectId())) {
+                        final Like like = new Like();
+                        like.setPublish(appointment.getObjectId());
+                        like.setUser(BmobUser.getCurrentUser(User.class));
+                        LikeUtil.deletePost(like, new LikeUtil.OnLikeListener() {
+                            @Override
+                            public void success(String s) {
+                                isLikeing = false;
+                                refresh();
+                            }
+                            @Override
+                            public void fail(String error) {
+                                isLikeing = false;
+                                sbAppointmentLike.setChecked(true);
+                                Toast.makeText(context.get(), error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        LikeUtil.likePost(BmobUser.getCurrentUser(User.class), appointment
+                                .getObjectId(), new LikeUtil.OnLikeListener() {
+                            @Override
+                            public void success(String s) {
+                                isLikeing = false;
+                                final LikeId likeId = new LikeId();
+                                likeId.setPublishId(appointment.getObjectId());
+                                likeId.setUserId(BmobUser.getCurrentUser(User.class).getObjectId());
+                                likeId.setLikeId(s);
+                                Log.i("储存","是否成功"+likeId.save());
+                                refresh();
+                            }
+                            @Override
+                            public void fail(String error) {
+                                isLikeing = false;
+                                sbAppointmentLike.setChecked(false);
+                                Toast.makeText(context.get(), error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+            });
+
             rl_appointment_comment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -328,7 +412,59 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                     context.get().startActivity(intent);
                 }
             });
+
+            rl_share_appointment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertView("分享", null, "取消", new String[]{"分享到QQ好友"}, new String[]{"分享到QQ空间"}
+                            , context.get(), AlertView.Style.ActionSheet, new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Object o, int position) {
+                            final Bundle params = new Bundle();
+                            if (position == 0) {
+                                params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE,
+                                        QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
+                                params.putString(QQShare.SHARE_TO_QQ_TITLE, appointment.getTitle());
+                                params.putString(QQShare.SHARE_TO_QQ_SUMMARY, appointment.getDescribe());
+                                params.putString(QQShare.SHARE_TO_QQ_TARGET_URL,
+                                        "https://github.com/old-traveler/Here/blob/master/app/app-release.apk");
+                                if (appointment.getImages()!= null && appointment.getImages().length>0){
+                                    params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
+                                            appointment.getImages()[0]);
+                                }else {
+                                    params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
+                                            "https://avatars1.githubusercontent.com/u/22116148?v=4&u=48ec6f70dc" +
+                                                    "e731dcc8f3cbf66231f5ca651e9953&s=40");
+                                }
+                                params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "来here一起玩吧");
+                                params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "与附近的人一起活动吧");
+                                mTencent.shareToQQ(context.get(), params, new BaseUiListener1());
+                            } else if (position == 1) {
+                                params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE,QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
+                                params.putString(QzoneShare.SHARE_TO_QQ_TITLE, appointment.getTitle());
+                                params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, appointment.getDescribe());
+                                params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL,"https://github.com/old-travele" +
+                                        "r/Here/blob/master/app/app-release.apk");
+                                ArrayList<String> imgUrlList = new ArrayList<>();
+                                if (appointment.getImages()!= null && appointment.getImages().length>0){
+                                    for (String s : appointment.getImages()) {
+                                        imgUrlList.add(s);
+                                    }
+                                }else {
+                                    imgUrlList.add( "https://avatars1.githubusercontent.com/u/22116148?v=4&u=48ec6f7" +
+                                            "0dce731dcc8f3cbf66231f5ca651e9953&s=40");
+                                }
+                                params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL,imgUrlList);
+                                mTencent.shareToQzone(context.get(), params, new BaseUiListener1());
+                            }else {
+                                return;
+                            }
+                        }
+                    }).show();
+                }
+            });
         }
+
     }
 
     class ShareHolder extends RecyclerView.ViewHolder {
@@ -369,7 +505,7 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
             ll_share_images = (LinearLayout) itemView.findViewById(R.id.ll_mood_images);
         }
 
-        public void load(final Mood mood) {
+        public void load(final Mood mood , final int position) {
             Glide.with(HereApplication.getContext())
                     .load(mood.getPublisher().getHeadImageUrl())
                     .into(cvMoodHead);
@@ -387,6 +523,7 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                         intent.putExtras(bundle);
                         context.get().startActivity(intent);
                     }
+
                 }
             });
             tvMoodNickname.setText(mood.getPublisher().getNickname());
@@ -394,9 +531,10 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
             tvMoodTips.setText(mood.getKind());
             tvMoodTitle.setText(mood.getTitle());
             tvMoodContent.setText(mood.getContent());
+            cvMoodTips.setCardBackgroundColor(colors[new Random().nextInt(23)]);
             if (mood.getImages() != null && mood.getImages().length > 0) {
+                ll_share_images.setVisibility(View.VISIBLE);
                 if (mood.getImages().length == 1) {
-                    ivMoodImage1.setVisibility(View.VISIBLE);
                     ivMoodImage1.setVisibility(View.VISIBLE);
                     Glide.with(HereApplication.getContext())
                             .load(mood.getImages()[0])
@@ -414,16 +552,11 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                                             .into(ivMoodImage1);
                                 }
                             });
+                    ivMoodImage1.setOnClickListener(new MyClickListener(mood.getImages(),0));
                     ivMoodImage2.setVisibility(View.GONE);
                     ivMoodImage3.setVisibility(View.GONE);
                     ivMoodPicCount.setVisibility(View.GONE);
-                    ivMoodImage1.setOnClickListener(new MyClickListener(
-                            mood.getImages(),0));
                 } else if (mood.getImages().length == 2) {
-                    ivMoodImage1.setOnClickListener(new MyClickListener(
-                            mood.getImages(),0));
-                    ivMoodImage2.setOnClickListener(new MyClickListener(
-                            mood.getImages(),1));
                     DensityUtil.setViewSize(ivMoodImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivMoodImage1.setVisibility(View.VISIBLE);
@@ -434,17 +567,16 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                     Glide.with(HereApplication.getContext())
                             .load(mood.getImages()[1])
                             .into(ivMoodImage2);
+                    ivMoodImage1.setOnClickListener(new MyClickListener(mood.getImages(),0));
+                    ivMoodImage2.setOnClickListener(new MyClickListener(mood.getImages(),1));
                     ivMoodImage3.setVisibility(View.GONE);
                     ivMoodPicCount.setVisibility(View.GONE);
                 } else if (mood.getImages().length == 3) {
-                    ivMoodImage1.setOnClickListener(new MyClickListener(
-                            mood.getImages(),0));
-                    ivMoodImage2.setOnClickListener(new MyClickListener(
-                            mood.getImages(),1));
-                    ivMoodImage3.setOnClickListener(new MyClickListener(
-                            mood.getImages(),2));
                     DensityUtil.setViewSize(ivMoodImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
+                    ivMoodImage1.setOnClickListener(new MyClickListener(mood.getImages(),0));
+                    ivMoodImage2.setOnClickListener(new MyClickListener(mood.getImages(),1));
+                    ivMoodImage3.setOnClickListener(new MyClickListener(mood.getImages(),2));
                     ivMoodImage1.setVisibility(View.VISIBLE);
                     ivMoodImage2.setVisibility(View.VISIBLE);
                     ivMoodImage3.setVisibility(View.VISIBLE);
@@ -459,12 +591,9 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                             .into(ivMoodImage3);
                     ivMoodPicCount.setVisibility(View.GONE);
                 } else {
-                    ivMoodImage1.setOnClickListener(new MyClickListener(
-                            mood.getImages(),0));
-                    ivMoodImage2.setOnClickListener(new MyClickListener(
-                            mood.getImages(),1));
-                    ivMoodImage3.setOnClickListener(new MyClickListener(
-                            mood.getImages(),2));
+                    ivMoodImage1.setOnClickListener(new MyClickListener(mood.getImages(),0));
+                    ivMoodImage2.setOnClickListener(new MyClickListener(mood.getImages(),1));
+                    ivMoodImage3.setOnClickListener(new MyClickListener(mood.getImages(),2));
                     DensityUtil.setViewSize(ivMoodImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivMoodImage1.setVisibility(View.VISIBLE);
@@ -484,8 +613,6 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                 }
 
             } else {
-                DensityUtil.setViewSize(ivMoodImage1,DensityUtil
-                        .dip2px(110),DensityUtil.dip2px(110));
                 ivMoodImage1.setVisibility(View.GONE);
                 ivMoodImage2.setVisibility(View.GONE);
                 ivMoodImage3.setVisibility(View.GONE);
@@ -493,20 +620,139 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                 ll_share_images.setVisibility(View.GONE);
             }
 
+            if (postIds.contains(mood.getObjectId())) {
+                sbLike.setChecked(true);
+            }else {
+                sbLike.setChecked(false);
+            }
+
+            sbLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isLikeing){
+                        return;
+                    }
+                    isLikeing = true;
+                    if (postIds.contains(mood.getObjectId())) {
+                        final Like like = new Like();
+                        like.setPublish(mood.getObjectId());
+                        like.setUser(BmobUser.getCurrentUser(User.class));
+                        LikeUtil.deletePost(like, new LikeUtil.OnLikeListener() {
+                            @Override
+                            public void success(String s) {
+                                isLikeing = false;
+                                refresh();
+                            }
+                            @Override
+                            public void fail(String error) {
+                                isLikeing = false;
+                                sbLike.setChecked(true);
+                                Toast.makeText(context.get(), error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        LikeUtil.likePost(BmobUser.getCurrentUser(User.class), mood
+                                .getObjectId(), new LikeUtil.OnLikeListener() {
+                            @Override
+                            public void success(String s) {
+                                sbLike.setChecked(true);
+                                isLikeing = false;
+                                final LikeId likeId = new LikeId();
+                                likeId.setPublishId(mood.getObjectId());
+                                likeId.setUserId(BmobUser.getCurrentUser(User.class).getObjectId());
+                                likeId.setLikeId(s);
+                                Log.i("储存","是否成功"+likeId.save()+likeId.getPublishId()+"  "+likeId.getLikeId()+"  "+likeId.getUserId());
+                                refresh();
+                            }
+                            @Override
+                            public void fail(String error) {
+                                isLikeing = false;
+                                sbLike.setChecked(false);
+                                Toast.makeText(context.get(), error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+            });
+
             rlMoodComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context
-                            .get(),PostDetailsActivity.class);
+                    Intent intent = new Intent(context.get(), PostDetailsActivity.class);
                     intent.putExtra("type","mood");
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("mood",mood);
                     intent.putExtras(bundle);
-                    context.get().startActivity(intent);
+                    context.get().startActivity(new Intent(intent));
                 }
             });
 
+            rlMoodShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertView("分享", null, "取消", new String[]{"分享到QQ好友"}, new String[]{"分享到QQ空间"}, context.get(), AlertView.Style.ActionSheet, new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Object o, int position) {
+                            final Bundle params = new Bundle();
+                            if (position == 0) {
+                                params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE,
+                                        QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
+                                params.putString(QQShare.SHARE_TO_QQ_TITLE, mood.getTitle());
+                                params.putString(QQShare.SHARE_TO_QQ_SUMMARY, mood.getContent());
+                                params.putString(QQShare.SHARE_TO_QQ_TARGET_URL,
+                                        "https://github.com/old-traveler/Here/blob/master/app/app-release.apk");
+                                if (mood.getImages()!= null && mood.getImages().length>0){
+                                    params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
+                                            mood.getImages()[0]);
+                                }else {
+                                    params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
+                                            "https://avatars1.githubusercontent.com/u/22116148?v=4&u=48ec6f70dce731dcc8f3cbf66231f5ca651e9953&s=40");
+                                }
+                                params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "来here一起玩吧");
+                                params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "与附近的人一起活动吧");
+                                mTencent.shareToQQ(context.get(), params,new BaseUiListener1());
+                            } else if (position == 1) {
+                                params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE,QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
+                                params.putString(QzoneShare.SHARE_TO_QQ_TITLE, mood.getTitle());
+                                params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, mood.getContent());
+                                params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL,"https://github.com/old-traveler/Here/blob/master/app/app-release.apk");
+                                ArrayList<String> imgUrlList = new ArrayList<>();
+                                if (mood.getImages()!= null && mood.getImages().length>0){
+                                    for (String s : mood.getImages()) {
+                                        imgUrlList.add(s);
+                                    }
+                                }else {
+                                    imgUrlList.add( "https://avatars1.githubusercontent.com/u/22116148?v=4&u=48ec6f70dce731dcc8f3cbf66231f5ca651e9953&s=40");
+                                }
+                                params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL,imgUrlList);
+                                mTencent.shareToQzone(context.get(), params,new BaseUiListener1());
+                            }else {
+                                return;
+                            }
+                        }
+                    }).show();
 
+                }
+            });
+        }
+    }
+
+
+    public class BaseUiListener1 implements IUiListener {
+        @Override
+        public void onComplete(Object response) {
+            doComplete(response);
+        }
+
+        protected void doComplete(Object values) {
+        }
+
+        @Override
+        public void onError(UiError e) {
+        }
+
+        @Override
+        public void onCancel() {
         }
     }
 
@@ -532,4 +778,6 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         }
     }
+
+
 }

@@ -100,7 +100,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
     @Bind(R.id.tv_main_follow)
     TextView tvMainFollow;
     private CommunityFragment communityFragment;
-
+    private FollowFragment followFragment;
     private FragmentAdapter adapter;
 
     private ConnectionChangeReceiver receiver;
@@ -254,7 +254,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         communityFragment = new CommunityFragment();
         fragments.add(new NearbyFragment());
         fragments.add(communityFragment);
-        fragments.add(new FollowFragment());
+        followFragment = new FollowFragment();
+        fragments.add(followFragment);
         adapter = new FragmentAdapter(getSupportFragmentManager(), fragments);
         vpMain.setAdapter(adapter);
         vpMain.setOffscreenPageLimit(2);
@@ -369,7 +370,11 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
                 }
                 break;
             case R.id.tv_main_follow:
-                vpMain.setCurrentItem(2);
+                if (currentPosition == 2){
+                    followFragment.slideToTop();
+                }else {
+                    vpMain.setCurrentItem(2);
+                }
                 break;
         }
     }

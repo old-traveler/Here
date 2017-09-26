@@ -206,6 +206,7 @@ public class BaseActivity extends AppCompatActivity{
             progressDialog = new Dialog(this,R.style.progress_dialog);
             progressDialog.setContentView(R.layout.dialog_loading);
             progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            progressDialog.setCanceledOnTouchOutside(false);
             TextView msg = (TextView) progressDialog.findViewById(R.id.id_tv_loadingmsg);
             msg.setText("加载中");
             progressDialog.show();

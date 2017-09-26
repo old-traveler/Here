@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:clipChildren="false"
-    android:background="@color/black"
     tools:context="com.here.photo.PhotoActivity">
 
     <com.here.view.ViewPagerFix

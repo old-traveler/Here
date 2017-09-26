@@ -18,5 +18,4 @@ public interface CommunityContract {
     void addRecommend(List<Community> communities);
 
 
-
 }

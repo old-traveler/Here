@@ -51,6 +51,8 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
     CommunityAdapter communityAdapter;
     private boolean isLoad = false;
     private int page = 0;
+    private boolean isSwitch = false;
+    private boolean isShare = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup
@@ -110,7 +112,11 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         slCommunity.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                mvpPresenter.loadCommunityData(0);
+                if (isShare){
+                    mvpPresenter.loadMoodData(0);
+                }else {
+                    mvpPresenter.loadCommunityData(0);
+                }
                 slCommunity.setLoadmoreFinished(false);
             }
         });
@@ -118,7 +124,11 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         slCommunity.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                mvpPresenter.loadCommunityData(page);
+                if (isShare){
+                    mvpPresenter.loadMoodData(page);
+                }else {
+                    mvpPresenter.loadCommunityData(page);
+                }
             }
         });
         slCommunity.setRefreshHeader(new ClassicsHeader(getContext()));
@@ -126,7 +136,14 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
                 getContext()).setSpinnerStyle(SpinnerStyle.Scale);
         ballPulseFooter.setPrimaryColors(Color.parseColor("#108de8"));
         slCommunity.setRefreshFooter(ballPulseFooter);
-
+        communityAdapter.setListener(new CommunityAdapter.OnSwitchChangeListener() {
+            @Override
+            public void onChange(boolean isShare) {
+                isSwitch = CommunityFragment.this.isShare != isShare;
+                CommunityFragment.this.isShare = isShare;
+                slCommunity.autoRefresh();
+            }
+        });
 
 
     }
@@ -150,16 +167,23 @@ public class CommunityFragment extends MvpFragment<CommunityPresenter> implement
         communityAdapter.setData(communities);
         slCommunity.finishRefresh();
         page = 1;
+        isSwitch = false;
     }
 
     @Override
     public void fail(String error) {
         if (slCommunity.isRefreshing()){
             slCommunity.finishRefresh();
+            if (isSwitch){
+                communityAdapter.switchFail(!isShare);
+                isShare = !isShare;
+                isSwitch = false;
+            }
         }else if (slCommunity.isLoading()){
             slCommunity.finishLoadmore();
         }
         toastShow(error);
+
     }
 
     @Override
