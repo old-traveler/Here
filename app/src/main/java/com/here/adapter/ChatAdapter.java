@@ -33,7 +33,10 @@ import com.here.util.DensityUtil;
 import com.here.util.NetworkState;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.newim.bean.BmobIMImageMessage;
 import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -98,7 +101,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof TextMessageHolder){
             TextMessageHolder tHolder = (TextMessageHolder) holder;
             if (bmobIMMessages.get(position).getFromId().equals(BmobUser
@@ -175,21 +178,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     iHolder.pb_image.setVisibility(View.GONE);
                     iHolder.iv_image_fail.setVisibility(View.VISIBLE);
                 }
-                iHolder.iv_image_right.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        PhotoPresenter.imageUrl = url;
-                        Intent intent = new Intent(context.get(), PhotoActivity.class);
-                        if (android.os.Build.VERSION.SDK_INT > 20) {
-                            context.get().startActivity(intent, ActivityOptions
-                                    .makeSceneTransitionAnimation(context.get(),
-                                    iHolder.iv_image_right,"transitionImg").toBundle());
-                        } else {
-                            context.get().startActivity(intent);
-                        }
-
-                    }
-                });
+                iHolder.iv_image_right.setOnClickListener(new MyClickListener(bmobIMMessages.get(position)));
             }else {
                 int width = 0;
                 int height = 0;
@@ -217,20 +206,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                         .asBitmap()
                         .override(width,height)
                         .into(iHolder.iv_image_left);
-                iHolder.iv_image_left.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        PhotoPresenter.imageUrl = url;
-                        Intent intent = new Intent(context.get(), PhotoActivity.class);
-                        if (android.os.Build.VERSION.SDK_INT > 20) {
-                            context.get().startActivity(intent, ActivityOptions
-                                    .makeSceneTransitionAnimation(context.get(),
-                                    iHolder.iv_image_left, "transitionImg").toBundle());
-                        } else {
-                            context.get().startActivity(intent);
-                        }
-                    }
-                });
+
+                iHolder.iv_image_left.setOnClickListener(new MyClickListener(bmobIMMessages.get(position)));
             }
 
         }else if (holder instanceof VoiceMessageHolder){
@@ -409,6 +386,41 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 bmobIMMessages.add(position,bmobIMMessage);
                 notifyItemInserted(position);
             }
+        }
+    }
+    public class MyClickListener implements View.OnClickListener {
+        private BmobIMMessage message;
+
+
+        public MyClickListener(BmobIMMessage message){
+            this.message = message;
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            Pair<View, String> p = new Pair<View, String>(v, "image");//haderIv是头像控件
+            Intent intent = new Intent(context.get(), PhotoActivity.class);
+            ArrayList<String> images = new ArrayList<>();
+            int finalPosition = 0;
+            for (BmobIMMessage bmobIMMessage : bmobIMMessages) {
+                if (bmobIMMessage.getMsgType().equals("image")){
+                    if (bmobIMMessage.getContent().indexOf("&") != -1){
+                        images.add(bmobIMMessage.getContent().split("&")[0]);
+                    }else {
+                        images.add(bmobIMMessage.getContent());
+                    }
+
+                    if (bmobIMMessage.getId() == message.getId()){
+                        finalPosition = images.size()-1;
+                    }
+                }
+            }
+            intent.putStringArrayListExtra("images", images);
+            intent.putExtra("position",finalPosition);
+            context.get().startActivity(intent, ActivityOptions
+                    .makeSceneTransitionAnimation(context.get(), p).toBundle());
+
         }
     }
 }

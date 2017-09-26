@@ -76,6 +76,9 @@ public class DensityUtil {
 
     public static void setViewSize(View view,int width , int height){
         ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (params == null){
+            params = new ViewGroup.LayoutParams(width,height);
+        }
         params.width = width;
         params.height = height;
         view.setLayoutParams(params);

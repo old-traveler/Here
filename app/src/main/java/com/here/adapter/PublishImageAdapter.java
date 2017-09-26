@@ -1,8 +1,11 @@
 package com.here.adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -14,6 +17,8 @@ import com.here.R;
 import com.here.photo.PhotoActivity;
 import com.here.photo.PhotoPresenter;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +27,11 @@ import java.util.List;
 
 public class PublishImageAdapter extends BaseQuickAdapter<String> {
 
+    private WeakReference<Activity> activity;
 
+    public void setActivity(WeakReference<Activity> activity) {
+        this.activity = activity;
+    }
 
     public interface OnItemClickListener{
         void onClick();
@@ -53,8 +62,16 @@ public class PublishImageAdapter extends BaseQuickAdapter<String> {
             baseViewHolder.setOnClickListener(R.id.iv_item_publish, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PhotoPresenter.imageUrl=s;
-                    mContext.startActivity(new Intent(mContext,PhotoActivity.class));
+                    ArrayList<String> image = new ArrayList<>();
+                    for (String s1 : getData()) {
+                        image.add(s1);
+                    }
+                    Pair<View, String> p = new Pair<View, String>(v, "image");
+                    Intent intent = new Intent(mContext, PhotoActivity.class);
+                    intent.putStringArrayListExtra("images", image);
+                    intent.putExtra("position",baseViewHolder.getAdapterPosition());
+                    activity.get().startActivity(intent, ActivityOptions
+                            .makeSceneTransitionAnimation(activity.get(), p).toBundle());
                 }
             });
 

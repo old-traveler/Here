@@ -12,14 +12,6 @@ import com.here.base.BasePresenter;
 
 public class PhotoPresenter extends BasePresenter<PhotoContract> {
 
-    public static String imageUrl;
 
-    public void showImage(){
-        if (!TextUtils.isEmpty(imageUrl)){
-            mvpView.loadingImage(imageUrl);
-        }else{
-            mvpView.loadingImage(R.drawable.grils);
-        }
-    }
 
 }

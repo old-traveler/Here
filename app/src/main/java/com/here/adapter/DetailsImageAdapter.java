@@ -1,7 +1,10 @@
 package com.here.adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -15,6 +18,8 @@ import com.here.photo.PhotoActivity;
 import com.here.photo.PhotoPresenter;
 import com.here.util.CommonUtils;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +27,7 @@ import java.util.List;
  */
 
 public class DetailsImageAdapter extends BaseQuickAdapter<String>  {
+    private WeakReference<Activity> activityWeakReference;
 
     public DetailsImageAdapter(int layoutResId, List<String> data) {
         super(layoutResId,data);
@@ -53,11 +59,23 @@ public class DetailsImageAdapter extends BaseQuickAdapter<String>  {
         baseViewHolder.setOnClickListener(R.id.item_details_image, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PhotoPresenter.imageUrl = s;
+                ArrayList<String> image = new ArrayList<>();
+                for (String s1 : getData()) {
+                    image.add(s1);
+                }
+                Pair<View, String> p = new Pair<View, String>(v, "image");
                 Intent intent = new Intent(mContext, PhotoActivity.class);
-                mContext.startActivity(intent);
+                intent.putStringArrayListExtra("images", image);
+                intent.putExtra("position",baseViewHolder.getAdapterPosition());
+                activityWeakReference.get().startActivity(intent, ActivityOptions
+                        .makeSceneTransitionAnimation(activityWeakReference.get(), p).toBundle());
+
             }
         });
 
+    }
+
+    public void setActivityWeakReference(WeakReference<Activity> activityWeakReference) {
+        this.activityWeakReference = activityWeakReference;
     }
 }

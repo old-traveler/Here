@@ -1,5 +1,6 @@
 package com.here.imdetails;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.here.personal.PersonalActivity;
 import com.here.personal.other.OtherInfoActivity;
 import com.here.view.MyGridLayoutManager;
 
+import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
 
@@ -110,6 +112,7 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
             detailsImageAdapter = new DetailsImageAdapter(R.layout.item_im_details, list);
             rvImDetails.setLayoutManager(new MyGridLayoutManager(this, 3));
         }
+        detailsImageAdapter.setActivityWeakReference(new WeakReference<Activity>(this));
         rvImDetails.setAdapter(detailsImageAdapter);
         if (!imActivity.isNeedApply()) {
             btnDetailsApply.setText("加入");

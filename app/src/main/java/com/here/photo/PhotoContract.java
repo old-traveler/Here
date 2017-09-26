@@ -1,5 +1,7 @@
 package com.here.photo;
 
+import java.util.List;
+
 /**
  * Created by hyc on 2017/7/3 05:58
  */
@@ -7,8 +9,10 @@ package com.here.photo;
 public interface PhotoContract {
 
 
-    void loadingImage(String url);
+    void getImages();
 
-    void loadingImage(int url);
+    void loadImages(List<String> images);
+
+    int getPosition();
 
 }

@@ -2,18 +2,21 @@ package com.here.personal;
 
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.bumptech.glide.Glide;
@@ -34,13 +37,16 @@ import com.here.other.CacheManager;
 import com.here.photo.PhotoActivity;
 import com.here.photo.PhotoPresenter;
 import com.here.privacy.PrivacyActivity;
+import com.here.record.publish.PublishRecordActivity;
 import com.here.tips.TipsActivity;
 import com.here.view.MyGridLayoutManager;
 import com.here.view.UnfoldAndZoomScrollView;
 import com.imnjh.imagepicker.SImagePicker;
 import com.imnjh.imagepicker.activity.PhotoPickerActivity;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -111,6 +117,7 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
     public static final int REQUEST_CODE_IMAGE = 101;
 
     private boolean isLoaded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,7 +153,7 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
         int[] bg = HereApplication.getContext()
                 .getResources().getIntArray(R.array.tips_bg);
         User user = User.getCurrentUser(User.class);
-        if (user.getTips()!=null){
+        if (user.getTips() != null) {
             for (int i = 0; i < user.getTips().length; i++) {
                 Tip tip = new Tip();
                 tip.setHave(true);
@@ -166,14 +173,14 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
         rvPersonalTips.setAdapter(showTipsAdapter);
     }
 
-    public void initTips(){
+    public void initTips() {
         List<Tip> tips = new ArrayList<>();
         String[] tips_slogan = HereApplication.getContext()
                 .getResources().getStringArray(R.array.tip_slogan);
         int[] bg = HereApplication.getContext()
                 .getResources().getIntArray(R.array.tips_bg);
         User user = User.getCurrentUser(User.class);
-        if (user.getTips()!=null){
+        if (user.getTips() != null) {
             for (int i = 0; i < user.getTips().length; i++) {
                 Tip tip = new Tip();
                 tip.setHave(true);
@@ -234,7 +241,7 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
         } else {
             tvEmail.setText(R.string.no_bind);
         }
-        if (isLoaded){
+        if (isLoaded) {
             return;
         }
         isLoaded = true;
@@ -263,7 +270,7 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
 
     @Override
     public void startImagePicker() {
-        if (getStorage() && getCcamra()){
+        if (getStorage() && getCcamra()) {
             SImagePicker
                     .from(PersonalActivity.this)
                     .pickMode(SImagePicker.MODE_AVATAR)
@@ -278,9 +285,13 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
 
     @Override
     public void showTheBigHead() {
-        PhotoPresenter.imageUrl = BmobUser.getCurrentUser(
-                User.class).getHeadImageUrl();
-        startActivity(new Intent(this, PhotoActivity.class));
+        ArrayList<String> image = new ArrayList<>();
+        image.add(BmobUser.getCurrentUser(User.class).getHeadImageUrl());
+        Pair<View, String> p = new Pair<View, String>(ivPersonalHead, "image");
+        Intent intent = new Intent(this, PhotoActivity.class);
+        intent.putStringArrayListExtra("images", image);
+        startActivity(intent, ActivityOptions
+                .makeSceneTransitionAnimation(this, p).toBundle());
     }
 
     @Override
@@ -302,9 +313,13 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
 
     @Override
     public void showTheBigBg() {
-        PhotoPresenter.imageUrl = BmobUser.getCurrentUser(
-                User.class).getBackgroundUrl();
-        startActivity(new Intent(this, PhotoActivity.class));
+        ArrayList<String> image = new ArrayList<>();
+        image.add(BmobUser.getCurrentUser(User.class).getBackgroundUrl());
+        Pair<View, String> p = new Pair<View, String>(ivPersonalBg, "image");
+        Intent intent = new Intent(this, PhotoActivity.class);
+        intent.putStringArrayListExtra("images", image);
+        startActivity(intent, ActivityOptions
+                .makeSceneTransitionAnimation(this, p).toBundle());
     }
 
     public void choiceOfHead() {
@@ -474,20 +489,20 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
 
     @Override
     public void updateBackground() {
-        if (getStorage() && getCcamra()){
+        if (getStorage() && getCcamra()) {
             SImagePicker
                     .from(PersonalActivity.this)
                     .pickMode(SImagePicker.MODE_AVATAR)
                     .showCamera(true)
                     .cropFilePath(CacheManager.getInstance().getImageInnerCache()
-                                    .getAbsolutePath(AVATAR_FILE_NAME))
+                            .getAbsolutePath(AVATAR_FILE_NAME))
                     .forResult(REQUEST_CODE_IMAGE);
         }
 
 
     }
 
-    @OnClick({R.id.iv_personal_bg, R.id.rl_nickname, R.id.rl_age, R.id.rl_sex, R.id.rl_address, R.id.rl_tips, R.id.rl_birthday, R.id.rl_introduction, R.id.rl_phone, R.id.rl_email, R.id.iv_personal_head,R.id.rv_personal_tips})
+    @OnClick({R.id.iv_personal_bg, R.id.rl_nickname, R.id.rl_age, R.id.rl_sex, R.id.rl_address, R.id.rl_publisher_cord,R.id.rl_tips, R.id.rl_birthday, R.id.rl_introduction, R.id.rl_phone, R.id.rl_email, R.id.iv_personal_head, R.id.rv_personal_tips})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_personal_bg:
@@ -526,7 +541,15 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
             case R.id.rv_personal_tips:
                 updateTips();
                 break;
+            case R.id.rl_publisher_cord:
+                Intent intent = new Intent(this, PublishRecordActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("publisher",BmobUser.getCurrentUser(User.class));
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
         }
     }
+
 
 }

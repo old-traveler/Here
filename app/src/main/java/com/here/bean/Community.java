@@ -1,5 +1,8 @@
 package com.here.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by hyc on 2017/7/13 10:34
  */
@@ -73,4 +76,6 @@ public class Community {
     public void setMood(Mood mood) {
         this.mood = mood;
     }
+
+
 }

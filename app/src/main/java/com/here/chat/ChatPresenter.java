@@ -96,6 +96,7 @@ public class ChatPresenter extends BasePresenter<ChatContract>  {
                                 Log.i("错误",e.getMessage());
                             }
                         }
+
                     });
                 }
 

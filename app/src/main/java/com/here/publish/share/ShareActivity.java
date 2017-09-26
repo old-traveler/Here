@@ -24,6 +24,7 @@ import com.here.immediate.NewImmediateActivity;
 import com.imnjh.imagepicker.SImagePicker;
 import com.imnjh.imagepicker.activity.PhotoPickerActivity;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class ShareActivity extends MvpActivity<SharePresenter> implements ShareC
         List<String> images = new ArrayList<>();
         images.add("add image");
         adapter = new PublishImageAdapter(R.layout.item_publish_image,images);
+        adapter.setActivity(new WeakReference<Activity>(this));
         rvShareImage.setAdapter(adapter);
         adapter.setListener(new PublishImageAdapter.OnItemClickListener() {
             @Override

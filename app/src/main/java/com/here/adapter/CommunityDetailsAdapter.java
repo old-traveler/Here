@@ -1,12 +1,14 @@
 package com.here.adapter;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,7 @@ import com.here.util.DensityUtil;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
@@ -240,12 +243,12 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ivAppointmentImage3.setVisibility(View.GONE);
                     tvAppointmentPicCount.setVisibility(View.GONE);
                     ivAppointmentImage1.setOnClickListener(new MyClickListener(
-                            appointment.getImages()[0],ivAppointmentImage1));
+                            appointment.getImages(),0));
                 } else if (appointment.getImages().length == 2) {
                     ivAppointmentImage1.setOnClickListener(new MyClickListener(
-                            appointment.getImages()[0],ivAppointmentImage1));
+                            appointment.getImages(),0));
                     ivAppointmentImage2.setOnClickListener(new MyClickListener(
-                            appointment.getImages()[1],ivAppointmentImage2));
+                            appointment.getImages(),1));
                     DensityUtil.setViewSize(ivAppointmentImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivAppointmentImage1.setVisibility(View.VISIBLE);
@@ -259,12 +262,12 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ivAppointmentImage3.setVisibility(View.GONE);
                     tvAppointmentPicCount.setVisibility(View.GONE);
                 } else if (appointment.getImages().length == 3) {
-                    ivAppointmentImage1.setOnClickListener(new MyClickListener(
-                            appointment.getImages()[0],ivAppointmentImage1));
-                    ivAppointmentImage2.setOnClickListener(new MyClickListener(
-                            appointment.getImages()[1],ivAppointmentImage2));
-                    ivAppointmentImage3.setOnClickListener(new MyClickListener(
-                            appointment.getImages()[2],ivAppointmentImage3));
+                    ivAppointmentImage1.setOnClickListener(new
+                            MyClickListener(appointment.getImages(),0));
+                    ivAppointmentImage2.setOnClickListener(new
+                            MyClickListener(appointment.getImages(),1));
+                    ivAppointmentImage3.setOnClickListener(new
+                            MyClickListener(appointment.getImages(),2));
                     DensityUtil.setViewSize(ivAppointmentImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivAppointmentImage1.setVisibility(View.VISIBLE);
@@ -282,11 +285,11 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                     tvAppointmentPicCount.setVisibility(View.GONE);
                 } else {
                     ivAppointmentImage1.setOnClickListener(new MyClickListener(
-                            appointment.getImages()[0],ivAppointmentImage1));
+                            appointment.getImages(),0));
                     ivAppointmentImage2.setOnClickListener(new MyClickListener(
-                            appointment.getImages()[1],ivAppointmentImage2));
+                            appointment.getImages(),1));
                     ivAppointmentImage3.setOnClickListener(new MyClickListener(
-                            appointment.getImages()[2],ivAppointmentImage3));
+                            appointment.getImages(),2));
                     DensityUtil.setViewSize(ivAppointmentImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivAppointmentImage1.setVisibility(View.VISIBLE);
@@ -415,12 +418,12 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ivMoodImage3.setVisibility(View.GONE);
                     ivMoodPicCount.setVisibility(View.GONE);
                     ivMoodImage1.setOnClickListener(new MyClickListener(
-                            mood.getImages()[0],ivMoodImage1));
+                            mood.getImages(),0));
                 } else if (mood.getImages().length == 2) {
                     ivMoodImage1.setOnClickListener(new MyClickListener(
-                            mood.getImages()[0],ivMoodImage1));
+                            mood.getImages(),0));
                     ivMoodImage2.setOnClickListener(new MyClickListener(
-                            mood.getImages()[1],ivMoodImage2));
+                            mood.getImages(),1));
                     DensityUtil.setViewSize(ivMoodImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivMoodImage1.setVisibility(View.VISIBLE);
@@ -435,11 +438,11 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ivMoodPicCount.setVisibility(View.GONE);
                 } else if (mood.getImages().length == 3) {
                     ivMoodImage1.setOnClickListener(new MyClickListener(
-                            mood.getImages()[0],ivMoodImage1));
+                            mood.getImages(),0));
                     ivMoodImage2.setOnClickListener(new MyClickListener(
-                            mood.getImages()[1],ivMoodImage2));
+                            mood.getImages(),1));
                     ivMoodImage3.setOnClickListener(new MyClickListener(
-                            mood.getImages()[2],ivMoodImage3));
+                            mood.getImages(),2));
                     DensityUtil.setViewSize(ivMoodImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivMoodImage1.setVisibility(View.VISIBLE);
@@ -457,11 +460,11 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ivMoodPicCount.setVisibility(View.GONE);
                 } else {
                     ivMoodImage1.setOnClickListener(new MyClickListener(
-                            mood.getImages()[0],ivMoodImage1));
+                            mood.getImages(),0));
                     ivMoodImage2.setOnClickListener(new MyClickListener(
-                            mood.getImages()[1],ivMoodImage2));
+                            mood.getImages(),1));
                     ivMoodImage3.setOnClickListener(new MyClickListener(
-                            mood.getImages()[2],ivMoodImage3));
+                            mood.getImages(),2));
                     DensityUtil.setViewSize(ivMoodImage1,DensityUtil
                             .dip2px(110),DensityUtil.dip2px(110));
                     ivMoodImage1.setVisibility(View.VISIBLE);
@@ -508,18 +511,25 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public class MyClickListener implements View.OnClickListener {
-        String imageUrl;
-        ImageView imageView;
+        ArrayList<String> imageUrl;
+        private int position ;
 
-        public MyClickListener(String imageUrl,ImageView imageView){
-            this.imageUrl = imageUrl;
-            this.imageView = imageView;
+        public MyClickListener(String[] imageUrl,int position){
+            this.imageUrl = new ArrayList<>();
+            for (String s : imageUrl) {
+                this.imageUrl.add(s);
+            }
+            this.position = position;
         }
         @Override
         public void onClick(View v) {
-            PhotoPresenter.imageUrl = imageUrl;
+            Pair<View, String> p = new Pair<View, String>(v, "image");
             Intent intent = new Intent(context.get(), PhotoActivity.class);
-            context.get().startActivity(intent);
+            intent.putStringArrayListExtra("images",imageUrl);
+            intent.putExtra("position",position);
+            context.get().startActivity(intent, ActivityOptions
+                    .makeSceneTransitionAnimation(context.get(), p).toBundle());
+
         }
     }
 }

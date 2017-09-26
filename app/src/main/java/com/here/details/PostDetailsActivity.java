@@ -1,5 +1,6 @@
 package com.here.details;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -27,6 +28,7 @@ import com.here.personal.other.OtherInfoActivity;
 import com.here.view.MyGridLayoutManager;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
+import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
 
@@ -175,6 +177,7 @@ public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> imple
             adapter = new DetailsImageAdapter(R.layout.item_im_details, list);
             rvImagePost.setLayoutManager(new MyGridLayoutManager(this, 3));
         }
+        adapter.setActivityWeakReference(new WeakReference<Activity>(this));
         rvImagePost.setAdapter(adapter);
     }
 
@@ -224,6 +227,7 @@ public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> imple
             adapter = new DetailsImageAdapter(R.layout.item_im_details, list);
             rvImagePost.setLayoutManager(new MyGridLayoutManager(this, 3));
         }
+        adapter.setActivityWeakReference(new WeakReference<Activity>(this));
         rvImagePost.setAdapter(adapter);
     }
 
