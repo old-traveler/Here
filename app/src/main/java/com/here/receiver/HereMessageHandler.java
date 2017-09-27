@@ -18,6 +18,7 @@ import com.here.util.ImActivityUtil;
 import com.here.util.ImUtil;
 import com.here.util.JoinUtil;
 import com.here.util.NotificationUtil;
+import com.here.util.SettingUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -39,15 +40,7 @@ public class HereMessageHandler extends BmobIMMessageHandler {
 
     @Override
     public void onMessageReceive(MessageEvent messageEvent) {
-        soundPool= new SoundPool(1, AudioManager.STREAM_MUSIC,5);
-        soundPool.load(HereApplication.getContext(), R.raw.voice_tip,1);
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                soundPool.play(sampleId, 0.6f, 0.6f, 1, 0, 1f);
-            }
-        });
-
+        playVoice();
         if (messageEvent.getMessage().getMsgType().equals("apply")) {
             Intent intent = new Intent(HereApplication.getContext(), ApplyActivity.class);
             Bundle bundle = new Bundle();
@@ -98,6 +91,7 @@ public class HereMessageHandler extends BmobIMMessageHandler {
         for (Map.Entry<String, List<MessageEvent>> entry : map.entrySet()) {
             List<MessageEvent> list = entry.getValue();
             if (list.size() != 0) {
+                playVoice();
                 for (MessageEvent messageEvent : list) {
                     if (messageEvent.getMessage().getMsgType().equals("apply")) {
                         Log.i("申请","收到一条离线申请");
@@ -136,9 +130,26 @@ public class HereMessageHandler extends BmobIMMessageHandler {
                         ImUtil.updateUserInfo(messageEvent);
                         EventBus.getDefault().post(messageEvent);
                     }
+
                 }
             }
         }
+    }
+
+    public void playVoice(){
+        if (SettingUtil.getInstance().isVoice()){
+            if (soundPool == null){
+                soundPool= new SoundPool(1, AudioManager.STREAM_MUSIC,5);
+            }
+            soundPool.load(HereApplication.getContext(), R.raw.voice_tip,1);
+            soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+                @Override
+                public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                    soundPool.play(sampleId, 0.6f, 0.6f, 1, 0, 1f);
+                }
+            });
+        }
+
     }
 
 

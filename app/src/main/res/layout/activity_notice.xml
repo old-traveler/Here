@@ -33,11 +33,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ch.ielse.view.SwitchView
+            android:id="@+id/sv_voice"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/setting_margin_left"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="32dp" />
     </RelativeLayout>
 
     <View
@@ -58,11 +59,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ch.ielse.view.SwitchView
+            android:id="@+id/sv_vibration"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/setting_margin_left"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="32dp" />
     </RelativeLayout>
 
     <View
@@ -82,11 +84,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ch.ielse.view.SwitchView
+            android:id="@+id/sv_notice_show"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/setting_margin_left"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="32dp" />
     </RelativeLayout>
 
     <View
@@ -107,11 +110,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ch.ielse.view.SwitchView
+            android:id="@+id/sv_indicator"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/setting_margin_left"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="32dp" />
     </RelativeLayout>
 
     <View
@@ -131,11 +135,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ch.ielse.view.SwitchView
+            android:id="@+id/sv_exit_receive"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/setting_margin_left"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="32dp" />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"

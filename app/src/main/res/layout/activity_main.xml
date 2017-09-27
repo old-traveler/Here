@@ -64,7 +64,7 @@
     <LinearLayout
         android:id="@+id/ll_side"
         android:orientation="vertical"
-        android:background="@color/theme_color"
+        android:background="@color/white"
         android:layout_gravity="start"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -110,18 +110,19 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:background="@drawable/item_message_selector"
+            android:clickable="true"
             android:id="@+id/rv_enter_scan"
-            android:layout_marginLeft="@dimen/item_margin_left"
+            android:paddingLeft="@dimen/item_margin_left"
             android:layout_width="match_parent"
             android:layout_height="@dimen/side_item_height">
             <ImageView
-
+                android:layout_marginLeft="0.5dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/qrcode"
-                android:layout_width="23dp"
-                android:layout_height="23dp" />
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
             <TextView
-
                 android:layout_marginLeft="@dimen/text_margin_left"
                 android:layout_centerVertical="true"
                 android:text="@string/item_qrcode"
@@ -131,8 +132,10 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
+            android:background="@drawable/item_message_selector"
+            android:clickable="true"
             android:id="@+id/rv_my_activity"
-            android:layout_marginLeft="@dimen/item_margin_left"
+            android:paddingLeft="@dimen/item_margin_left"
             android:layout_width="match_parent"
             android:layout_height="@dimen/side_item_height">
             <ImageView
@@ -150,15 +153,17 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
+            android:background="@drawable/item_message_selector"
+            android:clickable="true"
             android:id="@+id/rv_my_follow"
-            android:layout_marginLeft="@dimen/item_margin_left"
+            android:paddingLeft="@dimen/item_margin_left"
             android:layout_width="match_parent"
             android:layout_height="@dimen/side_item_height">
             <ImageView
                 android:layout_centerVertical="true"
                 android:src="@drawable/follow"
-                android:layout_width="@dimen/item_image_height"
-                android:layout_height="@dimen/item_image_height" />
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
             <TextView
                 android:layout_marginLeft="@dimen/text_margin_left"
                 android:layout_centerVertical="true"
@@ -169,35 +174,18 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/rv_my_grade"
-            android:layout_marginLeft="@dimen/item_margin_left"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/side_item_height">
-            <ImageView
-                android:layout_centerVertical="true"
-                android:src="@drawable/achievement"
-                android:layout_width="@dimen/item_image_height"
-                android:layout_height="@dimen/item_image_height" />
-            <TextView
-                android:layout_marginLeft="@dimen/text_margin_left"
-                android:layout_centerVertical="true"
-                android:text="@string/item_my_grade"
-                android:textSize="16sp"
-                android:textColor="@color/share_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
+            android:background="@drawable/item_message_selector"
+            android:clickable="true"
             android:id="@+id/rv_feedback"
-            android:layout_marginLeft="@dimen/item_margin_left"
+            android:paddingLeft="@dimen/item_margin_left"
             android:layout_width="match_parent"
             android:layout_height="@dimen/side_item_height">
             <ImageView
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="1.5dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/introducation"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
+                android:layout_width="22dp"
+                android:layout_height="22dp" />
             <TextView
                 android:layout_marginLeft="@dimen/text_margin_left"
                 android:layout_centerVertical="true"
@@ -217,8 +205,9 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="10dp"
                 android:layout_alignParentBottom="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
+                android:padding="5dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp" />
         </RelativeLayout>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

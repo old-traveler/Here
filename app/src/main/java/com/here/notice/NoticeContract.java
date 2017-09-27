@@ -5,4 +5,9 @@ package com.here.notice;
  */
 
 public interface NoticeContract {
+
+
+
+
+
 }

@@ -79,8 +79,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
     RelativeLayout rvMyActivity;
     @Bind(R.id.rv_my_follow)
     RelativeLayout rvMyFollow;
-    @Bind(R.id.rv_my_grade)
-    RelativeLayout rvMyGrade;
     @Bind(R.id.rv_feedback)
     RelativeLayout rvFeedback;
     @Bind(R.id.rv_setting)
@@ -332,7 +330,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         return true;
     }
 
-    @OnClick({R.id.iv_side_background, R.id.cv_side_head, R.id.rv_enter_scan, R.id.rv_my_activity, R.id.rv_my_follow, R.id.rv_my_grade, R.id.rv_feedback, R.id.iv_setting,R.id.tv_main_near, R.id.tv_main_community, R.id.tv_main_follow})
+    @OnClick({R.id.iv_side_background, R.id.cv_side_head, R.id.rv_enter_scan, R.id.rv_my_activity, R.id.rv_my_follow,  R.id.rv_feedback, R.id.iv_setting,R.id.tv_main_near, R.id.tv_main_community, R.id.tv_main_follow})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_side_background:
@@ -349,9 +347,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
                 break;
             case R.id.rv_my_follow:
                 checkFollow();
-                break;
-            case R.id.rv_my_grade:
-                checkGrade();
                 break;
             case R.id.rv_feedback:
                 feedback();
