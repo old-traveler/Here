@@ -33,6 +33,8 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.maps.model.animation.Animation;
 import com.amap.api.maps.model.animation.ScaleAnimation;
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.here.R;
@@ -40,11 +42,16 @@ import com.here.adapter.NearAdapter;
 import com.here.base.MvpFragment;
 import com.here.bean.ImActivity;
 import com.here.bean.Kind;
+import com.here.bean.User;
 import com.here.going.GoingActivity;
 import com.here.imdetails.ImDetailsActivity;
 import com.here.immediate.NewImmediateActivity;
+import com.here.login.LoginActivity;
+import com.here.phone.PhoneActivity;
+import com.here.setting.SettingActivity;
 import com.here.util.BitmapUtil;
 import com.here.util.Constants;
+import com.here.util.FindUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +59,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -266,6 +274,20 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
                 }
                 break;
             case R.id.fb_add_activity:
+                User user = BmobUser.getCurrentUser(User.class);
+                if (!user.getMobilePhoneNumberVerified()){
+                    new AlertView("温馨提示", "由于发起活动需要保证安全," +
+                            "\n请先绑定您的手机号码。", "确定", new String[]{"取消"}
+                            , null, getContext(), AlertView.Style.Alert, new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Object o, int position) {
+                            if (position == -1) {
+                                startActivity(new Intent(getContext(), PhoneActivity.class));
+                            }
+                        }
+                    }).show();
+                    return;
+                }
                 if (isGoing) {
                     startActivity(new Intent(mActivity, GoingActivity.class));
                     mActivity.overridePendingTransition(R.anim.push_up_in,

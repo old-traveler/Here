@@ -395,7 +395,6 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
                     public void onDataSelected(String itemValue) {
                         mvpPresenter.updateAge(Integer
                                 .parseInt(itemValue));
-
                     }
                 }).create();
 

@@ -32,7 +32,6 @@ public class ImDetailsPresenter extends BasePresenter<ImDetailsContract> {
         if (NearbyPresenter.going){
             mvpView.fail("您正处于活动进行中");
             return;
-
         }
         if (JoinUtil.isTimeAfterCurrent()){
             if (JoinUtil.isApply()){

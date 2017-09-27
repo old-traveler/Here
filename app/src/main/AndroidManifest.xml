@@ -132,7 +132,9 @@
 
         <activity android:name=".blacklist.BlacklistActivity" />
         <activity android:name=".follow.join.JoinFindActivity" />
-        <activity android:name=".record.publish.PublishRecordActivity"></activity>
+        <activity android:name=".record.publish.PublishRecordActivity" />
+        <activity android:name=".imdetails.report.ReportActivity" />
+        <activity android:name=".personal.accusation.AccusationActivity"></activity>
     </application>
 
 </manifest>

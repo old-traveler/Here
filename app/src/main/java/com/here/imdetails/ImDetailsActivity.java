@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,12 +19,14 @@ import com.here.R;
 import com.here.adapter.DetailsImageAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.ImActivity;
+import com.here.imdetails.report.ReportActivity;
 import com.here.personal.PersonalActivity;
 import com.here.personal.other.OtherInfoActivity;
 import com.here.view.MyGridLayoutManager;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -97,6 +102,13 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
         Glide.with(this)
                 .load(imActivity.getPublisher().getHeadImageUrl())
                 .into(cvDetailsHead);
+        Calendar now = Calendar.getInstance();
+        int year  = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH);
+        int day = now.get(Calendar.DAY_OF_MONTH);
+        if (!imActivity.getPublishDate().equals(year+"-"+month+1+"-"+day)){
+            btnDetailsApply.setVisibility(View.GONE);
+        }
         if (imActivity.getImages() == null || imActivity.getImages().length < 1) {
             rvImDetails.setVisibility(View.GONE);
             return;
@@ -117,6 +129,30 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
         if (!imActivity.isNeedApply()) {
             btnDetailsApply.setText("加入");
         }
+
+
+
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_im_details,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.report){
+            Intent intent = new Intent(this, ReportActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("activity",getImActivity());
+            intent.putExtras(bundle);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -194,7 +230,6 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
                     finish();
                 }
                 break;
-
         }
     }
 

@@ -2,9 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/report"
-        android:title="举报"
-        android:icon="@drawable/report"
+        android:id="@+id/submit"
+        android:title="提交"
         app:showAsAction="always"/>
-
 </menu>

@@ -22,6 +22,7 @@ import com.here.adapter.ShowTipsAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.Tip;
 import com.here.bean.User;
+import com.here.personal.accusation.AccusationActivity;
 import com.here.record.publish.PublishRecordActivity;
 import com.here.view.MyGridLayoutManager;
 import com.here.view.UnfoldAndZoomScrollView;
@@ -130,7 +131,12 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
             @Override
             public void onItemClick(Object o, int position) {
                 if (position == 0) {
-                    //
+                    Intent intent = new Intent(OtherInfoActivity
+                            .this, AccusationActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user",getUserInfo());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 } else if (position == 1) {
                     mvpPresenter.joinBlackList();
                 } else if (position == 2) {
