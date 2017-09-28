@@ -124,6 +124,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         addActivity(this);
         initUserData();
         Connector.getDatabase();
+
     }
 
     private void initEvent() {
@@ -217,10 +218,18 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
             Glide.with(this)
                     .load(user.getHeadImageUrl())
                     .into(cvSideHead);
+        }else {
+            Glide.with(this)
+                    .load(R.drawable.head_info)
+                    .into(cvSideHead);
         }
         if (!TextUtils.isEmpty(user.getBackgroundUrl())) {
             Glide.with(this)
                     .load(user.getBackgroundUrl())
+                    .into(ivSideBackground);
+        }else {
+            Glide.with(this)
+                    .load(R.drawable.info_bg)
                     .into(ivSideBackground);
         }
 

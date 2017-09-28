@@ -133,7 +133,7 @@ public class AppointmentActivity extends MvpActivity<AppointmentPresenter> imple
             return;
         }
 
-        if (getStorage() && getCcamra()){
+        if (getCcamra()){
             SImagePicker
                     .from(this)
                     .maxCount(10 - adapter.getData().size())

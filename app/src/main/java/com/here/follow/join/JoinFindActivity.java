@@ -76,7 +76,7 @@ public class JoinFindActivity extends MvpActivity<JoinFindPresenter> implements 
 
     @Override
     public void selectImage() {
-        if (getStorage() && getCcamra()) {
+        if (getCcamra()) {
             SImagePicker
                     .from(this)
                     .maxCount(1)

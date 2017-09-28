@@ -112,7 +112,7 @@ public class ShareActivity extends MvpActivity<SharePresenter> implements ShareC
             return;
         }
 
-        if (getStorage() && getCcamra()){
+        if (getCcamra()){
             SImagePicker
                     .from(this)
                     .maxCount(10 - adapter.getData().size())

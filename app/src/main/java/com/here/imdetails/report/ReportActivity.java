@@ -5,7 +5,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.example.android.dialog.picker.DataPickerDialog;
@@ -13,10 +12,8 @@ import com.here.R;
 import com.here.base.MvpActivity;
 import com.here.bean.ImActivity;
 import com.here.bean.Report;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

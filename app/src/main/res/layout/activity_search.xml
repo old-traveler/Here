@@ -59,7 +59,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/cv_search_head"
             android:layout_centerVertical="true"
-            android:src="@drawable/grils"
+            android:src="@drawable/head_info"
             android:layout_marginLeft="10dp"
             android:layout_width="35dp"
             android:layout_height="35dp" />

@@ -33,6 +33,7 @@ public class RecordUtil  {
     public static void queryMyPublish(User user , final OnQueryListener listener){
         BmobQuery<ImActivity> query = new BmobQuery<>();
         query.addWhereEqualTo("publisher",user);
+        query.order("-updatedAt");
         query.findObjects(new FindListener<ImActivity>() {
             @Override
             public void done(List<ImActivity> list, BmobException e) {
@@ -58,6 +59,7 @@ public class RecordUtil  {
         BmobQuery<Join> query = new BmobQuery<>();
         query.addWhereEqualTo("joinUser",user);
         query.include("imActivity");
+        query.order("-updatedAt");
         query.findObjects(new FindListener<Join>() {
             @Override
             public void done(List<Join> list, BmobException e) {

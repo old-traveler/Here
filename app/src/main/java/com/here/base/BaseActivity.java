@@ -221,16 +221,29 @@ public class BaseActivity extends AppCompatActivity{
     }
 
     public boolean getCcamra(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA )
+                != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             //申请WRITE_EXTERNAL_STORAGE权限
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
+                    .CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             return false;
         } else {
             return true;
         }
     }
-
+    //申请语音权限
+    public boolean getVoice(){
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.MODIFY_AUDIO_SETTINGS
+                    ,Manifest.permission.CAPTURE_AUDIO_OUTPUT,Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_EXTERNAL_STORAGE},1);
+            return false;
+        }else{
+            return true;
+        }
+    }
     public void getContracts(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {

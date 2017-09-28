@@ -54,11 +54,13 @@
         <activity android:name=".setting.SettingActivity" />
         <activity android:name=".feedback.FeedBackActivity" />
         <activity android:name=".introduction.IntroductionActivity" />
-        <activity android:name=".personal.PersonalActivity" />
+        <activity
+            android:name=".personal.PersonalActivity" />
         <activity android:name=".nickname.NicknameActivity" />
         <activity android:name=".email.EmailActivity" />
         <activity android:name=".privacy.PrivacyActivity" />
-        <activity android:name=".main.MainActivity" />
+        <activity
+            android:name=".main.MainActivity" />
         <activity android:name=".password.PasswordActivity" />
         <activity android:name=".account.AccountActivity" />
         <activity
@@ -101,7 +103,8 @@
         <activity android:name=".details.PostDetailsActivity" />
         <activity android:name=".follow.info.FollowActivity" />
         <activity android:name=".record.RecordActivity" />
-        <activity android:name=".personal.other.OtherInfoActivity" />
+        <activity
+            android:name=".personal.other.OtherInfoActivity" />
         <activity android:name=".voice.VoiceChatViewActivity" />
         <activity android:name=".voice.CallActivity" />
         <activity
@@ -134,7 +137,7 @@
         <activity android:name=".follow.join.JoinFindActivity" />
         <activity android:name=".record.publish.PublishRecordActivity" />
         <activity android:name=".imdetails.report.ReportActivity" />
-        <activity android:name=".personal.accusation.AccusationActivity"></activity>
+        <activity android:name=".personal.accusation.AccusationActivity"/>
     </application>
 
 </manifest>

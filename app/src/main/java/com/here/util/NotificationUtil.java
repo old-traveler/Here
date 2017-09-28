@@ -37,9 +37,9 @@ public class NotificationUtil {
                     .setContentTitle(title)
                     .setContentText(content)
                     .setWhen(System.currentTimeMillis())
-                    .setSmallIcon(R.drawable.grils)
+                    .setSmallIcon(R.drawable.ic_launcher)
                     .setLargeIcon(BitmapFactory.decodeResource(HereApplication
-                            .getContext().getResources(),R.drawable.grils))
+                            .getContext().getResources(),R.drawable.ic_launcher))
                     .setContentIntent(pi)
                     .setAutoCancel(true)
                     .setVibrate(new long[]{0,1000,0,0})
@@ -51,9 +51,9 @@ public class NotificationUtil {
                     .setContentTitle(title)
                     .setContentText(content)
                     .setWhen(System.currentTimeMillis())
-                    .setSmallIcon(R.drawable.grils)
+                    .setSmallIcon(R.drawable.ic_launcher)
                     .setLargeIcon(BitmapFactory.decodeResource(HereApplication
-                            .getContext().getResources(),R.drawable.grils))
+                            .getContext().getResources(),R.drawable.ic_launcher))
                     .setAutoCancel(true)
                     .setVibrate(new long[]{0,1000,0,0})
                     .setLights(Color.WHITE,1000,1000)

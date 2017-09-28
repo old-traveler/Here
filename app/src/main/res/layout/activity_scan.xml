@@ -78,7 +78,7 @@
             android:id="@+id/cv_scan_head"
             app:civ_border_width="1dp"
             app:civ_border_color="@color/share_text"
-            android:src="@drawable/grils"
+            android:src="@drawable/head_info"
             android:layout_marginLeft="20dp"
             android:layout_centerVertical="true"
             android:layout_width="@dimen/scan_head_length"

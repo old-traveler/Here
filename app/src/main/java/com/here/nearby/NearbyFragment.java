@@ -274,25 +274,25 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
                 }
                 break;
             case R.id.fb_add_activity:
-                User user = BmobUser.getCurrentUser(User.class);
-                if (!user.getMobilePhoneNumberVerified()){
-                    new AlertView("温馨提示", "由于发起活动需要保证安全," +
-                            "\n请先绑定您的手机号码。", "确定", new String[]{"取消"}
-                            , null, getContext(), AlertView.Style.Alert, new OnItemClickListener() {
-                        @Override
-                        public void onItemClick(Object o, int position) {
-                            if (position == -1) {
-                                startActivity(new Intent(getContext(), PhoneActivity.class));
-                            }
-                        }
-                    }).show();
-                    return;
-                }
                 if (isGoing) {
                     startActivity(new Intent(mActivity, GoingActivity.class));
                     mActivity.overridePendingTransition(R.anim.push_up_in,
                             R.anim.push_up_out);
                 } else {
+                    User user = BmobUser.getCurrentUser(User.class);
+                    if (TextUtils.isEmpty(user.getMobilePhoneNumber())){
+                        new AlertView("温馨提示", "由于发起活动需要保证安全," +
+                                "\n请先绑定您的手机号码。", "确定", new String[]{"取消"}
+                                , null, getContext(), AlertView.Style.Alert, new OnItemClickListener() {
+                            @Override
+                            public void onItemClick(Object o, int position) {
+                                if (position == -1) {
+                                    startActivity(new Intent(getContext(), PhoneActivity.class));
+                                }
+                            }
+                        }).show();
+                        return;
+                    }
                     startActivity(new Intent(mActivity, NewImmediateActivity.class));
                     mActivity.overridePendingTransition(R.anim.push_up_in,
                             R.anim.push_up_out);
@@ -362,7 +362,7 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
                         markers.add(aMap.addMarker(new MarkerOptions().position(
                                 Constants.ZHENGZHOU).icon(
                                 BitmapDescriptorFactory.fromBitmap(BitmapUtil.drawMark(BitmapFactory
-                                        .decodeResource(getActivity().getResources(), R.drawable.grils), 144, true)))));
+                                        .decodeResource(getActivity().getResources(), R.drawable.head_info), 144, true)))));
                         markers.get(markers.size() - 1).setPosition(new LatLng(imActivities.get(markers.size() - 1)
                                 .getLatitude(), imActivities.get(markers.size() - 1).getLongitude()));
                         startGrowAnimation(markers.get(markers.size() - 1));
@@ -376,7 +376,7 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
                 markers.add(aMap.addMarker(new MarkerOptions().position(
                         Constants.ZHENGZHOU).icon(
                         BitmapDescriptorFactory.fromBitmap(BitmapUtil.drawMark(BitmapFactory.decodeResource(getActivity()
-                                .getResources(), R.drawable.grils), 144, true)))));
+                                .getResources(), R.drawable.head_info), 144, true)))));
                 markers.get(markers.size() - 1).setPosition(new LatLng(imActivities.get(markers.size() - 1).getLatitude(),
                         imActivities.get(markers.size() - 1).getLongitude()));
                 startGrowAnimation(markers.get(markers.size() - 1));
@@ -426,7 +426,7 @@ public class NearbyFragment extends MvpFragment<NearbyPresenter> implements Near
                     .into(cvMapHead);
         } else {
             Glide.with(getActivity())
-                    .load(R.drawable.grils)
+                    .load(R.drawable.head_info)
                     .into(cvMapHead);
         }
 

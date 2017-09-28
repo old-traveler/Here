@@ -8,19 +8,20 @@
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
-        android:fitsSystemWindows="true"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v7.widget.Toolbar
+            android:paddingTop="15dp"
             android:paddingBottom="7dp"
             android:elevation="7dp"
             android:background="@color/white"
             android:id="@+id/tb_main"
             android:layout_width="match_parent"
-            android:layout_height="45dp">
+            android:layout_height="65dp">
             <LinearLayout
-                android:layout_marginTop="11dp"
+                android:layout_marginTop="16dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="170dp"
                 android:layout_height="25dp">
@@ -57,8 +58,7 @@
         <com.here.view.MyViewPage
             android:id="@+id/vp_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </com.here.view.MyViewPage>
+            android:layout_height="match_parent"></com.here.view.MyViewPage>
     </LinearLayout>
 
     <LinearLayout
@@ -73,7 +73,6 @@
             android:layout_height="@dimen/side_pull_height">
             <ImageView
                 android:scaleType="centerCrop"
-                android:src="@drawable/text_background"
                 android:id="@+id/iv_side_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

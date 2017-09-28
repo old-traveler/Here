@@ -27,6 +27,7 @@ public class JoinAdapter extends BaseQuickAdapter<Join> {
             Glide.with(mContext)
                     .load(R.drawable.invitation)
                     .into((CircleImageView) baseViewHolder.getView(R.id.cv_join_user));
+
         }else {
             if (!TextUtils.isEmpty(user.getJoinUser().getHeadImageUrl())){
                 Glide.with(mContext)
@@ -34,7 +35,7 @@ public class JoinAdapter extends BaseQuickAdapter<Join> {
                         .into((CircleImageView) baseViewHolder.getView(R.id.cv_join_user));
             }else {
                 Glide.with(mContext)
-                        .load(R.drawable.text_head)
+                        .load(R.drawable.head_info)
                         .into((CircleImageView) baseViewHolder.getView(R.id.cv_join_user));
             }
         }

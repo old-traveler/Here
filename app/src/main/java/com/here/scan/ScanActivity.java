@@ -65,7 +65,7 @@ public class ScanActivity extends MvpActivity<ScanPresenter> implements ScanCont
                     .into(cvScanHead);
         }else {
             Glide.with(this)
-                    .load(R.drawable.grils)
+                    .load(R.drawable.head_info)
                     .into(cvScanHead);
         }
 

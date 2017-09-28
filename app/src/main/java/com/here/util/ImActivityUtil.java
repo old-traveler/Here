@@ -121,16 +121,13 @@ public class ImActivityUtil {
         ImActivity imActivity = null;
         SharedPreferences preferences=HereApplication.getContext()
                 .getSharedPreferences("imActivity", Context.MODE_PRIVATE);
-        Log.i("缓存",preferences.getString("publisherid","")+"  "
-                +user.getObjectId()+"  "+JoinUtil.getTime()+"  "+preferences
-                .getString("overTime","")+"  "+JoinUtil.getApplyUserId()
-                +"  "+BmobUser.getCurrentUser(User.class).getObjectId());
         if (!TextUtils.isEmpty(preferences.getString("objectid",""))){
             if (preferences.getString("publisherid","").equals(user.getObjectId())
                     ||! TextUtils.isEmpty(JoinUtil.getTime())&&
                     preferences.getString("overTime","").equals(JoinUtil.getTime())
                     && ! TextUtils.isEmpty(JoinUtil.getApplyUserId())
-                    &&JoinUtil.getApplyUserId().equals(BmobUser.getCurrentUser(User.class).getObjectId())){
+                    &&JoinUtil.getApplyUserId().equals(BmobUser
+                    .getCurrentUser(User.class).getObjectId())){
                 imActivity = new ImActivity();
                 imActivity.setPublisher(user);
                 imActivity.setObjectId(preferences.getString("objectid",""));
@@ -158,6 +155,8 @@ public class ImActivityUtil {
 
         return imActivity;
     }
+
+
 
     public static void clearImActivity(){
         SharedPreferences imActivitys = HereApplication.getContext()

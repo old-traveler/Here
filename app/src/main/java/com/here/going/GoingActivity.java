@@ -74,8 +74,9 @@ public class GoingActivity extends MvpActivity<GoingPresenter> implements GoingC
         mvpPresenter.attachView(this);
         setToolBar(R.id.tb_going);
         initHome();
-        if (JoinUtil.getTime().equals(ImActivityUtil.getImActivityInfo(BmobUser
-                .getCurrentUser(User.class)).getOverTime())) {
+        ImActivity imActivity = ImActivityUtil.getImActivityInfo(BmobUser
+                .getCurrentUser(User.class));
+        if (!BmobUser.getCurrentUser().getObjectId().equals(ImActivityUtil.getPublisherId())) {
             btnDeleteGoing.setVisibility(View.GONE);
         } else {
             rlPublisherPhone.setVisibility(View.GONE);

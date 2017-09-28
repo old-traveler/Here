@@ -251,7 +251,7 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
                     .into(ivPersonalHead);
         } else {
             Glide.with(this)
-                    .load(R.drawable.gbole)
+                    .load(R.drawable.head_info)
                     .into(ivPersonalHead);
         }
 
@@ -261,7 +261,7 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
                     .into(ivPersonalBg);
         } else {
             Glide.with(this)
-                    .load(R.drawable.gbole)
+                    .load(R.drawable.info_bg)
                     .into(ivPersonalBg);
         }
 
@@ -270,7 +270,7 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
 
     @Override
     public void startImagePicker() {
-        if (getStorage() && getCcamra()) {
+        if (getCcamra()) {
             SImagePicker
                     .from(PersonalActivity.this)
                     .pickMode(SImagePicker.MODE_AVATAR)
@@ -488,7 +488,7 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
 
     @Override
     public void updateBackground() {
-        if (getStorage() && getCcamra()) {
+        if ( getCcamra()) {
             SImagePicker
                     .from(PersonalActivity.this)
                     .pickMode(SImagePicker.MODE_AVATAR)

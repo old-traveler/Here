@@ -1,5 +1,7 @@
 package com.here.adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,6 +22,8 @@ import com.here.personal.PersonalActivity;
 import com.here.personal.other.OtherInfoActivity;
 import com.here.util.DbUtil;
 import com.here.util.DensityUtil;
+
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Random;
 import cn.bmob.v3.BmobUser;
@@ -34,15 +38,16 @@ public class FindAdapter extends RecyclerView.Adapter<FindAdapter.FindViewHolder
 
     private List<FindImage> findImages;
 
-    private Context mContext;
+    private WeakReference<Activity> mContext;
 
-    public FindAdapter(List<FindImage> findImages){
+
+    public FindAdapter(Activity activity,List<FindImage> findImages){
+        mContext = new WeakReference<>(activity);
         this.findImages = findImages;
     }
 
     @Override
     public FindViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
         return new FindViewHolder(LayoutInflater.from(parent
                 .getContext()).inflate(R.layout.item_find_image,parent,false));
     }
@@ -132,19 +137,21 @@ public class FindAdapter extends RecyclerView.Adapter<FindAdapter.FindViewHolder
                 public void onClick(View v) {
                     if (findImages.get(position).getMaster().getObjectId()
                             .equals(BmobUser.getCurrentUser().getObjectId())){
-                        Intent intent = new Intent(mContext, PersonalActivity.class);
-                        mContext.startActivity(intent);
+                        Intent intent = new Intent(mContext.get(), PersonalActivity.class);
+                        mContext.get().startActivity(intent, ActivityOptions
+                                .makeSceneTransitionAnimation(mContext.get()).toBundle());
                     }else {
-                        Intent intent = new Intent(mContext, OtherInfoActivity.class);
+                        Intent intent = new Intent(mContext.get(), OtherInfoActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("other",findImages.get(position).getMaster());
                         intent.putExtras(bundle);
-                        mContext.startActivity(intent);
+                        mContext.get().startActivity(intent, ActivityOptions
+                                .makeSceneTransitionAnimation(mContext.get()).toBundle());
                     }
 
                 }
             });
-            Glide.with(mContext).load(findImages.get(position).getUrl())
+            Glide.with(mContext.get()).load(findImages.get(position).getUrl())
                     .override(imageWidth ,imageHeight).priority(Priority.IMMEDIATE)
                     .into(paletteImageView);
         }

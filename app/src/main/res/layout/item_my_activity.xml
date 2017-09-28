@@ -12,7 +12,7 @@
             android:id="@+id/cv_item_activity_head"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/grils"
+            android:src="@drawable/head_info"
             android:layout_width="45dp"
             android:layout_height="45dp" />
         <TextView

@@ -6,11 +6,12 @@
     android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginRight="5dp"
         android:id="@+id/cv_join_user"
         app:civ_border_width="1dp"
         app:civ_border_color="@color/color_accent"
-        android:src="@drawable/text_head"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/head_info"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
 
 </LinearLayout>

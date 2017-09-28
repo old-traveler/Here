@@ -2,6 +2,7 @@ package com.here.chat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -193,6 +194,7 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    getVoice();
                     if (!Environment.getExternalStorageState().equals(
                             Environment.MEDIA_MOUNTED)) {
                         toastShow("发送语音需要sdcard支持！");
@@ -411,6 +413,7 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
     }
 
+
     @Override
     public int sendTextMessage(BmobIMMessage bmobIMMessage) {
         chatAdapter.addNewMessage(rcView, bmobIMMessage);
@@ -424,7 +427,7 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
     @Override
     public void sendImageMessage() {
-        if (getStorage() && getCcamra()){
+        if (getCcamra()){
             SImagePicker
                     .from(ChatActivity.this)
                     .maxCount(1)
@@ -498,5 +501,16 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
         startActivity(intent);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch(requestCode){
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
 
+
+                }else{
+                    Toast.makeText(mActivity, "你拒绝了权限无法应用发语音功能", Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
 }

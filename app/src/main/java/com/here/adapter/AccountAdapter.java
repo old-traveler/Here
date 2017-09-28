@@ -33,7 +33,7 @@ public class AccountAdapter extends BaseQuickAdapter<Account> {
                     .into((ImageView) baseViewHolder.getView(R.id.cv_account_head));
         }else {
             Glide.with(HereApplication.getContext())
-                    .load(R.drawable.grils)
+                    .load(R.drawable.head_info)
                     .into((ImageView) baseViewHolder.getView(R.id.cv_account_head));
         }
         if (getData().indexOf(account)==0){

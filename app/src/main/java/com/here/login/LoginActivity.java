@@ -87,13 +87,8 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginC
         ButterKnife.bind(this);
         initView();
         mvpPresenter.attachView(this);
-//        try {
-//            mAuthInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
-//            mSsoHandler = new SsoHandler(this, mAuthInfo);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            isHasWeibo = false;
-//        }
+        getLocationPre();
+
     }
 
     private void initView() {
@@ -147,7 +142,8 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginC
         return new LoginPresenter();
     }
 
-    @OnClick({R.id.tv_register, R.id.tv_login, R.id.et_account, R.id.iv_clean_account, R.id.et_password, R.id.iv_clean_password, R.id.iv_go,R.id.iv_qq_login, R.id.iv_wei_bo})
+    @OnClick({R.id.tv_register, R.id.tv_login, R.id.et_account, R.id.iv_clean_account
+            , R.id.et_password, R.id.iv_clean_password, R.id.iv_go,R.id.iv_qq_login, R.id.iv_wei_bo})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_register:
@@ -176,9 +172,10 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginC
                 mTencent.login(LoginActivity.this,"all", mIUiListener);
                 break;
             case R.id.iv_wei_bo:
-                if (isHasWeibo){
-                    mSsoHandler.authorize(new AuthListener());
-                }
+                Toast.makeText(mActivity, "微博登录暂未实现", Toast.LENGTH_SHORT).show();
+//                if (isHasWeibo){
+//                    mSsoHandler.authorize(new AuthListener());
+//                }
                 break;
         }
     }

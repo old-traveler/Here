@@ -106,7 +106,8 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
         int year  = now.get(Calendar.YEAR);
         int month = now.get(Calendar.MONTH);
         int day = now.get(Calendar.DAY_OF_MONTH);
-        if (!imActivity.getPublishDate().equals(year+"-"+month+1+"-"+day)){
+        if (!imActivity.getPublishDate().equals(year+"-"+(month+1)+"-"+day) || imActivity
+                .getPublisher().getObjectId().equals(BmobUser.getCurrentUser().getObjectId())){
             btnDetailsApply.setVisibility(View.GONE);
         }
         if (imActivity.getImages() == null || imActivity.getImages().length < 1) {
@@ -172,13 +173,13 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
 
     @Override
     public void sendApplySuccess() {
-        new AlertView("提示", "请求信息发送成功,若十分钟没有应答将自动取消申请", null
+        new AlertView("提示", "请求信息发送成功,\n若十分钟没有应答将自动取消申请", null
                 , new String[]{"确定"}, null, this, AlertView.Style.Alert, null).show();
     }
 
     @Override
     public void joinSuccess() {
-        new AlertView("提示", "参与活动成功，请尽快联系发布者", null
+        new AlertView("提示", "参与活动成功，\n请尽快联系发布者", null
                 , new String[]{"确定"}, null, this, AlertView.Style.Alert, new OnItemClickListener() {
             @Override
             public void onItemClick(Object o, int position) {

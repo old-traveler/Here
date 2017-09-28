@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.bumptech.glide.Glide;
@@ -26,10 +27,8 @@ import com.here.personal.accusation.AccusationActivity;
 import com.here.record.publish.PublishRecordActivity;
 import com.here.view.MyGridLayoutManager;
 import com.here.view.UnfoldAndZoomScrollView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -80,12 +79,14 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarCompat.translucentStatusBar(this);
+        StatusBarCompat.translucentStatusBar(this,false);
         setContentView(R.layout.activity_other_info);
         mvpPresenter.attachView(this);
         ButterKnife.bind(this);
         setToolBar(R.id.tb_other_personal);
         initHome();
+        getWindow().setEnterTransition(new Fade().setDuration(500));
+        getWindow().setExitTransition(new Fade().setDuration(500));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.white_back);
         rlToolBar.getBackground().setAlpha(0);
         uzOtherInfo.setUpSlipListener(new UnfoldAndZoomScrollView.UpSlipListener() {
@@ -125,21 +126,14 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
     }
 
     private void selectMore() {
-        new AlertView("更多操作", null, "取消", new String[]{"举报", "加入黑名单"}
+        new AlertView("更多操作", null, "取消", new String[]{"加入黑名单"}
                 , new String[]{"关注"}, this, AlertView
                 .Style.ActionSheet, new OnItemClickListener() {
             @Override
             public void onItemClick(Object o, int position) {
                 if (position == 0) {
-                    Intent intent = new Intent(OtherInfoActivity
-                            .this, AccusationActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("user",getUserInfo());
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                } else if (position == 1) {
                     mvpPresenter.joinBlackList();
-                } else if (position == 2) {
+                } else if (position == 1) {
                     mvpPresenter.followUser();
                 }
             }
@@ -176,7 +170,7 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
     public void setUserInfo(User user) {
         if (TextUtils.isEmpty(user.getHeadImageUrl())) {
             Glide.with(this)
-                    .load(R.drawable.grils)
+                    .load(R.drawable.head_info)
                     .into(ivOtherHead);
         } else {
             Glide.with(this)
@@ -186,7 +180,7 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
 
         if (TextUtils.isEmpty(user.getBackgroundUrl())) {
             Glide.with(this)
-                    .load(R.drawable.grils)
+                    .load(R.drawable.info_bg)
                     .into(ivOtherInfoBg);
         } else {
             Glide.with(this)
@@ -202,16 +196,37 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
             ivOtherSex.setImageResource(R.drawable.woman);
         }
 
-        tvOtherAddress.setText(user.getAddress());
-        tvOtherBirthday.setText(user.getDateOfBirth());
-        tvOtherIntroduction.setText(user.getIntroduction());
+        if (!TextUtils.isEmpty(user.getAddress())){
+            tvOtherAddress.setText(user.getAddress());
+        }else {
+            tvOtherAddress.setText("未填写");
+        }
+
+        if (!TextUtils.isEmpty(user.getDateOfBirth())){
+            tvOtherBirthday.setText(user.getDateOfBirth());
+        }else {
+            tvOtherBirthday.setText("未填写");
+        }
+
+        if(!TextUtils.isEmpty(user.getIntroduction())){
+            tvOtherIntroduction.setText(user.getIntroduction());
+        }else {
+            tvOtherIntroduction.setText("这个人很懒，什么也没留下。");
+        }
+
+
+
         if (!TextUtils.isEmpty(user.getMobilePhoneNumber())) {
             tvOtherPhone.setText(user.getMobilePhoneNumber()
                     .substring(0, 3) + "****" + user
                     .getMobilePhoneNumber().substring(7));
+        }else {
+            tvOtherPhone.setText("未绑定");
         }
         if (!TextUtils.isEmpty(user.getEmail())) {
             tvOtherEmail.setText(user.getEmail());
+        }else {
+            tvOtherEmail.setText("未绑定");
         }
         List<Tip> tips = new ArrayList<>();
         String[] tips_slogan = HereApplication.getContext()
@@ -256,7 +271,7 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
     }
 
 
-    @OnClick({R.id.btn_contract_other, R.id.rl_publisher_cord})
+    @OnClick({R.id.btn_contract_other, R.id.rl_publisher_cord,R.id.btn_accusation_other})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_contract_other:
@@ -267,11 +282,20 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
                 Intent intent = new Intent(this
                         , PublishRecordActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("publisher",getUserInfo());
+                bundle.putSerializable("publisher", getUserInfo());
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
+            case R.id.btn_accusation_other:
+                Intent intent1 = new Intent(OtherInfoActivity
+                        .this, AccusationActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putSerializable("user", getUserInfo());
+                intent1.putExtras(bundle1);
+                startActivity(intent1);
+                break;
         }
     }
+
 
 }

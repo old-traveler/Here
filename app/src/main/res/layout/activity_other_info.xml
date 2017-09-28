@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="false"
     tools:context="com.here.personal.other.OtherInfoActivity">
@@ -271,20 +272,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:background="@color/part_linear_color"/>
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp">
-                    <Button
-                        android:id="@+id/btn_contract_other"
-                        android:textColor="@color/white"
-                        android:text="发消息"
+                    android:layout_height="130dp">
+                    <RelativeLayout
                         android:layout_marginTop="40dp"
-                        android:layout_marginLeft="@dimen/phone_margin_left"
-                        android:layout_marginRight="@dimen/phone_margin_left"
-                        android:background="@drawable/button_bg"
+                        android:layout_marginBottom="30dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp" />
-                </LinearLayout>
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:id="@+id/btn_contract_other"
+                            android:layout_marginLeft="20dp"
+                            android:textColor="@color/white"
+                            android:background="@drawable/button_bg"
+                            android:text="打招呼"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"/>
+                        <Button
+                            android:id="@+id/btn_accusation_other"
+                            android:layout_marginRight="20dp"
+                            android:layout_alignParentRight="true"
+                            android:textColor="@color/white"
+                            android:background="@drawable/btn_delete"
+                            android:text="举报"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"/>
+                    </RelativeLayout>
+
+                </FrameLayout>
+
             </LinearLayout>
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_other_head"
@@ -294,8 +313,6 @@
                 android:layout_centerHorizontal="true"
                 android:layout_width="@dimen/personal_head_length"
                 android:layout_height="@dimen/personal_head_length" />
-
-
         </RelativeLayout>
 
 

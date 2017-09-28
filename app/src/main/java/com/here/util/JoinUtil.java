@@ -37,7 +37,6 @@ public class JoinUtil {
         editor.clear();
         editor.putString("time",time);
         editor.putBoolean("isApply",isApply);
-        Log.i("TAG","缓存"+time+" "+isApply);
         if (!editor.commit()){
             Toast.makeText(HereApplication.getContext(),"缓存失败", Toast.LENGTH_SHORT).show();
         }

@@ -106,7 +106,7 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-        adapter = new FindAdapter(null);
+        adapter = new FindAdapter(getActivity(),null);
         adapter.setWidth(dm.widthPixels);
         final MyStaggeredGridLayoutManager manager = new MyStaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL);

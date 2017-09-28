@@ -57,7 +57,7 @@ public class FindUtil {
                             addRecordCache(list.get(0).getObjectId(),list.get(0).getUrl());
                         }else {
                             listener.noJoin();
-                            addRecordCache(BmobUser.getCurrentUser().getObjectId(),"no");
+                            addRecordCache("","no");
                         }
                     }else {
                         if (e.getErrorCode() == 101){

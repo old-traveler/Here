@@ -53,6 +53,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public static final int VOICE = 003;
 
+    public static final int APPLY = 004;
+
     public List<BmobIMMessage> getBmobIMMessages() {
         return bmobIMMessages;
     }
@@ -111,7 +113,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 Glide.with(HereApplication.getContext())
                         .load(BmobUser.getCurrentUser(User.class).getHeadImageUrl())
                         .into(tHolder.cv_text_right_head);
-                tHolder.tv_text_right.setText(bmobIMMessages.get(position).getContent());
+                if (bmobIMMessages.get(position).getMsgType().equals("apply")){
+                    tHolder.tv_text_right.setText("活动申请");
+                }else if (bmobIMMessages.get(position).getMsgType().equals("response")){
+                    tHolder.tv_text_right.setText("活动回应");
+                }else {
+                    tHolder.tv_text_right.setText(bmobIMMessages.get(position).getContent());
+                }
                 if (bmobIMMessages.get(position).getSendStatus()==2){
                     tHolder.pb_text_right.setVisibility(View.GONE);
                     tHolder.iv_text_fail.setVisibility(View.GONE);
@@ -129,7 +137,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
                 tHolder.rl_text_right.setVisibility(View.GONE);
                 tHolder.rl_text_left.setVisibility(View.VISIBLE);
-                tHolder.tv_text_left.setText(bmobIMMessages.get(position).getContent());
+                if (bmobIMMessages.get(position).getMsgType().equals("apply")){
+                    tHolder.tv_text_left.setText("活动申请");
+                }else if (bmobIMMessages.get(position).getMsgType().equals("response")){
+                    tHolder.tv_text_left.setText("活动回应");
+                }else {
+                    tHolder.tv_text_left.setText(bmobIMMessages.get(position).getContent());
+                }
             }
         }else if (holder instanceof ImageMessageHolder){
             final ImageMessageHolder iHolder = (ImageMessageHolder) holder;

@@ -122,7 +122,7 @@ public class NewImmediateActivity extends MvpActivity<NewImmediatePresenter> imp
 
     @Override
     public void choicePic() {
-        if (getStorage() && getCcamra()){
+        if (getCcamra()){
             SImagePicker
                     .from(NewImmediateActivity.this)
                     .maxCount(9)
