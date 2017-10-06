@@ -29,6 +29,15 @@ public class AccountUtil {
         account.save();
     }
 
+    public static void deleteAccount(Account user){
+        for (Account account : DataSupport.findAll(Account.class)) {
+            if (account.getUsername().equals(user.getUsername())){
+                account.delete();
+                break;
+            }
+        }
+    }
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.here.blacklist;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -24,6 +25,7 @@ public class BlacklistActivity extends MvpActivity<BlacklistPresenter> implement
     RecyclerView rvBlacklist;
     @Bind(R.id.tv_load_error)
     TextView tvLoadError;
+    private MyFollowAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +60,34 @@ public class BlacklistActivity extends MvpActivity<BlacklistPresenter> implement
 
     @Override
     public void setBlacklist(List<User> user) {
-        MyFollowAdapter adapter = new MyFollowAdapter(user);
+        adapter = new MyFollowAdapter(user);
         rvBlacklist.setLayoutManager(new LinearLayoutManager(this));
+        rvBlacklist.setItemAnimator(new DefaultItemAnimator());
         rvBlacklist.setAdapter(adapter);
         if (tvLoadError.getVisibility() == View.VISIBLE){
             tvLoadError.setVisibility(View.GONE);
         }
+        adapter.setListener(new MyFollowAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                mvpPresenter.removeBlacklist(position);
+            }
+        });
     }
 
     @Override
     public void loadFail(String error) {
         toastShow(error);
         tvLoadError.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showTips(String error) {
+        toastShow(error);
+    }
+
+    @Override
+    public void removeBlacklist(int position) {
+        adapter.remove(position);
     }
 }

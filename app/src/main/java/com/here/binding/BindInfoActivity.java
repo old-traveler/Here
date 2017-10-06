@@ -53,7 +53,8 @@ public class BindInfoActivity extends MvpActivity<BindInfoPresenter> implements 
 
     @Override
     public void showUserDeal() {
-        new AlertView(getString(R.string.tips_deal), getString(R.string.user_deal), getString(R
+        new AlertView(getString(R.string.tips_deal), getString(R.string.user_deal)
+                , getString(R
                 .string.agree), new String[]{getString(R.string.cancel)}, null, this,
                 AlertView.Style.Alert, new OnItemClickListener() {
             @Override

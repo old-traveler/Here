@@ -49,7 +49,7 @@ public class LoginPresenter extends BasePresenter<LoginContract>  {
                 mvpView.dismissLoading();
                 mvpView.loginSuccess();
                 User user = BmobUser.getCurrentUser(User.class);
-                AccountUtil.addAccount(user.getName(),user.getUsername(),
+                AccountUtil.addAccount(user.getNickname(),user.getUsername(),
                         mvpView.getPassword(),user.getHeadImageUrl(),false);
             }
 
@@ -85,7 +85,7 @@ public class LoginPresenter extends BasePresenter<LoginContract>  {
                 mvpView.dismissLoading();
                 mvpView.loginSuccess();
                 User user = BmobUser.getCurrentUser(User.class);
-                AccountUtil.addAccount(user.getName(),user.getUsername(),
+                AccountUtil.addAccount(user.getNickname(),user.getUsername(),
                         mvpView.getPassword(),user.getHeadImageUrl(),false);
             }
 

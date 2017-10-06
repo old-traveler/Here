@@ -18,4 +18,8 @@ public interface BlacklistContract {
 
     void loadFail(String error);
 
+    void showTips(String error);
+
+    void removeBlacklist(int position);
+
 }
