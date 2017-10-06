@@ -298,6 +298,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp">
         <android.support.v7.widget.Toolbar
+            android:background="@color/theme_color"
             android:layout_marginTop="20dp"
             android:id="@+id/tb_personal"
             android:layout_width="match_parent"

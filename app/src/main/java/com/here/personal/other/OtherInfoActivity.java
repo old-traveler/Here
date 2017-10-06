@@ -3,10 +3,13 @@ package com.here.personal.other;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.transition.Explode;
 import android.transition.Fade;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.bumptech.glide.Glide;
@@ -25,6 +30,7 @@ import com.here.bean.Tip;
 import com.here.bean.User;
 import com.here.personal.accusation.AccusationActivity;
 import com.here.record.publish.PublishRecordActivity;
+import com.here.util.CommonUtils;
 import com.here.view.MyGridLayoutManager;
 import com.here.view.UnfoldAndZoomScrollView;
 import java.util.ArrayList;
@@ -106,7 +112,9 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
         });
         rvOtherTips.setLayoutManager(new MyGridLayoutManager(this, 4));
         mvpPresenter.load();
+        CommonUtils.flymeSetStatusBarLightMode(getWindow(),true);
     }
+
 
 
     @Override
@@ -121,9 +129,31 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
         if (item.getItemId() == R.id.more) {
             selectMore();
             return true;
+        }else if (item.getItemId() == android.R.id.home){
+            rlToolBar.getBackground().setAlpha(255);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.black_back);
+            menu.findItem(R.id.more).setIcon(R.drawable.info_more);
+            tvOtherTitle.setTextColor(Color.BLACK);
+            super.onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            rlToolBar.getBackground().setAlpha(255);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.black_back);
+            menu.findItem(R.id.more).setIcon(R.drawable.info_more);
+            tvOtherTitle.setTextColor(Color.BLACK);
+            super.onBackPressed();
+            return true;
+
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     private void selectMore() {
         new AlertView("更多操作", null, "取消", new String[]{"加入黑名单"}

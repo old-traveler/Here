@@ -2,6 +2,7 @@ package com.here.main;
 
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -43,6 +44,7 @@ import com.here.receiver.ConnectionChangeReceiver;
 import com.here.record.RecordActivity;
 import com.here.scan.ScanActivity;
 import com.here.setting.SettingActivity;
+import com.here.util.CommonUtils;
 import com.here.util.ImUtil;
 import com.here.view.MyViewPage;
 import com.here.voice.CallActivity;
@@ -261,6 +263,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         llSide.setBackgroundColor(Color.WHITE);
         mvpPresenter.updateUserInfo();
         super.onResume();
+        CommonUtils.flymeSetStatusBarLightMode(getWindow(),true);
     }
 
 
@@ -275,7 +278,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         vpMain.setAdapter(adapter);
         vpMain.setOffscreenPageLimit(2);
         vpMain.setRightDistance(getWindowManager().getDefaultDisplay().getWidth());
-
         vpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -425,9 +427,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
 
     @Override
     public void enterPersonal() {
-        startActivity(new Intent(this, PersonalActivity.class));
+        startActivity(new Intent(this, PersonalActivity.class), ActivityOptions
+                .makeSceneTransitionAnimation(this).toBundle());
     }
-
-
 
 }

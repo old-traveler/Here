@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.transition.Fade;
 import android.util.Pair;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +41,7 @@ import com.here.photo.PhotoPresenter;
 import com.here.privacy.PrivacyActivity;
 import com.here.record.publish.PublishRecordActivity;
 import com.here.tips.TipsActivity;
+import com.here.util.CommonUtils;
 import com.here.view.MyGridLayoutManager;
 import com.here.view.UnfoldAndZoomScrollView;
 import com.imnjh.imagepicker.SImagePicker;
@@ -171,6 +174,9 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
             }
         });
         rvPersonalTips.setAdapter(showTipsAdapter);
+        getWindow().setEnterTransition(new Fade().setDuration(500));
+        getWindow().setExitTransition(new Fade().setDuration(500));
+        CommonUtils.flymeSetStatusBarLightMode(getWindow(),true);
     }
 
     public void initTips() {
@@ -362,13 +368,35 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.more) {
             updatePrivacy();
             return true;
+        }else if (item.getItemId() == android.R.id.home){
+            elToolBar.getBackground().setAlpha(255);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.black_back);
+            menu.findItem(R.id.more).setIcon(R.drawable.info_more);
+            tvToolTitle.setTextColor(Color.BLACK);
+            super.onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            elToolBar.getBackground().setAlpha(255);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.black_back);
+            menu.findItem(R.id.more).setIcon(R.drawable.info_more);
+            tvToolTitle.setTextColor(Color.BLACK);
+            super.onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
