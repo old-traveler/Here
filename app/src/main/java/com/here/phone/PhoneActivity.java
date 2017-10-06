@@ -3,6 +3,7 @@ package com.here.phone;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,7 @@ public class PhoneActivity extends MvpActivity<PhonePresenter> implements PhoneC
 
     @Override
     public void changePhoneNumber() {
+
         ViewGroup extView = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.alertext_form, null);
         etName = (EditText) extView.findViewById(R.id.etName);
         etName.setHint("please input new tel");
@@ -84,27 +86,34 @@ public class PhoneActivity extends MvpActivity<PhonePresenter> implements PhoneC
 
     @Override
     public void verifyNumber() {
-        ViewGroup extView = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.alertext_form, null);
-        etName = (EditText) extView.findViewById(R.id.etName);
-        etName.setHint("please input code");
-        mAlertViewExt = new AlertView("提示", "短信已发出，请输入验证码", "取消", null, new String[]{"确定"}, this, AlertView.Style.Alert, new OnItemClickListener() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onItemClick(Object o, int position) {
-                if (position == 0) {
-                  mvpPresenter.verifyCode(etName.getText().toString());
-                }
+            public void run() {
+                ViewGroup extView = (ViewGroup) LayoutInflater.from(PhoneActivity.this).inflate(R.layout.alertext_form, null);
+                etName = (EditText) extView.findViewById(R.id.etName);
+                etName.setHint("please input code");
+                mAlertViewExt = new AlertView("提示", "短信已发出，请输入验证码", "取消", null, new String[]{"确定"}
+                        , PhoneActivity.this, AlertView.Style.Alert, new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Object o, int position) {
+                        if (position == 0) {
+                            mvpPresenter.verifyCode(etName.getText().toString());
+                        }
+                    }
+                });
+                final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                etName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean focus) {
+                        boolean isOpen = imm.isActive();
+                        mAlertViewExt.setMarginBottom(isOpen && focus ? 120 : 0);
+                    }
+                });
+                mAlertViewExt.addExtView(extView);
+                mAlertViewExt.show();
             }
-        });
-        final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        etName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean focus) {
-                boolean isOpen = imm.isActive();
-                mAlertViewExt.setMarginBottom(isOpen && focus ? 120 : 0);
-            }
-        });
-        mAlertViewExt.addExtView(extView);
-        mAlertViewExt.show();
+        }, 500);
+
     }
 
     @Override

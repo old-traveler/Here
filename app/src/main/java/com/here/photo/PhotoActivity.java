@@ -1,10 +1,13 @@
 package com.here.photo;
 
+import android.app.ActivityOptions;
 import android.app.Instrumentation;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.transition.Fade;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -36,7 +39,7 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
     ViewPagerFix vpPhoto;
     private List<PhotoView> vpLists;
     private List<String> imagesUrl;
-
+    private boolean isFinish = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +53,48 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         loadImages(imagesUrl);
         initView();
-
     }
 
 
     private void initView() {
-        vpLists.get(getPosition()).setTransitionName("image");
         vpPhoto.setAdapter(new ViewPagerAdapter());
         vpPhoto.setCurrentItem(getPosition());
+        vpPhoto.setTransitionName("image");
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isFinish = true;
+                int position = getPosition();
+                if (position + 1 < vpLists.size() ){
+                    Glide.with(PhotoActivity.this).load(imagesUrl
+                            .get(position+1)).into(vpLists.get(position+1));
+                }
+
+                if (position > 0){
+                    Glide.with(PhotoActivity.this).load(imagesUrl
+                            .get(position-1)).into(vpLists.get(position-1));
+                }
+            }
+        }, 250);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (vpPhoto.getCurrentItem() == getPosition()){
+                for (int i = 0; i < vpLists.size(); i++) {
+                    if (i != getPosition()){
+                        vpLists.get(i).setVisibility(View.GONE);
+                    }
+                }
+            }else {
+                finish();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+
+
     }
 
 
@@ -89,25 +126,38 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
             photoView.setOnPhotoTapListener(new OnPhotoTapListener() {
                 @Override
                 public void onPhotoTap(ImageView view, float x, float y) {
-                    new Thread(){
-                        public void run() {
-                            try{
-                                Instrumentation inst = new Instrumentation();
-                                inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
-                            }
-                            catch (Exception e) {
-                                Log.e("Exception when onBack", e.toString());
-                            }
-                        }
-                    }.start();
+                    exit();
                 }
             });
-            Glide.with(this).load(imagesUrl.get(i))
-                    .dontAnimate().into(photoView);
+            if (i == getPosition()){
+                Glide.with(PhotoActivity.this).load(imagesUrl
+                        .get(getPosition())).dontAnimate().into(photoView);
+            }
             vpLists.add(photoView);
+        }
+    }
 
-
-
+    public void exit(){
+        if (vpPhoto.getCurrentItem() == getPosition()){
+            for (int i = 0; i < vpLists.size(); i++) {
+                if (i != getPosition()){
+                    vpLists.get(i).setVisibility(View.GONE);
+                }
+            }
+            new Thread(){
+                public void run() {
+                    try{
+                        Instrumentation inst = new Instrumentation();
+                        inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+                    }
+                    catch (Exception e) {
+                        Log.e("Exception when onBack", e.toString());
+                    }
+                }
+            }.start();
+        }else {
+            getWindow().setExitTransition(new Fade().setDuration(500));
+            finish();
         }
     }
 
@@ -131,6 +181,12 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
         public Object instantiateItem(ViewGroup container, int position) {
             PhotoView iv = vpLists.get(position);
             container.addView(iv);
+            if (isFinish){
+                Glide.with(PhotoActivity.this).load(imagesUrl
+                        .get(position)).dontAnimate().into(iv);
+            }else {
+                Log.i("测试","未加载数据"+position);
+            }
             return iv;
         }
 

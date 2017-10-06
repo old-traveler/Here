@@ -170,13 +170,20 @@ public class GoingActivity extends MvpActivity<GoingPresenter> implements GoingC
 
     @Override
     public void deleteSuccess() {
-        new AlertView("提示", "删除成功", null
-                , new String[]{"确定"}, null, this, AlertView.Style.Alert, new OnItemClickListener() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onItemClick(Object o, int position) {
-                finish();
+            public void run() {
+                new AlertView("提示", "删除成功", null
+                        , new String[]{"确定"}, null, GoingActivity
+                        .this, AlertView.Style.Alert, new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Object o, int position) {
+                        finish();
+                    }
+                }).show();
             }
-        }).show();
+        }, 500);
+
     }
 
     @Override

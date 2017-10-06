@@ -2,8 +2,11 @@ package com.here.main;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,8 +52,11 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.litepal.tablemanager.Connector;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -126,6 +133,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         Connector.getDatabase();
 
     }
+
 
     private void initEvent() {
         dlMain.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -339,7 +347,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
         return true;
     }
 
-    @OnClick({R.id.iv_side_background, R.id.cv_side_head, R.id.rv_enter_scan, R.id.rv_my_activity, R.id.rv_my_follow,  R.id.rv_feedback, R.id.iv_setting,R.id.tv_main_near, R.id.tv_main_community, R.id.tv_main_follow})
+    @OnClick({R.id.iv_side_background, R.id.cv_side_head, R.id.rv_enter_scan
+            , R.id.rv_my_activity, R.id.rv_my_follow,  R.id.rv_feedback
+            , R.id.iv_setting,R.id.tv_main_near, R.id.tv_main_community, R.id.tv_main_follow})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_side_background:
