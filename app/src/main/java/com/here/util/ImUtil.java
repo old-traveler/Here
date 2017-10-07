@@ -88,6 +88,12 @@ public class ImUtil {
             }
         });
     }
+    public static void disconnect(){
+        if (isConnected){
+            isConnected = false;
+            BmobIM.getInstance().disConnect();
+        }
+    }
 
     /**
      * 更新会话的信息

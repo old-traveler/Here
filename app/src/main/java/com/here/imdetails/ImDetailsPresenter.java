@@ -44,12 +44,14 @@ public class ImDetailsPresenter extends BasePresenter<ImDetailsContract> {
             if (mvpView.getImActivity().isNeedApply()){
                 if (ImUtil.isConnected){
                     mvpView.showLoading();
-                    ImActivityUtil.sendImActivityApply(mvpView.getImActivity().getPublisher(),BmobUser.getCurrentUser(User.class), new UserUtil.OnDealListener() {
+                    ImActivityUtil.sendImActivityApply(mvpView.getImActivity().getPublisher()
+                            ,BmobUser.getCurrentUser(User.class), new UserUtil.OnDealListener() {
                         @Override
                         public void success() {
                             mvpView.stopLoading();
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm");
-                            JoinUtil.joinNewImActivity(true,simpleDateFormat.format(new Date((System.currentTimeMillis()+1000*60*10L))));
+                            JoinUtil.joinNewImActivity(true,simpleDateFormat
+                                    .format(new Date((System.currentTimeMillis()+1000*60*10L))));
                             mvpView.sendApplySuccess();
                         }
 

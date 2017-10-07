@@ -3,6 +3,7 @@
     android:orientation="vertical" android:layout_width="167dp"
     android:layout_height="167dp">
     <ImageView
+        android:background="@color/image_bg"
         android:id="@+id/item_details_image"
         android:padding="1px"
         android:scaleType="centerCrop"

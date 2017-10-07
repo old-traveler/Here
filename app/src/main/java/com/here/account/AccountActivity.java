@@ -16,6 +16,7 @@ import com.here.bean.Account;
 import com.here.bean.User;
 import com.here.main.MainActivity;
 import com.here.util.AccountUtil;
+import com.here.util.ImUtil;
 import com.here.util.UserUtil;
 
 import org.litepal.crud.DataSupport;
@@ -70,6 +71,7 @@ public class AccountActivity extends MvpActivity<AccountPresenter> implements Ac
                 UserUtil.login(user, new UserUtil.OnDealListener() {
                     @Override
                     public void success() {
+                        ImUtil.disconnect();
                         finishAll();
                         dissmiss();
                         User user = BmobUser.getCurrentUser(User.class);

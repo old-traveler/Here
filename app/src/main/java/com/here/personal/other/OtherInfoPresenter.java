@@ -75,4 +75,27 @@ public class OtherInfoPresenter extends BasePresenter<OtherInfoContract> {
         });
     }
 
+    public void cancelFollow(){
+        mvpView.showLoading();
+        FollowUtil.cancelFollow(BmobUser.getCurrentUser()
+                .getObjectId(), mvpView.getUserInfo()
+                .getObjectId(), new UserUtil.OnDealListener() {
+            @Override
+            public void success() {
+                if (mvpView != null){
+                    mvpView.stopLoading();
+                    mvpView.cancelFollowSuccess();
+                }
+            }
+
+            @Override
+            public void fail(String error) {
+                if (mvpView != null){
+                    mvpView.stopLoading();
+                    mvpView.fail(error);
+                }
+            }
+        });
+    }
+
 }

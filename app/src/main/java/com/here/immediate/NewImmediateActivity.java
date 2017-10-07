@@ -87,7 +87,7 @@ public class NewImmediateActivity extends MvpActivity<NewImmediatePresenter> imp
             public void run() {
                 mvpPresenter.getLocation();
             }
-        }, 1000);
+        }, 500);
 
     }
 

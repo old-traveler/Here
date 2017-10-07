@@ -22,4 +22,6 @@ public interface OtherInfoContract {
 
     void blacklistSuccess();
 
+    void cancelFollowSuccess();
+
 }

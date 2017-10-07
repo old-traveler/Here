@@ -57,20 +57,9 @@ public class DbUtil {
     public void refreshRecode(boolean isFollow , List<User> users){
         List<User> old = queryCurrentUserFollowOrFans(isFollow);
         for (User user : old) {
-            boolean isExists = false;
-            for (User user1 : users) {
-                if (user.getObjectId().equals(
-                        user1.getObjectId())){
-                    isExists = true;
-                    break;
-                }
-            }
-            if (!isExists){
-                deleteFollow(user.getObjectId(),isFollow);
-            }
+            deleteFollow(user.getObjectId(),isFollow);
         }
         for (User user : users) {
-
             addFollow(user,isFollow);
         }
     }

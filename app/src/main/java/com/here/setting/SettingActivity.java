@@ -22,6 +22,7 @@ import com.here.notice.NoticeActivity;
 import com.here.password.PasswordActivity;
 import com.here.phone.PhoneActivity;
 import com.here.util.FindUtil;
+import com.here.util.ImUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -98,6 +99,7 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
                             startActivity(new Intent(SettingActivity.this, LoginActivity.class));
                             BmobUser.logOut();
                             FindUtil.cleanRecord();
+                            ImUtil.disconnect();
                             finish();
                             finishAll();
                         }

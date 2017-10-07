@@ -4,6 +4,7 @@
     android:layout_height="111dp">
 
     <ImageView
+        android:background="@color/image_bg"
         android:id="@+id/item_details_image"
         android:layout_marginTop="2px"
         android:layout_marginBottom="2px"

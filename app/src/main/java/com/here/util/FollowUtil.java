@@ -17,6 +17,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by hyc on 2017/7/15 19:33
@@ -77,6 +78,37 @@ public class FollowUtil {
         return false;
     }
 
+
+    public static void cancelFollow(String userId , String followUserId
+            , final UserUtil.OnDealListener listener){
+        for (final FollowId followId : DataSupport.findAll(FollowId.class)) {
+            if (followId.getUserId().equals(userId) && followId
+                    .getFollowUserId().equals(followUserId)){
+                Follow follow = new Follow();
+                follow.setObjectId(followId.getFollowId());
+                follow.delete(new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
+                        if (e== null){
+                            listener.success();
+                            followId.delete();
+                        }else if (e.getErrorCode() == 9016){
+                            listener.fail("网络不给力");
+                        }else {
+                            listener.fail(e.getMessage());
+                        }
+                    }
+                });
+                break;
+            }
+        }
+    }
+
+    /**
+     * 查询关注
+     * @param user
+     * @param listener
+     */
     public static void queryFollows(User user, final OnFindFollowListener listener){
         BmobQuery<Follow> query = new BmobQuery<>();
         query.addWhereEqualTo("user",user);

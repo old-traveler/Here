@@ -26,11 +26,13 @@ import com.here.HereApplication;
 import com.here.R;
 import com.here.adapter.ShowTipsAdapter;
 import com.here.base.MvpActivity;
+import com.here.bean.Follow;
 import com.here.bean.Tip;
 import com.here.bean.User;
 import com.here.personal.accusation.AccusationActivity;
 import com.here.record.publish.PublishRecordActivity;
 import com.here.util.CommonUtils;
+import com.here.util.FollowUtil;
 import com.here.view.MyGridLayoutManager;
 import com.here.view.UnfoldAndZoomScrollView;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 import qiu.niorgai.StatusBarCompat;
 
@@ -81,6 +84,7 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
     Button btnContractOther;
     private ShowTipsAdapter showTipsAdapter;
     private Menu menu;
+    private boolean hasFollow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +118,7 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
         mvpPresenter.load();
         CommonUtils.flymeSetStatusBarLightMode(getWindow(),true);
         ivOtherHead.setTransitionName("image");
-
+        hasFollow = FollowUtil.isFollow(BmobUser.getCurrentUser().getObjectId(),getUserInfo().getObjectId());
 
     }
 
@@ -159,18 +163,34 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
 
 
     private void selectMore() {
-        new AlertView("更多操作", null, "取消", new String[]{"加入黑名单"}
-                , new String[]{"关注"}, this, AlertView
-                .Style.ActionSheet, new OnItemClickListener() {
-            @Override
-            public void onItemClick(Object o, int position) {
-                if (position == 0) {
-                    mvpPresenter.joinBlackList();
-                } else if (position == 1) {
-                    mvpPresenter.followUser();
+        if (hasFollow){
+            new AlertView("更多操作", null, "取消", new String[]{"加入黑名单","不再关注"}
+                    ,null, this, AlertView
+                    .Style.ActionSheet, new OnItemClickListener() {
+                @Override
+                public void onItemClick(Object o, int position) {
+                    if (position == 0) {
+                        mvpPresenter.joinBlackList();
+                    } else if (position == 1) {
+                        mvpPresenter.cancelFollow();
+                    }
                 }
-            }
-        }).show();
+            }).show();
+        }else {
+            new AlertView("更多操作", null, "取消", new String[]{"加入黑名单"}
+                    , new String[]{"关注"}, this, AlertView
+                    .Style.ActionSheet, new OnItemClickListener() {
+                @Override
+                public void onItemClick(Object o, int position) {
+                    if (position == 0) {
+                        mvpPresenter.joinBlackList();
+                    } else if (position == 1) {
+                        mvpPresenter.followUser();
+                    }
+                }
+            }).show();
+        }
+
     }
 
 
@@ -283,24 +303,38 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
 
     @Override
     public void followSuccess() {
-        new AlertView("提示", "关注成功", "确定", null, null, this,
-                AlertView.Style.Alert, new OnItemClickListener() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onItemClick(Object o, int position) {
-
+            public void run() {
+                new AlertView("提示", "关注成功", "确定", null, null
+                        ,OtherInfoActivity.this, AlertView.Style.Alert,null).show();
             }
-        }).show();
+        }, 500);
+        hasFollow = true;
     }
 
     @Override
     public void blacklistSuccess() {
-        new AlertView("提示", "已加入黑名单", "确定", null, null, this,
-                AlertView.Style.Alert, new OnItemClickListener() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onItemClick(Object o, int position) {
-
+            public void run() {
+                new AlertView("提示", "已加入黑名单", "确定", null,null
+                        ,OtherInfoActivity.this, AlertView.Style.Alert, null).show();
             }
-        }).show();
+        }, 500);
+
+    }
+
+    @Override
+    public void cancelFollowSuccess() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new AlertView("提示", "取消关注成功", "确定", null,null
+                        ,OtherInfoActivity.this, AlertView.Style.Alert, null).show();
+            }
+        }, 500);
+        hasFollow = false;
     }
 
 
