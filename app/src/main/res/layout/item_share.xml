@@ -81,12 +81,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:background="@color/image_bg"
                     android:id="@+id/iv_mood_image1"
                     android:layout_marginRight="1dp"
                     android:scaleType="centerCrop"
                     android:layout_width="110dp"
                     android:layout_height="110dp" />
                 <ImageView
+                    android:background="@color/image_bg"
                     android:id="@+id/iv_mood_image2"
                     android:layout_marginRight="1dp"
                     android:layout_marginLeft="1dp"

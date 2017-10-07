@@ -18,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -427,8 +428,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainCont
 
     @Override
     public void enterPersonal() {
-        startActivity(new Intent(this, PersonalActivity.class), ActivityOptions
-                .makeSceneTransitionAnimation(this).toBundle());
+        Pair<View, String> p = new Pair<View, String>(cvSideHead, "image");
+        startActivity(new Intent(this,PersonalActivity.class), ActivityOptions
+                .makeSceneTransitionAnimation(this, p).toBundle());
     }
 
 }

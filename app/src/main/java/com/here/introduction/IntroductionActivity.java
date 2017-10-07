@@ -1,19 +1,15 @@
 package com.here.introduction;
 
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.here.R;
 import com.here.base.MvpActivity;
 import com.here.bean.User;
 import com.here.main.MainPresenter;
-import com.here.personal.PersonalActivity;
 import com.here.personal.PersonalPresenter;
 
 import butterknife.Bind;

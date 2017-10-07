@@ -142,6 +142,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:background="@color/image_bg"
                     android:id="@+id/iv_appointment_image1"
                     android:layout_width="110dp"
                     android:layout_height="110dp"
@@ -149,6 +150,7 @@
                     android:scaleType="centerCrop" />
 
                 <ImageView
+                    android:background="@color/image_bg"
                     android:id="@+id/iv_appointment_image2"
                     android:layout_width="110dp"
                     android:layout_height="110dp"

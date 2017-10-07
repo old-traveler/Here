@@ -1,7 +1,10 @@
 package com.here.adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -11,11 +14,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.here.R;
 import com.here.bean.User;
+import com.here.personal.PersonalActivity;
 import com.here.personal.other.OtherInfoActivity;
 import com.here.util.AccountUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
+import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -24,8 +30,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyFollowAdapter extends BaseQuickAdapter<User> {
 
+    private WeakReference<Activity> context;
     public void setListener(OnItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setContext(WeakReference<Activity> context) {
+        this.context = context;
     }
 
     public interface OnItemClickListener{
@@ -48,11 +59,19 @@ public class MyFollowAdapter extends BaseQuickAdapter<User> {
         baseViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, OtherInfoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("other",user);
-                intent.putExtras(bundle);
-                mContext.startActivity(intent);
+                if (user.getObjectId().equals(BmobUser.getCurrentUser(User.class).getObjectId())){
+                    Intent intent = new Intent(context.get(),PersonalActivity.class);
+                    context.get().startActivity(intent);
+                }else {
+                    Pair<View, String> p = new Pair<View, String>(baseViewHolder.getView(R.id.cv_item_follow), "image");
+                    Intent intent = new Intent(mContext, OtherInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("other",user);
+                    intent.putExtras(bundle);
+                    context.get().startActivity(intent, ActivityOptions
+                            .makeSceneTransitionAnimation(context.get(), p).toBundle());
+                }
+
             }
         });
         baseViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {

@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.here.util.CommonUtils;
+
 /**
  * 仿QQ个人信息详情界面中的背景图下拉扩展放大 Created by hyc on 2017/5/3 14:40
  */
@@ -21,7 +23,6 @@ public class UnfoldAndZoomScrollView extends NestedScrollView  implements Animat
 
     public UnfoldAndZoomScrollView(Context context) {
         super(context);
-
     }
 
     public UnfoldAndZoomScrollView(Context context, AttributeSet attrs) {
@@ -125,9 +126,8 @@ public class UnfoldAndZoomScrollView extends NestedScrollView  implements Animat
         if (viewWidth <= 0 || viewHeight <=0) {
             viewWidth = headView.getMeasuredWidth();
             viewHeight = headView.getMeasuredHeight();
-            figureWidth = figure.getWidth();
-            figureHeight = figure.getHeight();
-
+            figureWidth = CommonUtils.dipToPx(100);
+            figureHeight = CommonUtils.dipToPx(100);
         }
         //绘制视图时隐藏头部View的顶部和底部
         if (hideHeight==0){
@@ -136,9 +136,6 @@ public class UnfoldAndZoomScrollView extends NestedScrollView  implements Animat
             ViewGroup.LayoutParams layoutParams = headView.getLayoutParams();
             ((MarginLayoutParams) layoutParams).setMargins(0, -hideHeight, 0,-hideHeight);
             headView.setLayoutParams(layoutParams);
-            ViewGroup.LayoutParams layoutParams1 = figure.getLayoutParams();
-            ((MarginLayoutParams) layoutParams1).setMargins(0, viewHeight-2*hideHeight-figureWidth/2, 0,0);
-            figure.setLayoutParams(layoutParams1);
             ViewGroup.LayoutParams layoutParams2 = content.getLayoutParams();
             ((MarginLayoutParams) layoutParams2).setMargins(0, viewHeight-2*hideHeight, 0,0);
             content.setLayoutParams(layoutParams2);
@@ -318,7 +315,6 @@ public class UnfoldAndZoomScrollView extends NestedScrollView  implements Animat
         ViewGroup.LayoutParams layoutParams1 = figure.getLayoutParams();
         ((MarginLayoutParams) layoutParams1).setMargins(0, (int) (viewHeight-hideHeight-figureWidth/2+distance),0,0);
         figure.setLayoutParams(layoutParams1);
-        Log.i("放大","居中"+(viewHeight-2*hideHeight-figureWidth/2+distance));
         ViewGroup.LayoutParams layoutParams2 = content.getLayoutParams();
         ((MarginLayoutParams) layoutParams2).setMargins(0, (int) (viewHeight-hideHeight+distance),0,0);
         content.setLayoutParams(layoutParams2);
@@ -346,13 +342,15 @@ public class UnfoldAndZoomScrollView extends NestedScrollView  implements Animat
             isReplying=true;
             // 设置动画
 
-            ValueAnimator anim = ObjectAnimator.ofFloat(ZoomDistance, 0.0F).setDuration((long) ZoomDistance);
+            ValueAnimator anim = ObjectAnimator.ofFloat(ZoomDistance, 0.0F)
+                    .setDuration((long) ZoomDistance);
             anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     setZoom((Float) animation.getAnimatedValue());
                     if (!replay&&(Float) animation.getAnimatedValue()<10.0f){
-                        ValueAnimator unfold = ObjectAnimator.ofFloat(hideHeight, 0.0F).setDuration((long)hideHeight);
+                        ValueAnimator unfold = ObjectAnimator.ofFloat(hideHeight
+                                , 0.0F).setDuration((long)hideHeight);
                         unfold.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                             @Override
                             public void onAnimationUpdate(ValueAnimator animation) {
@@ -409,7 +407,6 @@ public class UnfoldAndZoomScrollView extends NestedScrollView  implements Animat
         }
 
     }
-
 
 
     @Override

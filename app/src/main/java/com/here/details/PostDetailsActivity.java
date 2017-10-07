@@ -1,12 +1,15 @@
 package com.here.details;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -132,24 +135,35 @@ public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> imple
 
     @Override
     public void setMood(final Mood mood) {
-        Glide.with(this)
-                .load(mood.getPublisher().getHeadImageUrl())
-                .into(cvPostHead);
+        if (TextUtils.isEmpty(mood.getPublisher().getHeadImageUrl())){
+            Glide.with(this)
+                    .load(R.drawable.head_info)
+                    .into(cvPostHead);
+        }else {
+            Glide.with(this)
+                    .load(mood.getPublisher().getHeadImageUrl())
+                    .into(cvPostHead);
+        }
+
         cvPostHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mood.getPublisher().getObjectId().equals(BmobUser
                         .getCurrentUser().getObjectId())){
+                    Pair<View, String> p = new Pair<View, String>(v, "image");
                     Intent intent = new Intent(PostDetailsActivity
                             .this, PersonalActivity.class);
-                    startActivity(intent);
+                    startActivity(intent, ActivityOptions
+                            .makeSceneTransitionAnimation(PostDetailsActivity.this, p).toBundle());
                 }else {
+                    Pair<View, String> p = new Pair<View, String>(v, "image");
                     Intent intent = new Intent(PostDetailsActivity
                             .this, OtherInfoActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("other",mood.getPublisher());
                     intent.putExtras(bundle);
-                    startActivity(intent);
+                    startActivity(intent, ActivityOptions
+                            .makeSceneTransitionAnimation(PostDetailsActivity.this, p).toBundle());
                 }
 
             }
@@ -183,24 +197,34 @@ public class PostDetailsActivity extends MvpActivity<PostDetailsPresenter> imple
 
     @Override
     public void setAppointment(final Appointment appointment) {
-        Glide.with(this)
-                .load(appointment.getPublisher().getHeadImageUrl())
-                .into(cvPostHead);
+        if (TextUtils.isEmpty(appointment.getPublisher().getHeadImageUrl())){
+            Glide.with(this)
+                    .load(R.drawable.head_info)
+                    .into(cvPostHead);
+        }else {
+            Glide.with(this)
+                    .load(appointment.getPublisher().getHeadImageUrl())
+                    .into(cvPostHead);
+        }
         cvPostHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(appointment.getPublisher().getObjectId()
                         .equals(BmobUser.getCurrentUser().getObjectId())){
+                    Pair<View, String> p = new Pair<View, String>(v, "image");
                     Intent intent = new Intent(PostDetailsActivity
                             .this,PersonalActivity.class);
-                    startActivity(intent);
+                    startActivity(intent, ActivityOptions
+                            .makeSceneTransitionAnimation(PostDetailsActivity.this, p).toBundle());
                 }else {
+                    Pair<View, String> p = new Pair<View, String>(v, "image");
                     Intent intent = new Intent(PostDetailsActivity
                             .this, OtherInfoActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("other",appointment.getPublisher());
                     intent.putExtras(bundle);
-                    startActivity(intent);
+                    startActivity(intent, ActivityOptions
+                            .makeSceneTransitionAnimation(PostDetailsActivity.this, p).toBundle());
                 }
             }
         });

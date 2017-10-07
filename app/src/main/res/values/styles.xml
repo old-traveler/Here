@@ -39,8 +39,7 @@
         <!--背景透明-->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <!--无进入动画-->
-        <item name="android:windowAnimationStyle">@null</item>
+
     </style>
     <style name="TranslucentTheme" parent="AppTheme">
         <!--在Android 4.4之前的版本上运行，直接跟随系统主题-->

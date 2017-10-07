@@ -1,12 +1,9 @@
 package com.here.photo;
 
-import android.app.ActivityOptions;
 import android.app.Instrumentation;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.transition.Fade;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -14,18 +11,14 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.here.R;
 import com.here.base.MvpActivity;
-import com.here.util.DensityUtil;
 import com.here.view.ViewPagerFix;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -75,7 +68,7 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
                             .get(position-1)).into(vpLists.get(position-1));
                 }
             }
-        }, 250);
+        }, 350);
     }
 
     @Override
@@ -156,7 +149,7 @@ public class PhotoActivity extends MvpActivity<PhotoPresenter> implements PhotoC
                 }
             }.start();
         }else {
-            getWindow().setExitTransition(new Fade().setDuration(500));
+
             finish();
         }
     }

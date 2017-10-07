@@ -1,5 +1,6 @@
 package com.here.blacklist;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import com.here.adapter.MyFollowAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.User;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import butterknife.Bind;
@@ -61,6 +63,7 @@ public class BlacklistActivity extends MvpActivity<BlacklistPresenter> implement
     @Override
     public void setBlacklist(List<User> user) {
         adapter = new MyFollowAdapter(user);
+        adapter.setContext(new WeakReference<Activity>(this));
         rvBlacklist.setLayoutManager(new LinearLayoutManager(this));
         rvBlacklist.setItemAnimator(new DefaultItemAnimator());
         rvBlacklist.setAdapter(adapter);

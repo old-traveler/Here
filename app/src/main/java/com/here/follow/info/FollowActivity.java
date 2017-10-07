@@ -1,5 +1,6 @@
 package com.here.follow.info;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import com.here.base.MvpActivity;
 import com.here.bean.Follow;
 import com.here.bean.User;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.Bind;
@@ -58,6 +60,7 @@ public class FollowActivity extends MvpActivity<FollowPresenter> implements Foll
         ButterKnife.bind(this);
         mvpPresenter.attachView(this);
         myFollowAdapter = new MyFollowAdapter(null);
+        myFollowAdapter.setContext(new WeakReference<Activity>(this));
         rvMyFollow.setLayoutManager(new LinearLayoutManager(this));
         rvMyFollow.setAdapter(myFollowAdapter);
         mvpPresenter.queryMyFollow(false);

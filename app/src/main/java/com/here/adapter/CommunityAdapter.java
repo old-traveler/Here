@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -83,7 +84,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public CommunityAdapter(List<Community> communities,Activity context) {
         this.communities = communities;
-        this.context = new WeakReference<Activity>(context);
+        this.context = new WeakReference<>(context);
         colors = HereApplication.getContext().getResources().getIntArray(R.array.tips_bg);
         refresh();
         mTencent = Tencent.createInstance(APP_ID,HereApplication.getContext());
@@ -351,22 +352,32 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void load(final Appointment appointment, final int position) {
-            Glide.with(HereApplication.getContext())
-                    .load(appointment.getPublisher().getHeadImageUrl())
-                    .into(cvAppointmentHead);
+            if (TextUtils.isEmpty(appointment.getPublisher().getHeadImageUrl())){
+                Glide.with(HereApplication.getContext())
+                        .load(R.drawable.head_info)
+                        .into(cvAppointmentHead);
+            }else {
+                Glide.with(HereApplication.getContext())
+                        .load(appointment.getPublisher().getHeadImageUrl())
+                        .into(cvAppointmentHead);
+            }
             cvAppointmentHead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (appointment.getPublisher().getObjectId()
                             .equals(BmobUser.getCurrentUser().getObjectId())){
+                        Pair<View, String> p = new Pair<View, String>(v, "image");
                         Intent intent = new Intent(context.get(), PersonalActivity.class);
-                        context.get().startActivity(intent);
+                        context.get().startActivity(intent, ActivityOptions
+                                .makeSceneTransitionAnimation(context.get(), p).toBundle());
                     }else {
+                        Pair<View, String> p = new Pair<View, String>(v, "image");
                         Intent intent = new Intent(context.get(), OtherInfoActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("other",appointment.getPublisher());
                         intent.putExtras(bundle);
-                        context.get().startActivity(intent);
+                        context.get().startActivity(intent, ActivityOptions
+                                .makeSceneTransitionAnimation(context.get(), p).toBundle());
                     }
 
                 }
@@ -632,22 +643,34 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void load(final Mood mood , final int position) {
-            Glide.with(HereApplication.getContext())
-                    .load(mood.getPublisher().getHeadImageUrl())
-                    .into(cvMoodHead);
+            if (TextUtils.isEmpty(mood.getPublisher().getHeadImageUrl())){
+                Glide.with(HereApplication.getContext())
+                        .load(R.drawable.head_info)
+                        .into(cvMoodHead);
+            }else {
+                Glide.with(HereApplication.getContext())
+                        .load(mood.getPublisher().getHeadImageUrl())
+                        .into(cvMoodHead);
+            }
+
             cvMoodHead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mood.getPublisher().getObjectId().equals(BmobUser
                             .getCurrentUser().getObjectId())){
+                        Pair<View, String> p = new Pair<View, String>(v, "image");
                         Intent intent = new Intent(context.get(),PersonalActivity.class);
-                        context.get().startActivity(intent);
+                        context.get().startActivity(intent, ActivityOptions
+                                .makeSceneTransitionAnimation(context.get(), p).toBundle());
                     }else {
+                        Pair<View, String> p = new Pair<View, String>(v, "image");
                         Intent intent = new Intent(context.get(), OtherInfoActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("other",mood.getPublisher());
                         intent.putExtras(bundle);
-                        context.get().startActivity(intent);
+                        context.get().startActivity(intent, ActivityOptions
+                                .makeSceneTransitionAnimation(context.get(), p).toBundle());
+
                     }
 
                 }
@@ -816,7 +839,8 @@ public class CommunityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             rlMoodShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertView("分享", null, "取消", new String[]{"分享到QQ好友"}, new String[]{"分享到QQ空间"}, context.get(), AlertView.Style.ActionSheet, new OnItemClickListener() {
+                    new AlertView("分享", null, "取消", new String[]{"分享到QQ好友"}, new String[]{"分享到QQ空间"}
+                            , context.get(), AlertView.Style.ActionSheet, new OnItemClickListener() {
                         @Override
                         public void onItemClick(Object o, int position) {
                             final Bundle params = new Bundle();

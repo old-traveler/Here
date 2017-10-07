@@ -104,6 +104,7 @@
         <activity android:name=".follow.info.FollowActivity" />
         <activity android:name=".record.RecordActivity" />
         <activity
+            android:theme="@style/Transparent"
             android:name=".personal.other.OtherInfoActivity" />
         <activity android:name=".voice.VoiceChatViewActivity" />
         <activity android:name=".voice.CallActivity" />

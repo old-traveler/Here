@@ -1,11 +1,14 @@
 package com.here.imdetails;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -99,9 +102,16 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
         tvDetailsCount.setText("参与人数：" + imActivity.getNumber());
         tvDetailsOver.setText("结束时间：" + imActivity.getOverTime().split("-")[3]);
         tvDetailsDescribe.setText(imActivity.getDescribe());
-        Glide.with(this)
-                .load(imActivity.getPublisher().getHeadImageUrl())
-                .into(cvDetailsHead);
+        if (TextUtils.isEmpty(imActivity.getPublisher().getHeadImageUrl())){
+            Glide.with(this)
+                    .load(R.drawable.head_info)
+                    .into(cvDetailsHead);
+        }else {
+            Glide.with(this)
+                    .load(imActivity.getPublisher().getHeadImageUrl())
+                    .into(cvDetailsHead);
+        }
+
         Calendar now = Calendar.getInstance();
         int year  = now.get(Calendar.YEAR);
         int month = now.get(Calendar.MONTH);
@@ -220,14 +230,16 @@ public class ImDetailsActivity extends MvpActivity<ImDetailsPresenter> implement
             case R.id.cv_details_head:
                 if (getImActivity().getPublisher().getObjectId()
                         .equals(BmobUser.getCurrentUser().getObjectId())) {
+                    Pair<View, String> p = new Pair<View, String>(cvDetailsHead, "image");
                     Intent intent = new Intent(this, PersonalActivity.class);
-                    startActivity(intent);
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this, p).toBundle());
                 } else {
+                    Pair<View, String> p = new Pair<View, String>(cvDetailsHead, "image");
                     Intent intent = new Intent(this, OtherInfoActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("other", getImActivity().getPublisher());
                     intent.putExtras(bundle);
-                    startActivity(intent);
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this, p).toBundle());
                     finish();
                 }
                 break;

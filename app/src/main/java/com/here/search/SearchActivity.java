@@ -1,7 +1,9 @@
 package com.here.search;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,14 +62,19 @@ public class SearchActivity extends MvpActivity<SearchPresenter> implements Sear
             case R.id.rl_search_info:
                 if (BmobUser.getCurrentUser().getObjectId()
                         .equals(user.getObjectId())){
+                    Pair<View, String> p = new Pair<View, String>(cvSearchHead, "image");
                     Intent intent = new Intent(SearchActivity.this, PersonalActivity.class);
-                    startActivity(intent);
+                    startActivity(intent, ActivityOptions
+                            .makeSceneTransitionAnimation(this, p).toBundle());
+                    finish();
                 }else {
+                    Pair<View, String> p = new Pair<View, String>(cvSearchHead, "image");
                     Intent intent =new Intent(this,OtherInfoActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("other",user);
                     intent.putExtras(bundle);
-                    startActivity(intent);
+                    startActivity(intent, ActivityOptions
+                            .makeSceneTransitionAnimation(this, p).toBundle());
                     finish();
                 }
 

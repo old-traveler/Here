@@ -177,6 +177,7 @@ public class PersonalActivity extends MvpActivity<PersonalPresenter> implements 
         getWindow().setEnterTransition(new Fade().setDuration(500));
         getWindow().setExitTransition(new Fade().setDuration(500));
         CommonUtils.flymeSetStatusBarLightMode(getWindow(),true);
+        ivPersonalHead.setTransitionName("image");
     }
 
     public void initTips() {

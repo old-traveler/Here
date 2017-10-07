@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
+                android:background="@color/image_bg"
                 android:layout_marginTop="-60dp"
                 android:layout_marginBottom="60dp"
                 android:id="@+id/iv_other_info_bg"
@@ -306,6 +307,7 @@
 
             </LinearLayout>
             <de.hdodenhof.circleimageview.CircleImageView
+                app:civ_fill_color="@color/image_bg"
                 android:id="@+id/iv_other_head"
                 app:civ_border_color="@color/white"
                 app:civ_border_width="1dp"

@@ -113,6 +113,9 @@ public class OtherInfoActivity extends MvpActivity<OtherInfoPresenter> implement
         rvOtherTips.setLayoutManager(new MyGridLayoutManager(this, 4));
         mvpPresenter.load();
         CommonUtils.flymeSetStatusBarLightMode(getWindow(),true);
+        ivOtherHead.setTransitionName("image");
+
+
     }
 
 
