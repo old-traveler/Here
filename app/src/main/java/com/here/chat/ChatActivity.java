@@ -1,8 +1,11 @@
 package com.here.chat;
 
 import android.app.Activity;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,12 +13,17 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.text.style.ImageSpan;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,24 +34,36 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.here.R;
 import com.here.adapter.ChatAdapter;
+import com.here.adapter.EmotionAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.User;
+
+import com.here.util.ImUtil;
+import com.here.util.PhotoController;
+import com.here.view.ChatImageCallback;
 import com.here.voice.VoiceChatViewActivity;
 import com.imnjh.imagepicker.SImagePicker;
 import com.imnjh.imagepicker.activity.PhotoPickerActivity;
+
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -89,6 +109,14 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
     TextView tvChatNotice;
     @Bind(R.id.ll_chat)
     LinearLayout llChat;
+    @Bind(R.id.rv_chat_more)
+    RecyclerView rvChatMore;
+    @Bind(R.id.iv_emoji)
+    ImageView ivEmoji;
+    @Bind(R.id.iv_image)
+    ImageView ivImage;
+    @Bind(R.id.fl_chat_more)
+    FrameLayout flChatMore;
     private ChatAdapter chatAdapter;
     private Drawable[] drawable_Anims;
     BmobRecordManager recordManager;
@@ -97,6 +125,7 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
     //软件盘弹起后所占高度阀值
     private int keyHeight = 0;
     private boolean isKeyOpen = false;
+    private final PhotoController photoController = new PhotoController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,13 +139,69 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
         initVoice();
         c.setUnreadCount(0);
         screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
-        keyHeight = screenHeight/3;
+        keyHeight = screenHeight / 3;
+        editMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flChatMore.getVisibility() == View.VISIBLE){
+                    hideMore();
+                }
+            }
+        });
+
+        editMsg.requestFocus();
+
+    }
+
+    private void initEmotion() {
+        isEmotion = true;
+        flChatMore.setClipChildren(true);
+        flChatMore.setClipToPadding(true);
+        rvChatMore.setLayoutManager(new GridLayoutManager(this,7));
+        rvChatMore.setItemAnimator(new DefaultItemAnimator());
+        rvChatMore.setAdapter(new EmotionAdapter(ImUtil.getEmotions(this))
+                .setListener(new EmotionAdapter.OnEmotionListener() {
+            @Override
+            public void onClick(int position) {
+                Bitmap bitmap;
+                int drawable = getResources().getIdentifier("emoji_"+(position
+                        < 10 ? "0"+position:position),"drawable",getPackageName());
+                bitmap = BitmapFactory.decodeResource(getResources(),drawable);
+                ImageSpan imageSpan = new ImageSpan(ChatActivity.this, bitmap);
+                SpannableString spannableString=new SpannableString("emoji_"
+                        +(position < 10 ? "0"+position:position));
+                spannableString.setSpan(imageSpan, 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                editMsg.append(spannableString);
+            }
+        }));
+        flChatMore.setVisibility(View.VISIBLE);
+        ivEmoji.setBackgroundColor(Color.parseColor("#cfcfcf"));
+        ivImage.setBackgroundColor(Color.parseColor("#f1f1f1"));
+    }
+
+    boolean isEmotion = false;
+    private void initImage(){
+        isEmotion = false;
+        flChatMore.setClipChildren(false);
+        flChatMore.setClipToPadding(false);
+        ivEmoji.setBackgroundColor(Color.parseColor("#f1f1f1"));
+        ivImage.setBackgroundColor(Color.parseColor("#cfcfcf"));
+        ChatImageCallback callback = new ChatImageCallback();
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(rvChatMore);
+        callback.setListener(new ChatImageCallback.OnSwipeImageListener() {
+            @Override
+            public void onSendImage(View view) {
+                photoController.refresh();
+            }
+        });
+        photoController.onCreate(this,rvChatMore);
+        photoController.loadAllPhoto(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         //添加layout大小发生改变监听器
         llChat.addOnLayoutChangeListener(this);
     }
@@ -164,22 +249,21 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
                         public void run() {
                             btnSpeak.setClickable(true);
                         }
-                    }, 1000);
+                    }, 200);
                 }
             }
         });
     }
-
     @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom,
                                int oldLeft, int oldTop, int oldRight, int oldBottom) {
         //现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
-        if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > keyHeight)){
-            if (chatAdapter.getItemCount() > 0 ){
-                rcView.scrollToPosition(chatAdapter.getItemCount()-1);
+        if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > keyHeight)) {
+            if (chatAdapter.getItemCount() > 0) {
+                rcView.scrollToPosition(chatAdapter.getItemCount() - 1);
             }
             isKeyOpen = true;
-        }else if(oldBottom != 0 && bottom != 0 &&(bottom - oldBottom > keyHeight)){
+        } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
             isKeyOpen = false;
         }
     }
@@ -188,6 +272,8 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
 
     class VoiceTouchListener implements View.OnTouchListener {
         @Override
@@ -310,7 +396,7 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy < -2 && isKeyOpen){
+                if (dy < -2 && isKeyOpen) {
                     hideSoftInputView();
                 }
             }
@@ -328,6 +414,11 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
     }
 
+    private void hideMore(){
+        flChatMore.setVisibility(View.GONE);
+        rvChatMore.removeAllViews();
+    }
+
 
     @Override
     protected ChatPresenter createPresenter() {
@@ -342,11 +433,25 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
         }
     }
 
-    @OnClick({R.id.btn_chat_add, R.id.btn_speak, R.id.btn_chat_voice, R.id.btn_chat_keyboard, R.id.btn_chat_send})
+    @OnClick({R.id.btn_chat_add, R.id.btn_speak, R.id.btn_chat_voice, R.id.btn_chat_keyboard, R.id.btn_chat_send,R.id.iv_emoji, R.id.iv_image})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_chat_add:
-                sendImageMessage();
+//                sendImageMessage();
+                if (flChatMore.getVisibility() == View.VISIBLE){
+                    hideMore();
+                }else {
+                    if (isKeyOpen){
+                        hideSoftInputView();
+                    }
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            initEmotion();
+                        }
+                    }, 50);
+                }
+
                 break;
             case R.id.btn_speak:
                 break;
@@ -356,16 +461,26 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
                 btnChatKeyboard.setVisibility(View.VISIBLE);
                 btnSpeak.setVisibility(View.VISIBLE);
                 hideSoftInputView();
-
                 break;
             case R.id.btn_chat_keyboard:
                 editMsg.setVisibility(View.VISIBLE);
                 btnSpeak.setVisibility(View.GONE);
                 btnChatVoice.setVisibility(View.VISIBLE);
                 btnChatKeyboard.setVisibility(View.GONE);
+                editMsg.requestFocus();
                 break;
             case R.id.btn_chat_send:
                 mvpPresenter.sendTextMessage();
+                break;
+            case R.id.iv_emoji:
+                if (!isEmotion){
+                    initEmotion();
+                }
+                break;
+            case R.id.iv_image:
+                if (isEmotion){
+                    initImage();
+                }
                 break;
         }
     }
@@ -427,7 +542,7 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
     @Override
     public void sendImageMessage() {
-        if (getCcamra()){
+        if (getCcamra()) {
             SImagePicker
                     .from(ChatActivity.this)
                     .maxCount(1)
@@ -503,12 +618,12 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch(requestCode){
+        switch (requestCode) {
             case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
 
-                }else{
+                } else {
                     Toast.makeText(mActivity, "你拒绝了权限无法应用发语音功能", Toast.LENGTH_SHORT).show();
                 }
         }

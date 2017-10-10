@@ -85,4 +85,12 @@ public class DensityUtil {
         view.requestLayout();
 
     }
+    public static void setViewHeight(View view,int height){
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.height = height;
+        view.setLayoutParams(params);
+        view.requestLayout();
+
+    }
+
 }

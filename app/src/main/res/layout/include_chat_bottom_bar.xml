@@ -2,95 +2,136 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    android:clipToPadding="false"
+    android:clipChildren="false"
     android:background="@color/white">
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/part_linear_color"/>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/margin_5"
-    android:paddingRight="@dimen/margin_5"
-    android:minHeight="50dp"
-    android:gravity="center_vertical"
-    android:orientation="horizontal">
-
-    <Button
-        android:id="@+id/btn_chat_add"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/send_image"
-        android:gravity="center" />
-
-    <Button
-        android:id="@+id/btn_chat_emo"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:visibility="gone"
-        android:layout_marginLeft="6dp"
-        android:background="@drawable/btn_chat_emo_selector"
-        android:gravity="center" />
-
-    <EditText
-        android:id="@+id/edit_msg"
-        android:textSize="@dimen/text_size_medium"
-        android:layout_marginLeft="6dp"
-        android:textColor="@color/color_1e1e1e"
-        android:textColorHint="@color/color_b4"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1.0"
-        android:gravity="left|center"
-        android:lineSpacingExtra="@dimen/margin_3"
-        android:background="@drawable/drawable_edit_normal"
-        android:imeOptions="flagNoExtractUi"
-        android:minHeight="@dimen/height_40"
-        android:padding="@dimen/margin_5"/>
+        android:paddingLeft="@dimen/margin_5"
+        android:paddingRight="@dimen/margin_5"
+        android:minHeight="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btn_speak"
-        style="@style/style_text_black"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:layout_weight="1.0"
-        android:background="@drawable/btn_chat_record_selector"
-        android:gravity="center"
+        <Button
+            android:id="@+id/btn_chat_add"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btn_chat_add_selector"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/btn_chat_emo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="gone"
+            android:layout_marginLeft="6dp"
+            android:background="@drawable/btn_chat_emo_selector"
+            android:gravity="center" />
+
+        <EditText
+            android:id="@+id/edit_msg"
+            android:textSize="@dimen/text_size_medium"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/color_1e1e1e"
+            android:textColorHint="@color/color_b4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="left|center"
+            android:lineSpacingExtra="@dimen/margin_3"
+            android:background="@drawable/drawable_edit_normal"
+            android:imeOptions="flagNoExtractUi"
+            android:minHeight="@dimen/height_40"
+            android:padding="@dimen/margin_5"/>
+
+        <Button
+            android:id="@+id/btn_speak"
+            style="@style/style_text_black"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_weight="1.0"
+            android:background="@drawable/btn_chat_record_selector"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="长按说话" >
+        </Button>
+
+        <Button
+            android:id="@+id/btn_chat_voice"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="6dp"
+            android:background="@drawable/btn_chat_voice_selector"
+            android:gravity="center"
+            android:textColor="@color/base_color_text_black" >
+        </Button>
+
+        <Button
+            android:id="@+id/btn_chat_keyboard"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="gone"
+            android:background="@drawable/btn_chat_keyboard_selector"
+            android:gravity="center"
+            android:textColor="@color/base_color_text_black" >
+        </Button>
+
+        <Button
+            android:id="@+id/btn_chat_send"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:background="@drawable/btn_chat_send_selector"
+            android:gravity="center"
+            />
+    </LinearLayout>
+    <FrameLayout
+        android:clipChildren="false"
         android:visibility="gone"
-        android:text="长按说话" >
-    </Button>
+        android:id="@+id/fl_chat_more"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:clipToPadding="false"
+        android:layout_height="180dp">
+        <android.support.v7.widget.RecyclerView
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:id="@+id/rv_chat_more"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="30dp"
+            android:layout_height="match_parent"/>
+        <FrameLayout
 
-    <Button
-        android:id="@+id/btn_chat_voice"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="6dp"
-        android:background="@drawable/btn_chat_voice_selector"
-        android:gravity="center"
-        android:textColor="@color/base_color_text_black" >
-    </Button>
-
-    <Button
-        android:id="@+id/btn_chat_keyboard"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:visibility="gone"
-        android:background="@drawable/btn_chat_keyboard_selector"
-        android:gravity="center"
-        android:textColor="@color/base_color_text_black" >
-    </Button>
-
-    <Button
-        android:id="@+id/btn_chat_send"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:visibility="gone"
-        android:layout_marginLeft="@dimen/margin_10"
-        android:background="@drawable/btn_chat_send_selector"
-        android:gravity="center"
-        />
-</LinearLayout>
+            android:background="#f1f1f1"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <ImageView
+                android:id="@+id/iv_emoji"
+                android:src="@drawable/emoji"
+                android:layout_width="40dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_marginLeft="40dp"
+                android:src="@drawable/send_image"
+                android:layout_width="40dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </FrameLayout>
 
 </LinearLayout>

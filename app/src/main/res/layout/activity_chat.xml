@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:id="@+id/ll_chat"
     android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     tools:context="com.here.chat.ChatActivity"
     android:orientation="vertical">
     <android.support.v7.widget.Toolbar

@@ -106,6 +106,16 @@ public class FileUtil {
         return attr;
     }
 
+    public static int[] getImageSize(String path){
+        BitmapFactory.Options options;
+        (options = new BitmapFactory.Options()).inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+        int[] size = new int[2];
+        size[0] = options.outWidth;
+        size[1] = options.outHeight;
+        return size;
+    }
+
 
     public static int[] getFileSize(String path){
         int[] size = new int[2];

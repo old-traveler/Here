@@ -26,6 +26,7 @@ import com.here.photo.PhotoActivity;
 import com.here.util.CommonUtils;
 import com.here.util.DbUtil;
 import com.here.util.DensityUtil;
+import com.here.util.ImUtil;
 import com.here.util.NetworkState;
 
 import java.io.IOException;
@@ -114,7 +115,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 }else if (bmobIMMessages.get(position).getMsgType().equals("response")){
                     tHolder.tv_text_right.setText("活动回应");
                 }else {
-                    tHolder.tv_text_right.setText(bmobIMMessages.get(position).getContent());
+                    ImUtil.textViewLoadEmotion(context.get(),bmobIMMessages
+                            .get(position).getContent(),tHolder.tv_text_right);
                 }
                 if (bmobIMMessages.get(position).getSendStatus()==2){
                     tHolder.pb_text_right.setVisibility(View.GONE);
@@ -138,7 +140,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 }else if (bmobIMMessages.get(position).getMsgType().equals("response")){
                     tHolder.tv_text_left.setText("活动回应");
                 }else {
-                    tHolder.tv_text_left.setText(bmobIMMessages.get(position).getContent());
+                    ImUtil.textViewLoadEmotion(context.get(),bmobIMMessages
+                            .get(position).getContent(),tHolder.tv_text_left);
                 }
             }
         }else if (holder instanceof ImageMessageHolder){

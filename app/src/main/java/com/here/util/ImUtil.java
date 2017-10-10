@@ -3,15 +3,27 @@ package com.here.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.util.Log;
+import android.widget.TextView;
 
+import com.here.HereApplication;
+import com.here.R;
 import com.here.bean.User;
 import com.here.chat.ChatActivity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMConversation;
@@ -120,6 +132,48 @@ public class ImUtil {
                 }
             });
         }
+    }
+
+    public static List<Integer> getEmotions(Context context){
+        List<Integer> list = new ArrayList<>();
+        String[] emotionId;
+        emotionId = context.getResources().getStringArray(R.array.emoji);
+        for (String s : emotionId) {
+            list.add(context.getResources().getIdentifier("emoji_"
+                    +s,"drawable",context.getPackageName()));
+        }
+        return list;
+    }
+
+    public static void textViewLoadEmotion(Context context,String text ,TextView textView){
+        int start = 0;
+        int index = text.indexOf("emoji_");
+        textView.setText(index == -1 ? text : "");
+        while(index != -1){
+            if (text.length() > index+7 && isDigit(text.substring(index+6,index+8))){
+                textView.append(text.substring(start,index));
+                start = index + 8;
+                int drawable = context.getResources().getIdentifier(text
+                        .substring(index,index+8),"drawable",context.getPackageName());
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),drawable);
+                ImageSpan imageSpan = new ImageSpan(context, bitmap);
+                SpannableString spannableString=new SpannableString(text.substring(index,index+8));
+                spannableString.setSpan(imageSpan, 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                textView.append(spannableString);
+            }else {
+                textView.append(text.substring(start,index+6));
+                start = index + 6;
+            }
+            index = text.indexOf("emoji_",index+1);
+        }
+        if (start > 0){
+            textView.append(text.substring(start,text.length()));
+        }
+    }
+
+    public static boolean isDigit(String strNum) {
+        Pattern pattern = Pattern.compile("[0-9]*");
+        return pattern.matcher(strNum).matches();
     }
 
 }

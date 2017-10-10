@@ -92,8 +92,7 @@
         <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
 
         <activity
-            android:name=".chat.ChatActivity"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+            android:name=".chat.ChatActivity"/>
         <activity android:name=".message.MessageActivity" />
         <activity android:name=".search.SearchActivity" />
         <activity android:name=".apply.ApplyActivity" />

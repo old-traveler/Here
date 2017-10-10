@@ -164,7 +164,6 @@ public class FollowFragment extends MvpFragment<FollowPresenter> implements Foll
             @Override
             public void onItemLongClick(RecyclerView.ViewHolder vh) {
                 itemTouchHelper.startDrag(vh);
-
             }
         });
     }
