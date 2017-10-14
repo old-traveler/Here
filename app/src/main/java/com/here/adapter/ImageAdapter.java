@@ -44,6 +44,7 @@ public class ImageAdapter extends BaseRecycleCursorAdapter<RecyclerView.ViewHold
     public class ImageViewHolder extends RecyclerView.ViewHolder{
         private ImageView imageView;
         private TextView sendTips;
+        private String url;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
@@ -53,6 +54,7 @@ public class ImageAdapter extends BaseRecycleCursorAdapter<RecyclerView.ViewHold
 
         public void load(Cursor cursor){
             final Photo photo = Photo.fromCursor(cursor);
+            url = photo.getFilePath();
             int[] size = FileUtil.getImageSize(photo.getFilePath());
             DensityUtil.setViewSize(imageView,DensityUtil.dip2px(150)
                     *size[0]/size[1],DensityUtil.dip2px(150));
@@ -63,6 +65,10 @@ public class ImageAdapter extends BaseRecycleCursorAdapter<RecyclerView.ViewHold
             sendTips.setVisibility(isShow ? View.VISIBLE : View.GONE);
         }
 
+
+        public String getUrl() {
+            return url;
+        }
     }
 
 }

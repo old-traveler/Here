@@ -1,10 +1,8 @@
 package com.here.view;
 
 import android.graphics.Canvas;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -26,10 +24,11 @@ public class ChatImageCallback extends ItemTouchHelper.Callback {
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         this.recyclerView = recyclerView;
-        int dragFlags = 0;
-        int swipeFlags = ItemTouchHelper.UP;
+        int dragFlags = ItemTouchHelper.UP;
+        int swipeFlags = 0;
         return makeMovementFlags(dragFlags,swipeFlags);
     }
+
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -38,20 +37,17 @@ public class ChatImageCallback extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        ImageAdapter.ImageViewHolder holder = (ImageAdapter
-                .ImageViewHolder) viewHolder;
-        holder.isShowTips(false);
+
     }
 
     @Override
     public void onSelectedChanged(final RecyclerView.ViewHolder viewHolder, int actionState) {
         super.onSelectedChanged(viewHolder, actionState);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listener.onSendImage(null);
-            }
-        }, 500);
+    }
+
+    @Override
+    public boolean isLongPressDragEnabled() {
+        return false;
     }
 
     @Override
@@ -63,13 +59,15 @@ public class ChatImageCallback extends ItemTouchHelper.Callback {
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView
             .ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG){
             ImageAdapter.ImageViewHolder holder = (ImageAdapter
                     .ImageViewHolder) viewHolder;
-            if (dY < -DensityUtil.dip2px(70)){
+            if (dY < -DensityUtil.dip2px(100)){
                 if (isUp){
+                    listener.onSendImage(holder.getUrl());
                     holder.isShowTips(false);
-                    viewHolder.itemView.setVisibility(View.INVISIBLE);
+                    sendImageAnimation(viewHolder);
+                    isUp = false;
                 }else {
                     holder.isShowTips(true);
                 }
@@ -78,8 +76,8 @@ public class ChatImageCallback extends ItemTouchHelper.Callback {
             }
         }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-
     }
+
 
     @Override
     public long getAnimationDuration(RecyclerView recyclerView, int animationType, float animateDx, float animateDy) {
@@ -92,12 +90,15 @@ public class ChatImageCallback extends ItemTouchHelper.Callback {
     }
 
     public interface OnSwipeImageListener{
-        void onSendImage(View view);
+        void onSendImage(String url);
     }
 
 
-    private void sendImageAnimation(View view,int rightDistance
-            ,int upDistance,float zoomScale){
+    private void sendImageAnimation(RecyclerView.ViewHolder view){
+        int rightDistance=0;
+        int upDistance=0;
+        float zoomScale=0;
+//        CommonUtils.zoomImage()
         AnimationSet as = new AnimationSet(true);
         as.setDuration(500);
         TranslateAnimation ta = new TranslateAnimation(0
@@ -113,7 +114,7 @@ public class ChatImageCallback extends ItemTouchHelper.Callback {
         AlphaAnimation aa = new AlphaAnimation(1, 0);
         aa.setDuration(500);
         as.addAnimation(aa);
-        view.startAnimation(as);
+        view.itemView.startAnimation(as);
 
     }
 }

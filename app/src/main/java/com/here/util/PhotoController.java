@@ -64,9 +64,6 @@ public class PhotoController extends BaseLoaderController {
       loaderManager.initLoader(getLoaderId(), args, this);
     }
 
-    public void refresh(){
-      photoAdapter.notifyItemChanged(0);
-    }
 
     /**
      *

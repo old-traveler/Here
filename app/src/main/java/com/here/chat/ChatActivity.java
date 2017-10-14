@@ -44,12 +44,15 @@ import android.widget.Toast;
 import com.here.R;
 import com.here.adapter.ChatAdapter;
 import com.here.adapter.EmotionAdapter;
+import com.here.adapter.ImageAdapter;
 import com.here.base.MvpActivity;
 import com.here.bean.User;
 
 import com.here.util.ImUtil;
 import com.here.util.PhotoController;
 import com.here.view.ChatImageCallback;
+import com.here.view.OnChatItemTouchListener;
+import com.here.view.OnRecyclerItemClickListener;
 import com.here.voice.VoiceChatViewActivity;
 import com.imnjh.imagepicker.SImagePicker;
 import com.imnjh.imagepicker.activity.PhotoPickerActivity;
@@ -150,7 +153,23 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
         });
 
         editMsg.requestFocus();
-
+        final ChatImageCallback callback = new ChatImageCallback();
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(rvChatMore);
+        callback.setListener(new ChatImageCallback.OnSwipeImageListener() {
+            @Override
+            public void onSendImage(String url) {
+                mvpPresenter.sendImageMessage(url);
+            }
+        });
+        rvChatMore.addOnItemTouchListener(new OnChatItemTouchListener(rvChatMore) {
+            @Override
+            public void onDownRecyclerView(RecyclerView.ViewHolder vh) {
+                if (!isEmotion){
+                    itemTouchHelper.startDrag(vh);
+                }
+            }
+        });
     }
 
     private void initEmotion() {
@@ -186,17 +205,9 @@ public class ChatActivity extends MvpActivity<ChatPresenter> implements ChatCont
         flChatMore.setClipToPadding(false);
         ivEmoji.setBackgroundColor(Color.parseColor("#f1f1f1"));
         ivImage.setBackgroundColor(Color.parseColor("#cfcfcf"));
-        ChatImageCallback callback = new ChatImageCallback();
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(rvChatMore);
-        callback.setListener(new ChatImageCallback.OnSwipeImageListener() {
-            @Override
-            public void onSendImage(View view) {
-                photoController.refresh();
-            }
-        });
         photoController.onCreate(this,rvChatMore);
         photoController.loadAllPhoto(this);
+
     }
 
     @Override

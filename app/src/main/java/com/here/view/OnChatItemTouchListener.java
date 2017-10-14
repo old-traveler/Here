@@ -7,18 +7,17 @@ import android.view.MotionEvent;
 import android.view.View;
 
 /**
- * Created by hyc on 2017/8/29 22:02
+ * Created by hyc on 2017/10/14 13:56
  */
 
-public abstract class OnRecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
-
+public abstract class OnChatItemTouchListener implements RecyclerView.OnItemTouchListener {
     private GestureDetectorCompat mGestureDetector;
     private RecyclerView recyclerView;
 
-    public OnRecyclerItemClickListener(RecyclerView recyclerView){
+    public OnChatItemTouchListener(RecyclerView recyclerView){
         this.recyclerView = recyclerView;
         mGestureDetector = new GestureDetectorCompat(recyclerView
-                .getContext() , new ItemTouchHelperGestureListener());
+                .getContext() , new OnChatItemTouchListener.ItemTouchHelperGestureListener());
     }
 
     @Override
@@ -39,20 +38,15 @@ public abstract class OnRecyclerItemClickListener implements RecyclerView.OnItem
     private class ItemTouchHelperGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
+        public void onShowPress(MotionEvent e) {
             View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
             if (child != null) {
                 RecyclerView.ViewHolder vh = recyclerView.getChildViewHolder(child);
-                onItemLongClick(vh);
+                onDownRecyclerView(vh);
             }
+            super.onShowPress(e);
         }
     }
 
-
-    public abstract void onItemLongClick(RecyclerView.ViewHolder vh);
+    public abstract void onDownRecyclerView(RecyclerView.ViewHolder vh);
 }
