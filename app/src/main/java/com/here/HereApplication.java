@@ -3,7 +3,6 @@ package com.here;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
-
 import com.here.receiver.HereMessageHandler;
 import com.here.other.GlideImageLoader;
 import com.imnjh.imagepicker.PickerConfig;

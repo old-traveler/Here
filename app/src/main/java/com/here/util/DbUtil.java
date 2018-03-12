@@ -381,7 +381,6 @@ public class DbUtil {
                     imActivity.setOverTime(cursor.getString(
                             cursor.getColumnIndex("over_time")));
                     imActivities.add(imActivity);
-                    Log.i("TAG","即时活动图片"+cursor.getString(cursor.getColumnIndex("images")));
                 }
             }while (cursor.moveToNext());
         }
