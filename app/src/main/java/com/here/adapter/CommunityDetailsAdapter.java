@@ -438,7 +438,7 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 params.putString(QQShare.SHARE_TO_QQ_TITLE, appointment.getTitle());
                                 params.putString(QQShare.SHARE_TO_QQ_SUMMARY, appointment.getDescribe());
                                 params.putString(QQShare.SHARE_TO_QQ_TARGET_URL,
-                                        "https://github.com/old-traveler/Here/blob/master/app/app-release.apk");
+                                        "https://github.com/old-traveler/Here/blob/master/app/here.apk");
                                 if (appointment.getImages()!= null && appointment.getImages().length>0){
                                     params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
                                             appointment.getImages()[0]);
@@ -455,7 +455,7 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 params.putString(QzoneShare.SHARE_TO_QQ_TITLE, appointment.getTitle());
                                 params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, appointment.getDescribe());
                                 params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL,"https://github.com/old-travele" +
-                                        "r/Here/blob/master/app/app-release.apk");
+                                        "r/Here/blob/master/app/here.apk");
                                 ArrayList<String> imgUrlList = new ArrayList<>();
                                 if (appointment.getImages()!= null && appointment.getImages().length>0){
                                     for (String s : appointment.getImages()) {
@@ -721,7 +721,7 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 params.putString(QQShare.SHARE_TO_QQ_TITLE, mood.getTitle());
                                 params.putString(QQShare.SHARE_TO_QQ_SUMMARY, mood.getContent());
                                 params.putString(QQShare.SHARE_TO_QQ_TARGET_URL,
-                                        "https://github.com/old-traveler/Here/blob/master/app/app-release.apk");
+                                        "https://github.com/old-traveler/Here/blob/master/app/here.apk");
                                 if (mood.getImages()!= null && mood.getImages().length>0){
                                     params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
                                             mood.getImages()[0]);
@@ -736,7 +736,7 @@ public class CommunityDetailsAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE,QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
                                 params.putString(QzoneShare.SHARE_TO_QQ_TITLE, mood.getTitle());
                                 params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, mood.getContent());
-                                params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL,"https://github.com/old-traveler/Here/blob/master/app/app-release.apk");
+                                params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL,"https://github.com/old-traveler/Here/blob/master/app/here.apk");
                                 ArrayList<String> imgUrlList = new ArrayList<>();
                                 if (mood.getImages()!= null && mood.getImages().length>0){
                                     for (String s : mood.getImages()) {
