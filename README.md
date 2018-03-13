@@ -21,41 +21,41 @@
 
 # 界面展示
 
-<table border="8">
+<table border="1">
     <tr>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163028.jpg"/></td>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163039.jpg"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163028.jpg" style="margin: 0 auto;"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163039.jpg" style="margin: 0 auto;"/></td>
     </tr>
     <tr>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163045.jpg"/></td>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163058.jpg"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163045.jpg" style="margin: 0 auto;"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163058.jpg" style="margin: 0 auto;"/></td>
     </tr>
     <tr>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163122.jpg"/></td>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163228.jpg"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163122.jpg" style="margin: 0 auto;"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163228.jpg" style="margin: 0 auto;"/></td>
     </tr>
     <tr>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163242.jpg"/></td>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163358.jpg"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163242.jpg" style="margin: 0 auto;"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163358.jpg" style="margin: 0 auto;"/></td>
     </tr>
     <tr>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163430.jpg"/></td>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163438.jpg"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163430.jpg" style="margin: 0 auto;"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163438.jpg" style="margin: 0 auto;"/></td>
     </tr>
     <tr>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163508.jpg"/></td>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163624.jpg"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163508.jpg" style="margin: 0 auto;"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163624.jpg" style="margin: 0 auto;"/></td>
     </tr>
     <tr>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163637.jpg"/></td>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163855.jpg"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163637.jpg" style="margin: 0 auto;"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-163855.jpg" style="margin: 0 auto;"/></td>
     </tr>
     <tr>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-164610.jpg"/></td>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-164647.jpg"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-164610.jpg" style="margin: 0 auto;"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-164647.jpg" style="margin: 0 auto;"/></td>
     </tr>
     <tr>
-        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-164703.jpg"/></td>
+        <td><img  src="https://github.com/old-traveler/Here/blob/master/img/S80312-164703.jpg" style="margin: 0 auto;"/></td>
     </tr>
 </table>
 
